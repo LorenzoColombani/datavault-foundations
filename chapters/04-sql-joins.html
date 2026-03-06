@@ -1677,18 +1677,41 @@ code {
 .sticky-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px;
+  gap: 24px;
   align-items: start;
+  margin-left: -120px;
+  margin-right: -120px;
 }
 
 .sticky-left {
   position: sticky;
   top: 100px;
   align-self: start;
+  overflow-x: auto;
+}
+
+.sticky-left .data-table {
+  font-size: 10px;
+}
+
+.sticky-left .data-table th {
+  font-size: 8px;
+  white-space: nowrap;
+}
+
+.sticky-left .data-table td,
+.sticky-left .data-table th {
+  padding: 6px 8px;
 }
 
 .sticky-right {
   min-height: 0;
+  min-width: 0;
+}
+
+.sticky-right .sql-block pre,
+.sticky-left .sql-block pre {
+  overflow-x: auto;
 }
 
 @media (max-width: 700px) {
