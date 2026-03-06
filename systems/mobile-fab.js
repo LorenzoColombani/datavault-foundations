@@ -50,6 +50,11 @@
     '@media (max-width: 600px) {',
     '  .quest-log { display: none !important; }',
     '  .inventory-toolbar { display: none !important; }',
+    '  .achievement-toast-container { right: -260px !important; }',
+    '  .achievement-toast-container.has-toast { right: 10px !important; }',
+    '  .achievement-toast { width: 240px !important; padding: 10px 14px !important; }',
+    '  .achievement-toast-name { font-size: 0.85rem !important; }',
+    '  .achievement-toast-desc { font-size: 0.7rem !important; }',
     '}'
   ].join('\n');
   document.head.appendChild(style);

@@ -146,6 +146,8 @@
 
   var prevDiv = makeEl('div', 'dvf-nb-prev');
   if (prev) {
+    prevDiv.style.cursor = 'pointer';
+    prevDiv.addEventListener('click', function() { window.location.href = prev.file; });
     prevDiv.appendChild(makeEl('div', 'dvf-nb-label', '\u2190 Previous'));
     prevDiv.appendChild(
       makeLink(prev.file, 'Chapter ' + (current - 1) + ': ' + prev.title, 'dvf-nb-title')
@@ -159,6 +161,8 @@
 
   var nextDiv = makeEl('div', 'dvf-nb-next');
   if (next) {
+    nextDiv.style.cursor = 'pointer';
+    nextDiv.addEventListener('click', function() { window.location.href = next.file; });
     nextDiv.style.textAlign = 'right';
     nextDiv.appendChild(makeEl('div', 'dvf-nb-label', 'Next \u2192'));
     nextDiv.appendChild(

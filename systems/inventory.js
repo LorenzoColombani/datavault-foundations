@@ -109,22 +109,24 @@ SV.inventory = (function() {
 
   function playMaterializeAnimation(item) {
     var cat = SV.CATEGORIES[item.category] || {};
+    var mobile = window.innerWidth <= 600;
 
     var toast = el('div', {
       className: 'loot-toast',
       style: {
         position: 'fixed',
-        bottom: '80px',
+        bottom: mobile ? '70px' : '80px',
         left: '50%',
         transform: 'translateX(-50%) scale(0.8)',
         background: 'rgba(20,20,30,0.95)',
         border: '1px solid ' + (cat.color || '#fff'),
-        boxShadow: '0 0 20px ' + (cat.glow || 'rgba(255,255,255,0.3)'),
-        borderRadius: '12px',
-        padding: '12px 24px',
+        boxShadow: '0 0 ' + (mobile ? '12px' : '20px') + ' ' + (cat.glow || 'rgba(255,255,255,0.3)'),
+        borderRadius: mobile ? '8px' : '12px',
+        padding: mobile ? '8px 14px' : '12px 24px',
         color: '#fff',
         fontFamily: '"Exo 2",sans-serif',
-        fontSize: '14px',
+        fontSize: mobile ? '12px' : '14px',
+        maxWidth: mobile ? 'calc(100vw - 40px)' : 'none',
         zIndex: '10000',
         opacity: '0',
         transition: 'opacity 0.4s ease, transform 0.4s ease',
@@ -135,7 +137,7 @@ SV.inventory = (function() {
       }
     });
 
-    var iconSpan = el('span', { style: { fontSize: '20px' } }, cat.icon || '');
+    var iconSpan = el('span', { style: { fontSize: mobile ? '16px' : '20px' } }, cat.icon || '');
     var textSpan = el('span', null, 'Discovered: ' + (item.name || ''));
 
     toast.appendChild(iconSpan);
