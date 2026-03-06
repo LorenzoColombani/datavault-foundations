@@ -61,7 +61,9 @@
     '  .achievement-toast-name { font-size: 0.85rem !important; }',
     '  .achievement-toast-desc { font-size: 0.7rem !important; }',
     '  /* Tables: scrollable wrapper on mobile */',
-    '  .data-table, .result-table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch; max-width: 100% !important; }',
+    '  .data-panel { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }',
+    '  .data-table, .result-table { display: table !important; width: auto !important; min-width: 100% !important; }',
+    '  .data-table th, .data-table td, .result-table th, .result-table td { font-size: 11px !important; padding: 8px 10px !important; }',
     '  /* Exercise section green glow bleed fix */',
     '  .exercise-section { box-shadow: none !important; margin-left: 4px !important; margin-right: 4px !important; }',
     '  /* Code blocks: ensure horizontal scroll */',
@@ -82,6 +84,13 @@
     '  .apple-accordion-body pre { overflow-x: auto !important; }',
     '  /* Finish modal: scrollable and fit viewport */',
     '  .finish-modal { max-height: 90vh !important; overflow-y: auto !important; }',
+    '  /* Sticky-split: collapse negative margins, single column */',
+    '  .sticky-split { margin-left: 0 !important; margin-right: 0 !important; grid-template-columns: 1fr !important; }',
+    '  .sticky-left { position: static !important; }',
+    '  /* Milestone zoom: contain GSAP scale transform */',
+    '  .milestone-zoom { overflow: hidden !important; }',
+    '  /* Grammar labels: shrink on mobile */',
+    '  .grammar-label { font-size: 0.5em !important; padding: 0 2px !important; top: -0.6em !important; }',
     '}'
   ].join('\n');
   document.head.appendChild(style);

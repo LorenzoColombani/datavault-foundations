@@ -35,19 +35,20 @@ SV.scrollEffects = (function() {
 
   function initHeroZoom() {
     if (!gsapReady()) return;
+    var isMobile = window.innerWidth <= 600;
 
     $$('.hero-zoom').forEach(function(zone) {
       var text = $('.hero-zoom-text', zone);
       if (!text) return;
 
       gsap.to(text, {
-        scale: 8,
+        scale: isMobile ? 4 : 8,
         opacity: 0,
         ease: 'none',
         scrollTrigger: {
           trigger: zone,
           start: 'top top',
-          end: '+=300%',
+          end: isMobile ? '+=150%' : '+=300%',
           pin: true,
           scrub: 1
         }
@@ -235,6 +236,7 @@ SV.scrollEffects = (function() {
 
   function initMilestoneSettle() {
     if (!gsapReady()) return;
+    var isMobile = window.innerWidth <= 600;
 
     $$('.milestone-zoom').forEach(function(zone) {
       var milestone = $('.chunk-milestone', zone);
@@ -245,14 +247,14 @@ SV.scrollEffects = (function() {
         scrollTrigger: {
           trigger: zone,
           start: 'top top',
-          end: '+=300%',
+          end: isMobile ? '+=150%' : '+=300%',
           pin: true,
           scrub: 1
         }
       });
 
       tl.fromTo(milestone,
-        { scale: 2.5, opacity: 0, filter: 'blur(12px)' },
+        { scale: isMobile ? 1.8 : 2.5, opacity: 0, filter: 'blur(12px)' },
         { scale: 1, opacity: 1, filter: 'blur(0px)', ease: 'none', duration: 1 }
       );
       // Hold period — milestone sits fully materialized while user keeps scrolling

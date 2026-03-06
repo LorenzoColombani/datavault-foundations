@@ -468,6 +468,9 @@ code { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; background: 
   .ambient-glow, .parallax-layer { position: absolute !important; }
   .quest-log { display: none !important; }
   .inventory-toolbar { display: none !important; }
+  /* Font normalization: mission blocks feel larger than other chapters */
+  .mission-block p { font-size: 15px !important; }
+  .mission-block pre, .mission-block code { font-size: 12px !important; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.1ms !important; }

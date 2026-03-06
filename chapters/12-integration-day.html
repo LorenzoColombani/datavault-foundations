@@ -430,8 +430,10 @@ code { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; background: 
   .inventory-bag { width: 36px; height: 36px; }
   .scroll-zone { grid-template-columns: 1fr !important; display: block !important; }
   .scroll-zone > .pin-spacer { display: block !important; width: 100% !important; position: relative !important; }
-  .scroll-zone-visual { position: relative !important; top: auto !important; width: 100% !important; }
+  .scroll-zone-visual { position: sticky !important; top: 56px !important; width: 100% !important; max-height: 28vh !important; overflow: hidden !important; z-index: 10 !important; }
+  .scroll-zone-visual .entity-diagram, .scroll-zone-visual svg { font-size: 0.6rem !important; }
   .scroll-zone-content { width: 100% !important; }
+  .scroll-zone-step { min-height: auto !important; padding: 1rem 0 !important; }
   .scanline-overlay, .scan-bar { display: none !important; }
   #particle-field { position: absolute !important; }
   .ambient-glow, .parallax-layer { position: absolute !important; }
