@@ -42,9 +42,10 @@
     '.mobile-sheet-body .quest-log-item.active { border-left-color: #00b4ff; color: #e2e8f0; }',
     '.mobile-sheet-body .quest-log-item.completed { opacity: 0.5; text-decoration: line-through; }',
     '.mobile-sheet-body .quest-check { font-size: 0.9em; width: 20px; text-align: center; }',
-    '.mobile-sheet-body .mobile-inv-grid { display: flex; flex-wrap: wrap; gap: 12px; }',
-    '.mobile-sheet-body .mobile-inv-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(0,180,255,0.15); border-radius: 8px; font-size: 0.8rem; color: #94a3b8; }',
-    '.mobile-sheet-body .mobile-inv-icon { font-size: 1.2em; }',
+    '.mobile-sheet-body .mobile-inv-grid { display: flex; flex-wrap: wrap; gap: 8px; }',
+    '.mobile-sheet-body .mobile-inv-item { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: rgba(0,0,0,0.3); border: 1px solid rgba(0,180,255,0.15); border-radius: 8px; font-size: 0.85rem; color: #94a3b8; flex: 1 1 auto; min-width: 0; cursor: pointer; transition: background 0.2s, border-color 0.2s; }',
+    '.mobile-sheet-body .mobile-inv-item:active { background: rgba(0,180,255,0.12); }',
+    '.mobile-sheet-body .mobile-inv-icon { font-size: 1.2em; flex-shrink: 0; }',
     '/* Hide desktop game UI on mobile */',
     '@media (max-width: 600px) {',
     '  .quest-log { display: none !important; }',
@@ -186,34 +187,84 @@
   }
 
   function buildInventoryList(container) {
-    var bags = document.querySelectorAll('.inventory-bags .inventory-bag');
-    if (!bags.length) {
+    var cats = (typeof SV !== 'undefined') ? SV.CATEGORIES : null;
+    if (!cats || !Object.keys(cats).length) {
+      var bags = document.querySelectorAll('.inventory-bags .inventory-bag');
+      if (!bags.length) {
+        var p = document.createElement('p');
+        p.style.cssText = 'color:#64748b;font-size:0.85rem;';
+        p.textContent = 'No items discovered yet.';
+        container.appendChild(p);
+        return;
+      }
+    }
+
+    // Build category list
+    var catGrid = document.createElement('div');
+    catGrid.className = 'mobile-inv-grid';
+    var itemsArea = document.createElement('div');
+    itemsArea.style.cssText = 'margin-top: 16px;';
+
+    for (var catId in cats) {
+      if (!cats.hasOwnProperty(catId)) continue;
+      var cat = cats[catId];
+      (function(id, c) {
+        var btn = document.createElement('div');
+        btn.className = 'mobile-inv-item';
+        btn.style.cursor = 'pointer';
+        btn.style.borderColor = c.color;
+        var iconEl = document.createElement('span');
+        iconEl.className = 'mobile-inv-icon';
+        iconEl.textContent = c.icon;
+        var textEl = document.createElement('span');
+        textEl.textContent = c.name;
+        btn.appendChild(iconEl);
+        btn.appendChild(textEl);
+        btn.addEventListener('click', function() {
+          showCategoryItems(itemsArea, id, c);
+          // Highlight active category
+          var siblings = catGrid.querySelectorAll('.mobile-inv-item');
+          for (var i = 0; i < siblings.length; i++) {
+            siblings[i].style.background = 'rgba(0,0,0,0.3)';
+          }
+          btn.style.background = 'rgba(0,180,255,0.12)';
+        });
+        catGrid.appendChild(btn);
+      })(catId, cat);
+    }
+
+    container.appendChild(catGrid);
+    container.appendChild(itemsArea);
+  }
+
+  function showCategoryItems(container, categoryId, cat) {
+    container.textContent = '';
+    var allKeys = SV.itemsForCategory(categoryId);
+    if (!allKeys || !allKeys.length) {
       var p = document.createElement('p');
-      p.style.cssText = 'color:#64748b;font-size:0.85rem;';
-      p.textContent = 'No items discovered yet.';
+      p.style.cssText = 'color:#64748b;font-size:0.85rem;padding:8px 0;';
+      p.textContent = 'No items in this category.';
       container.appendChild(p);
       return;
     }
-    var grid = document.createElement('div');
-    grid.className = 'mobile-inv-grid';
-    bags.forEach(function(bag) {
-      var icon = bag.querySelector('.bag-icon');
-      var count = bag.querySelector('.bag-count');
-      var label = bag.getAttribute('aria-label') || bag.getAttribute('data-category') || '';
-      if (icon) {
-        var item = document.createElement('div');
-        item.className = 'mobile-inv-item';
-        var iconEl = document.createElement('span');
-        iconEl.className = 'mobile-inv-icon';
-        iconEl.textContent = icon.textContent;
-        var textEl = document.createElement('span');
-        textEl.textContent = label + (count ? ' (' + count.textContent + ')' : '');
-        item.appendChild(iconEl);
-        item.appendChild(textEl);
-        grid.appendChild(item);
-      }
-    });
-    container.appendChild(grid);
+
+    var label = document.createElement('div');
+    label.style.cssText = 'font-family:"Orbitron",monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:' + cat.color + ';margin-bottom:10px;';
+    label.textContent = cat.icon + ' ' + cat.name;
+    container.appendChild(label);
+
+    for (var i = 0; i < allKeys.length; i++) {
+      var itemId = allKeys[i];
+      var def = SV.ALL_ITEMS[itemId];
+      var owned = SV.inventory && SV.inventory.hasItem(itemId);
+
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 10px;margin:3px 0;border-radius:6px;font-size:0.85rem;border-left:2px solid ' + (owned ? cat.color : 'transparent') + ';' + (owned ? 'color:#e2e8f0;' : 'color:#475569;opacity:0.5;');
+      var nameEl = document.createElement('span');
+      nameEl.textContent = owned ? def.name : '???';
+      row.appendChild(nameEl);
+      container.appendChild(row);
+    }
   }
 
   // Swipe-to-dismiss
