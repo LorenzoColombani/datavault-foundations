@@ -3578,20 +3578,22 @@ function initAudio() {
   if (audioContext) return;
   try {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    Object.keys(SOUND_PATHS).forEach(function(key) {
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', SOUND_PATHS[key], true);
-      xhr.responseType = 'arraybuffer';
-      xhr.onload = function() {
-        audioContext.decodeAudioData(xhr.response, function(decoded) {
-          soundBuffers[key] = decoded;
-        });
-      };
-      xhr.send();
-    });
   } catch(e) {
     console.warn('AudioContext not available:', e);
+    return;
   }
+  /* Preload all sound files */
+  Object.keys(SOUND_PATHS).forEach(function(key) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', SOUND_PATHS[key], true);
+    xhr.responseType = 'arraybuffer';
+    xhr.onload = function() {
+      audioContext.decodeAudioData(xhr.response, function(decoded) {
+        soundBuffers[key] = decoded;
+      });
+    };
+    xhr.send();
+  });
 }
 
 function playSound(key) {
@@ -3710,8 +3712,7 @@ function checkOperationComplete(missionId) {
 }
 
 function triggerPhaseBridge(opNum) {
-  /* Delay so missionComplete (10s) finishes first */
-  setTimeout(function() { playSound('operationComplete'); }, 11000);
+  /* missionComplete sound is sufficient — no separate operation sound */
 
   /* Show Quest Completed overlay */
   var overlay = document.getElementById('quest-completed-overlay');
@@ -3731,7 +3732,7 @@ function triggerPhaseBridge(opNum) {
 
   /* Final operation special handling */
   if (opNum === 5) {
-    setTimeout(function() { playSound('tutorialComplete'); }, 16000);
+    /* missionComplete sound covers this — no separate tutorial sound */
 
     /* Award tutorial completion loot and check achievements */
     if (typeof SV !== 'undefined' && SV.inventory) {
@@ -3788,9 +3789,12 @@ function restoreCompletionState() {
 
 document.addEventListener('DOMContentLoaded', function() {
 
-  /* Audio requires user gesture to initialize */
-  document.addEventListener('click', function() { initAudio(); }, { once: true });
-  document.addEventListener('touchstart', function() { initAudio(); }, { once: true });
+  /* Create audio context and preload sounds immediately */
+  initAudio();
+  /* Resume on first user gesture (browsers require it for playback) */
+  document.addEventListener('click', function() {
+    if (audioContext && audioContext.state === 'suspended') audioContext.resume();
+  }, { once: true });
 
   /* Mute state from persistence */
   if (typeof SV !== 'undefined' && SV.persistence) {
