@@ -189,21 +189,15 @@
   function buildInventoryList(container) {
     var cats = (typeof SV !== 'undefined') ? SV.CATEGORIES : null;
     if (!cats || !Object.keys(cats).length) {
-      var bags = document.querySelectorAll('.inventory-bags .inventory-bag');
-      if (!bags.length) {
-        var p = document.createElement('p');
-        p.style.cssText = 'color:#64748b;font-size:0.85rem;';
-        p.textContent = 'No items discovered yet.';
-        container.appendChild(p);
-        return;
-      }
+      var p = document.createElement('p');
+      p.style.cssText = 'color:#64748b;font-size:0.85rem;';
+      p.textContent = 'No items discovered yet.';
+      container.appendChild(p);
+      return;
     }
 
-    // Build category list
     var catGrid = document.createElement('div');
     catGrid.className = 'mobile-inv-grid';
-    var itemsArea = document.createElement('div');
-    itemsArea.style.cssText = 'margin-top: 16px;';
 
     for (var catId in cats) {
       if (!cats.hasOwnProperty(catId)) continue;
@@ -221,24 +215,30 @@
         btn.appendChild(iconEl);
         btn.appendChild(textEl);
         btn.addEventListener('click', function() {
-          showCategoryItems(itemsArea, id, c);
-          // Highlight active category
-          var siblings = catGrid.querySelectorAll('.mobile-inv-item');
-          for (var i = 0; i < siblings.length; i++) {
-            siblings[i].style.background = 'rgba(0,0,0,0.3)';
-          }
-          btn.style.background = 'rgba(0,180,255,0.12)';
+          // Drill down: replace sheet content with items
+          title.textContent = c.icon + ' ' + c.name;
+          body.textContent = '';
+          showCategoryItems(body, id, c);
         });
         catGrid.appendChild(btn);
       })(catId, cat);
     }
 
     container.appendChild(catGrid);
-    container.appendChild(itemsArea);
   }
 
   function showCategoryItems(container, categoryId, cat) {
-    container.textContent = '';
+    // Back button
+    var back = document.createElement('div');
+    back.style.cssText = 'display:flex;align-items:center;gap:6px;cursor:pointer;color:#00b4ff;font-family:"Orbitron",monospace;font-size:10px;letter-spacing:0.08em;margin-bottom:12px;padding:4px 0;';
+    back.textContent = '\u2190 All Categories';
+    back.addEventListener('click', function() {
+      title.textContent = 'Inventory';
+      body.textContent = '';
+      buildInventoryList(body);
+    });
+    container.appendChild(back);
+
     var allKeys = SV.itemsForCategory(categoryId);
     if (!allKeys || !allKeys.length) {
       var p = document.createElement('p');
@@ -248,18 +248,13 @@
       return;
     }
 
-    var label = document.createElement('div');
-    label.style.cssText = 'font-family:"Orbitron",monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:' + cat.color + ';margin-bottom:10px;';
-    label.textContent = cat.icon + ' ' + cat.name;
-    container.appendChild(label);
-
     for (var i = 0; i < allKeys.length; i++) {
       var itemId = allKeys[i];
       var def = SV.ALL_ITEMS[itemId];
       var owned = SV.inventory && SV.inventory.hasItem(itemId);
 
       var row = document.createElement('div');
-      row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 10px;margin:3px 0;border-radius:6px;font-size:0.85rem;border-left:2px solid ' + (owned ? cat.color : 'transparent') + ';' + (owned ? 'color:#e2e8f0;' : 'color:#475569;opacity:0.5;');
+      row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 10px;margin:3px 0;border-radius:6px;font-size:0.85rem;border-left:2px solid ' + (owned ? cat.color : 'transparent') + ';' + (owned ? 'color:#e2e8f0;' : 'color:#475569;opacity:0.5;');
       var nameEl = document.createElement('span');
       nameEl.textContent = owned ? def.name : '???';
       row.appendChild(nameEl);
