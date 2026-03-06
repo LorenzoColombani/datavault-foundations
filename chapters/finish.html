@@ -275,14 +275,17 @@ body {
 <script src="../systems/particles.js"></script>
 
 <!-- Audio: play quest-complete.mp3 on page load -->
-<audio id="quest-audio" preload="auto" src="../assets/sounds/quest-complete.mp3"></audio>
+<audio id="quest-audio" autoplay preload="auto" src="../assets/sounds/quest-complete.mp3"></audio>
 <script>
 (function() {
   var audio = document.getElementById('quest-audio');
+  if (!audio) return;
+  audio.volume = 0.45;
   var hasPlayed = false;
 
   function tryPlay() {
-    if (hasPlayed || !audio) return;
+    if (hasPlayed) return;
+    audio.currentTime = 0;
     var p = audio.play();
     if (p && p.then) {
       p.then(function() { hasPlayed = true; }).catch(function() {});
@@ -291,10 +294,8 @@ body {
     }
   }
 
-  // Try autoplay immediately (works if user navigated here via click)
-  if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    tryPlay();
-  }
+  // Multiple autoplay attempts at different lifecycle stages
+  tryPlay();
   document.addEventListener('DOMContentLoaded', tryPlay);
   window.addEventListener('load', tryPlay);
 
@@ -305,11 +306,15 @@ body {
       document.removeEventListener('click', gesturePlay);
       document.removeEventListener('touchstart', gesturePlay);
       document.removeEventListener('scroll', gesturePlay);
+      document.removeEventListener('mousemove', gesturePlay);
+      document.removeEventListener('keydown', gesturePlay);
     }
   }
   document.addEventListener('click', gesturePlay);
   document.addEventListener('touchstart', gesturePlay);
   document.addEventListener('scroll', gesturePlay);
+  document.addEventListener('mousemove', gesturePlay);
+  document.addEventListener('keydown', gesturePlay);
 })();
 </script>
 </body>
