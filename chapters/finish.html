@@ -62,6 +62,16 @@ body {
 .finish-hero {
   padding: 80px 0 40px;
 }
+.audio-hint {
+  position: fixed; bottom: 32px; left: 0; right: 0; text-align: center;
+  font-family: 'Orbitron', monospace; font-size: 10px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: rgba(0, 180, 255, 0.4);
+  animation: pulse-hint 2s ease-in-out infinite;
+  transition: opacity 0.5s ease;
+  pointer-events: none; z-index: 100;
+}
+.audio-hint.hidden { opacity: 0; }
+@keyframes pulse-hint { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.7; } }
 
 .finish-title {
   font-family: 'Orbitron', monospace;
@@ -274,6 +284,7 @@ body {
 <!-- Particle constellation background -->
 <script src="../systems/particles.js"></script>
 
+<div id="audio-hint" class="audio-hint">click anywhere to begin</div>
 <!-- Audio: play quest-complete.mp3 on page load -->
 <audio id="quest-audio" autoplay preload="auto" src="../assets/sounds/quest-complete.mp3"></audio>
 <script>
@@ -282,38 +293,49 @@ body {
   if (!audio) return;
   audio.volume = 0.45;
   var hasPlayed = false;
+  var hint = document.getElementById('audio-hint');
+
+  function hideHint() {
+    if (hint) hint.classList.add('hidden');
+  }
 
   function tryPlay() {
     if (hasPlayed) return;
     audio.currentTime = 0;
     var p = audio.play();
     if (p && p.then) {
-      p.then(function() { hasPlayed = true; }).catch(function() {});
+      p.then(function() {
+        hasPlayed = true;
+        hideHint();
+        cleanup();
+      }).catch(function() {
+        // Autoplay blocked — show the hint
+        if (hint) hint.classList.remove('hidden');
+      });
     } else {
       hasPlayed = true;
+      hideHint();
+      cleanup();
     }
   }
 
-  // Multiple autoplay attempts at different lifecycle stages
+  function cleanup() {
+    document.removeEventListener('click', gesturePlay);
+    document.removeEventListener('touchstart', gesturePlay);
+    document.removeEventListener('keydown', gesturePlay);
+  }
+
+  // Try autoplay at different lifecycle stages
   tryPlay();
   document.addEventListener('DOMContentLoaded', tryPlay);
   window.addEventListener('load', tryPlay);
 
-  // Fallback: play on first user gesture if autoplay was blocked
+  // Fallback: play on first user gesture (click/tap/key)
   function gesturePlay() {
     tryPlay();
-    if (hasPlayed) {
-      document.removeEventListener('click', gesturePlay);
-      document.removeEventListener('touchstart', gesturePlay);
-      document.removeEventListener('scroll', gesturePlay);
-      document.removeEventListener('mousemove', gesturePlay);
-      document.removeEventListener('keydown', gesturePlay);
-    }
   }
   document.addEventListener('click', gesturePlay);
   document.addEventListener('touchstart', gesturePlay);
-  document.addEventListener('scroll', gesturePlay);
-  document.addEventListener('mousemove', gesturePlay);
   document.addEventListener('keydown', gesturePlay);
 })();
 </script>
