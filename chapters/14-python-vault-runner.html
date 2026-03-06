@@ -3682,7 +3682,6 @@ function completeMission(missionId, objectiveId) {
   var lootKey = missionId + '-complete';
   if (TUTORIAL_PYTHON_LOOT[lootKey] && typeof SV !== 'undefined' && SV.inventory) {
     SV.inventory.addItem(TUTORIAL_PYTHON_LOOT[lootKey]);
-    setTimeout(function() { playSound('itemDiscovered'); }, 3500);
   }
 
   /* Check Operation completion */
@@ -3711,8 +3710,8 @@ function checkOperationComplete(missionId) {
 }
 
 function triggerPhaseBridge(opNum) {
-  /* Delay so missionComplete (3s) finishes first */
-  setTimeout(function() { playSound('operationComplete'); }, 3500);
+  /* Delay so missionComplete (10s) finishes first */
+  setTimeout(function() { playSound('operationComplete'); }, 11000);
 
   /* Show Quest Completed overlay */
   var overlay = document.getElementById('quest-completed-overlay');
@@ -3732,7 +3731,7 @@ function triggerPhaseBridge(opNum) {
 
   /* Final operation special handling */
   if (opNum === 5) {
-    setTimeout(function() { playSound('tutorialComplete'); }, 8500);
+    setTimeout(function() { playSound('tutorialComplete'); }, 16000);
 
     /* Award tutorial completion loot and check achievements */
     if (typeof SV !== 'undefined' && SV.inventory) {
