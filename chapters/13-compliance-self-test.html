@@ -708,7 +708,7 @@ code { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; background: 
 }
 .tippy-box[data-theme~='sv-dark'] .tippy-arrow { color: rgba(10,22,40,0.95); }
 
-/* Chapter 13: Compliance Mock Q&A — Tutorial-Specific CSS */
+/* Chapter 13: Compliance Self-Test — Tutorial-Specific CSS */
 :root {
 
   --trap-red: #ef4444;
@@ -1315,7 +1315,7 @@ body::before {
 
 <div class="page-content">
 
-<!-- Chapter 13: Compliance Mock Q&A — Content -->
+<!-- Chapter 13: Compliance Self-Test — Content -->
 
 <nav class="holo-nav">
   <div class="nav-inner">
@@ -1423,7 +1423,7 @@ body::before {
   </div>
 
   <div class="hook hook-cal">
-    <p class="hook-text">Before the mock, let&rsquo;s check where things stand. This is <em>calibration</em>, not scoring.</p>
+    <p class="hook-text">Before diving in, let&rsquo;s check where things stand. This is <em>calibration</em>, not scoring.</p>
   </div>
 
   <!-- Calibration Q1: GDPR vs EU Data Act -->
@@ -1657,7 +1657,7 @@ body::before {
   </div>
 
   <div class="hook hook-debrief">
-    <p class="hook-text">The mock is done. Now let&rsquo;s see what <em>landed</em> and what needs <em>polish</em>.</p>
+    <p class="hook-text">All questions answered. Now let&rsquo;s see what <em>landed</em> and what needs <em>polish</em>.</p>
   </div>
 
   <!-- Trap Scorecard -->
@@ -1679,7 +1679,7 @@ body::before {
       <div class="trap-score-icon pending" id="trap-icon-m9">?</div>
       <span class="trap-score-label">M9: Is Data Vault a database?</span>
     </div>
-    <div class="trap-score-summary" id="trap-summary">Complete the mock to see your trap question results. The scorecard updates as you submit answers.</div>
+    <div class="trap-score-summary" id="trap-summary">Complete all sections to see your trap question results. The scorecard updates as you submit answers.</div>
   </div>
 
   <p style="color: var(--text-dim); font-size: 0.88rem; margin: 1.5rem 0;">The trap scorecard above tracks itself automatically. After completing all questions, review which traps you spotted vs. missed. The reflex to build: <strong style="color: var(--text-primary);">&ldquo;I&rsquo;d want to think through the specifics...&rdquo;</strong></p>
@@ -1709,7 +1709,7 @@ body::before {
 
   <!-- Completion Banner -->
   <div class="completion-banner" id="completion-banner" style="display:none;">
-    Mock Q&A complete. All 20 questions answered. You are ready for the rehearsal.
+    Self-test complete. All 20 questions answered.
   </div>
 
 </div>
@@ -2266,7 +2266,7 @@ function toggleExplore(opener) {
 })();
 
 
-/* === Chapter 13: Compliance Mock Q&A — Exercise Functions === */
+/* === Chapter 13: Compliance Self-Test — Exercise Functions === */
 
 /* --- Quest objectives --- */
 var TUTORIAL_12_OBJECTIVES = [
@@ -2439,7 +2439,7 @@ function updateTrapScorecard() {
   var summary = document.getElementById('trap-summary');
   if (summary) {
     if (answeredTraps === 0) {
-      summary.textContent = 'Complete the mock to see your trap question results.';
+      summary.textContent = 'Complete all sections to see your trap question results.';
     } else if (answeredTraps < 4) {
       summary.textContent = answeredTraps + '/4 trap questions answered. Keep going.';
     } else {
