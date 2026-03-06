@@ -3597,6 +3597,10 @@ function initAudio() {
 function playSound(key) {
   if (soundMuted || !audioContext || !soundBuffers[key]) return;
   try {
+    /* Resume context if browser suspended it */
+    if (audioContext.state === 'suspended') {
+      audioContext.resume();
+    }
     var source = audioContext.createBufferSource();
     source.buffer = soundBuffers[key];
     source.connect(audioContext.destination);
@@ -3678,7 +3682,7 @@ function completeMission(missionId, objectiveId) {
   var lootKey = missionId + '-complete';
   if (TUTORIAL_PYTHON_LOOT[lootKey] && typeof SV !== 'undefined' && SV.inventory) {
     SV.inventory.addItem(TUTORIAL_PYTHON_LOOT[lootKey]);
-    setTimeout(function() { playSound('itemDiscovered'); }, 500);
+    setTimeout(function() { playSound('itemDiscovered'); }, 3500);
   }
 
   /* Check Operation completion */
