@@ -275,79 +275,41 @@ body {
 <script src="../systems/particles.js"></script>
 
 <!-- Audio: play quest-complete.mp3 on page load -->
+<audio id="quest-audio" preload="auto" src="../assets/sounds/quest-complete.mp3"></audio>
 <script>
 (function() {
-  var audioContext = null;
-  var buffer = null;
+  var audio = document.getElementById('quest-audio');
   var hasPlayed = false;
-  var contextRunning = false;
 
   function tryPlay() {
-    if (hasPlayed || !buffer || !audioContext || audioContext.state !== 'running') return;
-    hasPlayed = true;
-    try {
-      var source = audioContext.createBufferSource();
-      source.buffer = buffer;
-      source.connect(audioContext.destination);
-      source.start(0);
-    } catch(e) {}
-  }
-
-  function initAudio() {
-    if (audioContext) return;
-    try {
-      audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    } catch(e) {
-      return;
-    }
-
-    // Preload the sound
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '../assets/sounds/quest-complete.mp3', true);
-    xhr.responseType = 'arraybuffer';
-    xhr.onload = function() {
-      if (audioContext) {
-        audioContext.decodeAudioData(xhr.response, function(decoded) {
-          buffer = decoded;
-          tryPlay();
-        });
-      }
-    };
-    xhr.send();
-
-    // If context starts running immediately (no gesture needed)
-    if (audioContext.state === 'running') {
-      contextRunning = true;
-    }
-
-    // Listen for state change
-    audioContext.onstatechange = function() {
-      if (audioContext.state === 'running' && !contextRunning) {
-        contextRunning = true;
-        tryPlay();
-      }
-    };
-  }
-
-  function resumeOnGesture() {
-    if (!audioContext) {
-      initAudio();
-    }
-    if (audioContext && audioContext.state === 'suspended') {
-      audioContext.resume().then(function() {
-        tryPlay();
-      });
+    if (hasPlayed || !audio) return;
+    var p = audio.play();
+    if (p && p.then) {
+      p.then(function() { hasPlayed = true; }).catch(function() {});
+    } else {
+      hasPlayed = true;
     }
   }
 
-  // Init on DOMContentLoaded
-  document.addEventListener('DOMContentLoaded', function() {
-    initAudio();
+  // Try autoplay immediately (works if user navigated here via click)
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    tryPlay();
+  }
+  document.addEventListener('DOMContentLoaded', tryPlay);
+  window.addEventListener('load', tryPlay);
 
-    // Resume on first user gesture
-    document.addEventListener('click', resumeOnGesture, { once: false });
-    document.addEventListener('touchstart', resumeOnGesture, { once: false });
-  });
+  // Fallback: play on first user gesture if autoplay was blocked
+  function gesturePlay() {
+    tryPlay();
+    if (hasPlayed) {
+      document.removeEventListener('click', gesturePlay);
+      document.removeEventListener('touchstart', gesturePlay);
+      document.removeEventListener('scroll', gesturePlay);
+    }
+  }
+  document.addEventListener('click', gesturePlay);
+  document.addEventListener('touchstart', gesturePlay);
+  document.addEventListener('scroll', gesturePlay);
 })();
 </script>
 </body>
