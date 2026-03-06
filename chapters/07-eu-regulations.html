@@ -242,8 +242,8 @@ code { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; background: 
 .bridge-word { color: var(--link-text); font-weight: 600; }
 /* 4-LAYER EXPLANATION */
 .four-layers { margin: 30px 0; border: 1px solid var(--border-medium); border-radius: 16px; overflow: hidden; background: var(--pm-surface); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
-.four-layers-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 28px 12px; }
-.four-layers-title { font-family: 'Orbitron', monospace; font-size: 9px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
+.layers-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 28px 12px; }
+.layers-label { font-family: 'Orbitron', monospace; font-size: 9px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
 .layer-dots { display: flex; gap: 8px; }
 .layer-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--border-subtle); background: transparent; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); cursor: pointer; }
 .layer-dot.l1 { border-color: var(--success-color); } .layer-dot.l2 { border-color: var(--hub-color); } .layer-dot.l3 { border-color: var(--link-color); } .layer-dot.l4 { border-color: var(--sat-color); }
@@ -890,7 +890,7 @@ select {
     </div>
 
     <div class="hook hook-default" style="--hook-color:26,107,60;">
-      <div class="hook-text">A trading firm's SQL Server goes down at 9:47 AM on a Monday. Positions can't be marked. Risk reports can't run. The Data Vault is intact — but the loading pipeline has a configuration bug and won't restart. Under DORA, which entered into force <em>January 17, 2025</em>, that's not just an operational embarrassment. It's a <em>reportable incident</em> with regulatory consequences.</div>
+      <div class="hook-text">A trading firm's SQL Server goes down at 9:47 AM on a Monday. Positions can't be marked. Risk reports can't run. The Data Vault is intact — but the loading pipeline has a configuration bug and won't restart. Under DORA, which applied from <em>January 17, 2025</em>, that's not just an operational embarrassment. It's a <em>reportable incident</em> with regulatory consequences.</div>
     </div>
 
     <div class="language-bridge">
@@ -958,7 +958,7 @@ select {
       <div class="layer layer-3">
         <div class="layer-header" onclick="toggleLayer(this)"><span class="layer-badge">L3</span><span class="layer-label">Technical Detail</span><span class="layer-toggle">&darr;</span></div>
         <div class="layer-content"><div class="layer-content-inner">
-          <p>DORA entered into force <strong>January 17, 2025</strong>, giving financial firms two years from adoption to comply (adopted December 2022, applied January 2025).</p>
+          <p>DORA applied from <strong>January 17, 2025</strong>, giving financial firms two years from adoption to comply (entered into force January 2023, obligations applied from January 2025).</p>
           <p style="margin-top:0.75rem;">Key obligations for data infrastructure:</p>
           <ul style="list-style:none; padding:0; margin-top:0.5rem;">
             <li style="margin-bottom:0.5rem;"><span style="color:#2ecc71;">Article 6:</span> Maintain a register of all ICT assets and their interdependencies — know what you have and how it connects.</li>
@@ -1082,7 +1082,7 @@ select {
           <p>As a Directive, ePrivacy varies by national implementation. The core concepts: "terminal equipment" (your device) cannot have information stored on it without clear consent, except for strictly necessary purposes.</p>
           <p style="margin-top:0.75rem;"><strong>Exempt (strictly necessary):</strong> session management cookies, shopping cart cookies, authentication cookies — these keep the service functioning.</p>
           <p style="margin-top:0.75rem;"><strong>Require consent:</strong> analytics cookies (Google Analytics), advertising cookies, personalization cookies, third-party tracking pixels.</p>
-          <p style="margin-top:0.75rem;">Germany's implementation (TTDSG, in force December 2021) has specific requirements around cookie consent that affect what data legitimately enters an analytics pipeline. If a client's DV ingests website analytics, the consent chain upstream of data collection matters.</p>
+          <p style="margin-top:0.75rem;">Germany's implementation (TDDDG (formerly TTDSG), in force December 2021) has specific requirements around cookie consent that affect what data legitimately enters an analytics pipeline. If a client's DV ingests website analytics, the consent chain upstream of data collection matters.</p>
         </div></div>
       </div>
 
