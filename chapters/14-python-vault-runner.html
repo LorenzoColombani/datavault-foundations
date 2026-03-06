@@ -3707,7 +3707,8 @@ function checkOperationComplete(missionId) {
 }
 
 function triggerPhaseBridge(opNum) {
-  playSound('operationComplete');
+  /* Delay so missionComplete (3s) finishes first */
+  setTimeout(function() { playSound('operationComplete'); }, 3500);
 
   /* Show Quest Completed overlay */
   var overlay = document.getElementById('quest-completed-overlay');
@@ -3727,7 +3728,7 @@ function triggerPhaseBridge(opNum) {
 
   /* Final operation special handling */
   if (opNum === 5) {
-    setTimeout(function() { playSound('tutorialComplete'); }, 3000);
+    setTimeout(function() { playSound('tutorialComplete'); }, 8500);
 
     /* Award tutorial completion loot and check achievements */
     if (typeof SV !== 'undefined' && SV.inventory) {
