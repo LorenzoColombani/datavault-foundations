@@ -814,6 +814,58 @@ code {
 .data-table td.pii-val { color: var(--pii-text); font-weight: 500; }
 .data-table td.safe-val { color: var(--sql-select); font-weight: 500; }
 
+/* ===================================================
+   STICKY COMPARISON SECTIONS
+   Pin one table while explanation/comparison scrolls
+   =================================================== */
+.sticky-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+  margin-left: -120px;
+  margin-right: -120px;
+}
+.sticky-left {
+  position: sticky;
+  top: 100px;
+  align-self: start;
+  overflow-x: auto;
+}
+.sticky-left .data-table {
+  font-size: 10px;
+}
+.sticky-left .data-table th {
+  font-size: 8px;
+  white-space: nowrap;
+}
+.sticky-left .data-table td,
+.sticky-left .data-table th {
+  padding: 6px 8px;
+}
+.sticky-right {
+  min-height: 0;
+  min-width: 0;
+}
+.sticky-right .data-panel,
+.sticky-left .data-panel {
+  overflow-x: auto;
+}
+.sticky-right .data-table,
+.sticky-left .data-table {
+  min-width: 0;
+}
+@media (max-width: 700px) {
+  .sticky-split {
+    grid-template-columns: 1fr;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .sticky-left {
+    position: static;
+  }
+}
+
 /* CONCEPT CALLOUT */
 .concept-callout {
   background: var(--accent-bg);
@@ -1666,6 +1718,8 @@ code {
   .pii-item-name { min-width: 120px; }
   .match-row { flex-wrap: wrap; }
   .match-label { min-width: 140px; }
+  .sticky-split { grid-template-columns: 1fr; margin-left: 0; margin-right: 0; }
+  .sticky-left { position: static; }
 }
 
 /* REDUCED MOTION */
@@ -2083,54 +2137,60 @@ code {
 
   <h3>The Skyrim Model &mdash; Before &amp; After</h3>
 
-  <div class="data-panel">
-    <div class="data-panel-header">
-      <div class="data-panel-dot sat"></div>
-      <span class="data-panel-title sat-title">Before: Sat_Character_Details (all together)</span>
+  <div class="sticky-split">
+    <div class="sticky-left">
+      <div class="data-panel">
+        <div class="data-panel-header">
+          <div class="data-panel-dot sat"></div>
+          <span class="data-panel-title sat-title">Before: Sat_Character_Details (all together)</span>
+        </div>
+        <table class="data-table">
+          <tr><th>Column</th><th>Example Value</th><th>Classification</th></tr>
+          <tr><td class="pk">hub_character_hk</td><td class="val">a3f7...</td><td class="val">&mdash;</td></tr>
+          <tr><td class="pii-val">real_name</td><td class="pii-val">Nazeem</td><td class="pii-val">PII</td></tr>
+          <tr><td class="pii-val">email_address</td><td class="pii-val">nazeem@whiterun.gov</td><td class="pii-val">PII</td></tr>
+          <tr><td class="safe-val">race</td><td class="safe-val">Redguard</td><td class="safe-val">Non-PII*</td></tr>
+          <tr><td class="safe-val">level</td><td class="safe-val">10</td><td class="safe-val">Non-PII</td></tr>
+          <tr><td class="safe-val">faction</td><td class="safe-val">None</td><td class="safe-val">Non-PII</td></tr>
+        </table>
+      </div>
     </div>
-    <table class="data-table">
-      <tr><th>Column</th><th>Example Value</th><th>Classification</th></tr>
-      <tr><td class="pk">hub_character_hk</td><td class="val">a3f7...</td><td class="val">&mdash;</td></tr>
-      <tr><td class="pii-val">real_name</td><td class="pii-val">Nazeem</td><td class="pii-val">PII</td></tr>
-      <tr><td class="pii-val">email_address</td><td class="pii-val">nazeem@whiterun.gov</td><td class="pii-val">PII</td></tr>
-      <tr><td class="safe-val">race</td><td class="safe-val">Redguard</td><td class="safe-val">Non-PII*</td></tr>
-      <tr><td class="safe-val">level</td><td class="safe-val">10</td><td class="safe-val">Non-PII</td></tr>
-      <tr><td class="safe-val">faction</td><td class="safe-val">None</td><td class="safe-val">Non-PII</td></tr>
-    </table>
-  </div>
 
-  <div class="data-panel pii-panel">
-    <div class="data-panel-header">
-      <div class="data-panel-dot pii"></div>
-      <span class="data-panel-title pii-title">After: Sat_Character_PII (deletable)</span>
-    </div>
-    <table class="data-table">
-      <tr><th>Column</th><th>Example Value</th></tr>
-      <tr><td class="pk">hub_character_hk</td><td class="val">a3f7...</td></tr>
-      <tr><td class="pii-val">real_name</td><td class="pii-val">Nazeem</td></tr>
-      <tr><td class="pii-val">email_address</td><td class="pii-val">nazeem@whiterun.gov</td></tr>
-      <tr><td class="pii-val">home_address</td><td class="pii-val">Chillfurrow Farm, Whiterun</td></tr>
-      <tr><td class="pii-val">date_of_birth</td><td class="pii-val">4E 175</td></tr>
-      <tr><td class="val">load_date</td><td class="val">2026-01-01</td></tr>
-      <tr><td class="val">record_source</td><td class="val">Whiterun Census</td></tr>
-    </table>
-  </div>
+    <div class="sticky-right">
+      <div class="data-panel pii-panel">
+        <div class="data-panel-header">
+          <div class="data-panel-dot pii"></div>
+          <span class="data-panel-title pii-title">After: Sat_Character_PII (deletable)</span>
+        </div>
+        <table class="data-table">
+          <tr><th>Column</th><th>Example Value</th></tr>
+          <tr><td class="pk">hub_character_hk</td><td class="val">a3f7...</td></tr>
+          <tr><td class="pii-val">real_name</td><td class="pii-val">Nazeem</td></tr>
+          <tr><td class="pii-val">email_address</td><td class="pii-val">nazeem@whiterun.gov</td></tr>
+          <tr><td class="pii-val">home_address</td><td class="pii-val">Chillfurrow Farm, Whiterun</td></tr>
+          <tr><td class="pii-val">date_of_birth</td><td class="pii-val">4E 175</td></tr>
+          <tr><td class="val">load_date</td><td class="val">2026-01-01</td></tr>
+          <tr><td class="val">record_source</td><td class="val">Whiterun Census</td></tr>
+        </table>
+      </div>
 
-  <div class="data-panel">
-    <div class="data-panel-header">
-      <div class="data-panel-dot result"></div>
-      <span class="data-panel-title result-title">After: Sat_Character_Attributes (retained)</span>
+      <div class="data-panel">
+        <div class="data-panel-header">
+          <div class="data-panel-dot result"></div>
+          <span class="data-panel-title result-title">After: Sat_Character_Attributes (retained)</span>
+        </div>
+        <table class="data-table">
+          <tr><th>Column</th><th>Example Value</th></tr>
+          <tr><td class="pk">hub_character_hk</td><td class="val">a3f7...</td></tr>
+          <tr><td class="safe-val">race</td><td class="safe-val">Redguard</td></tr>
+          <tr><td class="safe-val">level</td><td class="safe-val">10</td></tr>
+          <tr><td class="safe-val">faction</td><td class="safe-val">None</td></tr>
+          <tr><td class="safe-val">guild_membership</td><td class="safe-val">None</td></tr>
+          <tr><td class="val">load_date</td><td class="val">2026-01-01</td></tr>
+          <tr><td class="val">record_source</td><td class="val">Whiterun Census</td></tr>
+        </table>
+      </div>
     </div>
-    <table class="data-table">
-      <tr><th>Column</th><th>Example Value</th></tr>
-      <tr><td class="pk">hub_character_hk</td><td class="val">a3f7...</td></tr>
-      <tr><td class="safe-val">race</td><td class="safe-val">Redguard</td></tr>
-      <tr><td class="safe-val">level</td><td class="safe-val">10</td></tr>
-      <tr><td class="safe-val">faction</td><td class="safe-val">None</td></tr>
-      <tr><td class="safe-val">guild_membership</td><td class="safe-val">None</td></tr>
-      <tr><td class="val">load_date</td><td class="val">2026-01-01</td></tr>
-      <tr><td class="val">record_source</td><td class="val">Whiterun Census</td></tr>
-    </table>
   </div>
 
   <p>Same Hub. Same hash key. Two Satellites instead of one. Deletion targets only the PII Satellite.</p>
@@ -2311,32 +2371,38 @@ code {
 
   <h3>Standard Hub vs. Artificial Hub</h3>
 
-  <div class="data-panel pii-panel">
-    <div class="data-panel-header">
-      <div class="data-panel-dot pii"></div>
-      <span class="data-panel-title pii-title">Standard Hub (PII business key &mdash; problem)</span>
+  <div class="sticky-split">
+    <div class="sticky-left">
+      <div class="data-panel pii-panel">
+        <div class="data-panel-header">
+          <div class="data-panel-dot pii"></div>
+          <span class="data-panel-title pii-title">Standard Hub (PII business key &mdash; problem)</span>
+        </div>
+        <table class="data-table">
+          <tr><th>Column</th><th>Value</th><th>Issue</th></tr>
+          <tr><td class="pk">hub_character_hk</td><td class="val">hash(&ldquo;Nazeem&rdquo;)</td><td class="pii-val">Derived from PII</td></tr>
+          <tr><td class="pii-val">business_key</td><td class="pii-val">Nazeem</td><td class="pii-val">IS personal data</td></tr>
+          <tr><td class="val">load_date</td><td class="val">2026-01-01</td><td class="val">&mdash;</td></tr>
+          <tr><td class="val">record_source</td><td class="val">Whiterun Census</td><td class="val">&mdash;</td></tr>
+        </table>
+      </div>
     </div>
-    <table class="data-table">
-      <tr><th>Column</th><th>Value</th><th>Issue</th></tr>
-      <tr><td class="pk">hub_character_hk</td><td class="val">hash(&ldquo;Nazeem&rdquo;)</td><td class="pii-val">Derived from PII</td></tr>
-      <tr><td class="pii-val">business_key</td><td class="pii-val">Nazeem</td><td class="pii-val">IS personal data</td></tr>
-      <tr><td class="val">load_date</td><td class="val">2026-01-01</td><td class="val">&mdash;</td></tr>
-      <tr><td class="val">record_source</td><td class="val">Whiterun Census</td><td class="val">&mdash;</td></tr>
-    </table>
-  </div>
 
-  <div class="data-panel">
-    <div class="data-panel-header">
-      <div class="data-panel-dot result"></div>
-      <span class="data-panel-title result-title">Artificial Hub (safe surrogate key)</span>
+    <div class="sticky-right">
+      <div class="data-panel">
+        <div class="data-panel-header">
+          <div class="data-panel-dot result"></div>
+          <span class="data-panel-title result-title">Artificial Hub (safe surrogate key)</span>
+        </div>
+        <table class="data-table">
+          <tr><th>Column</th><th>Value</th><th>Status</th></tr>
+          <tr><td class="pk">hub_character_hk</td><td class="val">hash(&ldquo;ART-00742&rdquo;)</td><td class="safe-val">Not derived from PII</td></tr>
+          <tr><td class="safe-val">business_key</td><td class="safe-val">ART-00742</td><td class="safe-val">Not personal data</td></tr>
+          <tr><td class="val">load_date</td><td class="val">2026-01-01</td><td class="val">&mdash;</td></tr>
+          <tr><td class="val">record_source</td><td class="val">Whiterun Census</td><td class="val">&mdash;</td></tr>
+        </table>
+      </div>
     </div>
-    <table class="data-table">
-      <tr><th>Column</th><th>Value</th><th>Status</th></tr>
-      <tr><td class="pk">hub_character_hk</td><td class="val">hash(&ldquo;ART-00742&rdquo;)</td><td class="safe-val">Not derived from PII</td></tr>
-      <tr><td class="safe-val">business_key</td><td class="safe-val">ART-00742</td><td class="safe-val">Not personal data</td></tr>
-      <tr><td class="val">load_date</td><td class="val">2026-01-01</td><td class="val">&mdash;</td></tr>
-      <tr><td class="val">record_source</td><td class="val">Whiterun Census</td><td class="val">&mdash;</td></tr>
-    </table>
   </div>
 </div>
 
