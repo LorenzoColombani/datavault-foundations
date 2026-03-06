@@ -274,7 +274,7 @@ body {
 <!-- Particle constellation background -->
 <script src="../systems/particles.js"></script>
 
-<!-- Audio: play tutorial-complete.mp3 on page load -->
+<!-- Audio: play quest-complete.mp3 on page load -->
 <script>
 (function() {
   var audioContext = null;
@@ -303,7 +303,7 @@ body {
 
     // Preload the sound
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '../assets/sounds/tutorial-complete.mp3', true);
+    xhr.open('GET', '../assets/sounds/quest-complete.mp3', true);
     xhr.responseType = 'arraybuffer';
     xhr.onload = function() {
       if (audioContext) {
