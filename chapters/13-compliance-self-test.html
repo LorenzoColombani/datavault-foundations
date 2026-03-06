@@ -830,7 +830,12 @@ body::before {
 }
 .is-item.is-yes strong { color: #30d158; }
 .is-item.is-no strong { color: #ff3b30; }
-@media (max-width: 600px) { .is-isnot { padding: 1rem; } }
+@media (max-width: 600px) {
+  .is-isnot { padding: 1rem; }
+  .scanline-overlay, .scan-bar { display: none !important; }
+  #particle-field { position: absolute !important; }
+  .ambient-glow, .parallax-layer { position: absolute !important; }
+}
 
 /* === ROW-LEVEL FEEDBACK === */
 .row-feedback {
