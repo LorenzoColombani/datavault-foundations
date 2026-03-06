@@ -412,7 +412,7 @@ code { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; background: 
 .fm-close:hover { color: #e2e8f0; }
 .finish-overlay.active .fm-close { display: block; }
 @keyframes fmUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@media (max-width: 600px) { .fm-stats { gap: 24px; } .fm-domains { gap: 8px; } .finish-modal { padding: 40px 16px; } .fm-title { margin-top: 20px; } }
+@media (max-width: 600px) { .fm-stats { gap: 24px; } .fm-domains { gap: 8px; } .finish-modal { padding: 40px 16px; max-height: 90vh; overflow-y: auto; } .fm-title { margin-top: 20px; } .finish-overlay.active { align-items: flex-start; } }
 
 /* AMBIENT + PARALLAX */
 .ambient-glow { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 0; transition: background 1.5s ease; background: radial-gradient(ellipse 600px 400px at 15% 20%, var(--ambient-c1, rgba(16, 185, 129, 0.06)) 0%, transparent 70%), radial-gradient(ellipse 500px 500px at 85% 60%, var(--ambient-c2, rgba(139, 92, 246, 0.04)) 0%, transparent 70%), radial-gradient(ellipse 400px 300px at 50% 90%, var(--ambient-c3, rgba(245, 158, 11, 0.03)) 0%, transparent 70%); }
