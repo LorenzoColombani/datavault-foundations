@@ -383,6 +383,12 @@ code { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; background: 
 .query-accumulated:empty { display: none; }
 
 .tutorial-footer { margin-top: 80px; padding: 24px 0; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; font-family: 'Orbitron', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+.finish-section { margin-top: 80px; padding: 48px 0; text-align: center; border-top: 1px solid var(--border-subtle); }
+.finish-section .finish-label { font-family: 'Orbitron', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+.finish-section .finish-subtitle { font-family: 'Orbitron', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 32px; }
+.finish-btn { display: inline-block; padding: 16px 64px; font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; color: #1a1a2e; background: linear-gradient(135deg, #f59e0b, #d97706); border: 2px solid #f59e0b; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+.finish-btn:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(245, 158, 11, 0.4), 0 0 80px rgba(245, 158, 11, 0.15); background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+.finish-btn:active { transform: scale(0.98); }
 
 /* AMBIENT + PARALLAX */
 .ambient-glow { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 0; transition: background 1.5s ease; background: radial-gradient(ellipse 600px 400px at 15% 20%, var(--ambient-c1, rgba(16, 185, 129, 0.06)) 0%, transparent 70%), radial-gradient(ellipse 500px 500px at 85% 60%, var(--ambient-c2, rgba(139, 92, 246, 0.04)) 0%, transparent 70%), radial-gradient(ellipse 400px 300px at 50% 90%, var(--ambient-c3, rgba(245, 158, 11, 0.03)) 0%, transparent 70%); }
@@ -3003,12 +3009,20 @@ f"{dict['key']} more text"</code></pre>
 
 
 <!-- ═══════════════════════════════════════════════════════════════
-     TUTORIAL FOOTER
+     FINISH SECTION
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="finish-section">
+  <div class="finish-label">CHAPTER 14 // PYTHON VAULT RUNNER</div>
+  <div class="finish-subtitle">15 missions. 5 operations. One crew registry. One Data Vault.</div>
+  <a class="finish-btn" href="finish.html">FINISH</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TUTORIAL FOOTER (hidden by nav-inject)
      ═══════════════════════════════════════════════════════════════ -->
 <div class="tutorial-footer">
   <div class="footer-label">CHAPTER 14 // PYTHON VAULT RUNNER</div>
   <div class="footer-subtitle">15 missions. 5 operations. One crew registry. One Data Vault.</div>
-  <div class="footer-next"><a href="../index.html">Back to Index</a></div>
 </div>
 
 
