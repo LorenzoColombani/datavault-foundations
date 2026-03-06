@@ -259,10 +259,21 @@
       var owned = SV.inventory && SV.inventory.hasItem(itemId);
 
       var row = document.createElement('div');
-      row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 10px;margin:3px 0;border-radius:6px;font-size:0.85rem;border-left:2px solid ' + (owned ? cat.color : 'transparent') + ';' + (owned ? 'color:#e2e8f0;' : 'color:#475569;opacity:0.5;');
+      row.style.cssText = 'display:flex;flex-direction:column;gap:4px;padding:8px 10px;margin:3px 0;border-radius:6px;font-size:0.85rem;border-left:2px solid ' + (owned ? cat.color : 'transparent') + ';' + (owned ? 'color:#e2e8f0;cursor:pointer;' : 'color:#475569;opacity:0.5;');
       var nameEl = document.createElement('span');
       nameEl.textContent = owned ? def.name : '???';
       row.appendChild(nameEl);
+      if (owned && def.desc) {
+        (function(r, d) {
+          var descEl = document.createElement('div');
+          descEl.style.cssText = 'font-size:0.75rem;color:#94a3b8;line-height:1.4;display:none;padding-top:4px;';
+          descEl.textContent = d;
+          r.appendChild(descEl);
+          r.addEventListener('click', function() {
+            descEl.style.display = descEl.style.display === 'none' ? 'block' : 'none';
+          });
+        })(row, def.desc);
+      }
       container.appendChild(row);
     }
   }
