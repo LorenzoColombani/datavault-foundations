@@ -4,6 +4,8 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "frame-ancestors 'self' https://lorenzocolombani.com https://www.lorenzocolombani.com"
+    # Who may show this site inside a frame. Keep this list in step with the pages that embed it
+    # (the portfolio player, the workshop garage, the profile page): dropping one blanks its frame.
+    Content-Security-Policy = "frame-ancestors 'self' https://lorenzocolombani.com https://www.lorenzocolombani.com https://the-workshop-garage-lorenzo.netlify.app https://lc-fed-29f60028.netlify.app http://127.0.0.1:8766"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"

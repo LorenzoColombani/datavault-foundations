@@ -1,16 +1,16 @@
 # Regulation updates, November 2026
 
-Law as of **20 November 2026**. Branch `claude/regulation-updates-2026-11-f2e7db`. Nothing here is deployed.
+Law as of **20 November 2026**.
 
-The regulation chapters (5, 7, 8, 9, 13) were written in February and March 2026 and first published on 6 March 2026. On 27 July 2026 Regulation (EU) 2026/1744 amended the AI Act, and other things moved too. This note records what was checked on 20 November 2026, what was changed on the site, and what was left alone.
+The regulation chapters of this site (5, 7, 8, 9, 13) were written in February and March 2026 and first published on 6 March 2026. On 27 July 2026 Regulation (EU) 2026/1744 amended the AI Act, and other things moved too. This note records what was checked on 20 November 2026, what was changed on the site, and what was checked and left alone. The reader-facing version is [updates.html](../updates.html).
 
 ## How the checking was done
 
 Every change rests on a primary text read on 20 November 2026.
 
-- **AI Act.** Read from the EUR-Lex consolidated text `02024R1689-20260727` and from the Official Journal text of Regulation (EU) 2026/1744 (the two PDFs kept in `~/Developer/ai-act-datavault-paper/sources/`, converted to text and searched article by article). Lorenzo's memo `VERIFICATION-2026-08-25.md` was used as a list of leads; each point was re-read in the text.
-- **GDPR.** Read from the consolidated text in the same folder.
-- **DORA, Data Act, Data Governance Act, ePrivacy, the Digital Omnibus on data, adequacy decisions, the EU-US framework, the German KI-MIG.** Two research passes fetched the official pages (EUR-Lex, the Court's register, Commission, Council, Parliament, the ESAs, EDPB, Bundesgesetzblatt, Bundestag). The deciding sentences were then re-read in the downloaded originals before anything was written on the site. Two pages block scripts and were read in a browser: the Court's register entry for C-703/25 P (status "Pending") and the Council press release of 21 October 2026.
+- **AI Act.** Read from the EUR-Lex consolidated text `02024R1689-20260727` and from the Official Journal text of Regulation (EU) 2026/1744, article by article.
+- **GDPR.** Read from the consolidated text; recital 26 from the Official Journal version (consolidated texts carry no recitals).
+- **DORA, Data Act, Data Governance Act, ePrivacy, the Digital Omnibus on data, adequacy decisions, the EU-US framework, the German KI-MIG.** Read from the official pages: EUR-Lex, the Court's register, the Commission, the Council, the Parliament, the European Supervisory Authorities, the EDPB, the Bundesgesetzblatt and the Bundestag. The deciding sentences were read a second time in the downloaded originals before anything was written on the site. Two pages block scripts and were read in a browser: the Court's register entry for C-703/25 P (status "Pending") and the Council press release of 21 October 2026.
 - **Links.** Every source URL on the site was fetched on 20 November 2026. All answer; the Council page answers browsers only.
 
 ## What changed on the site
@@ -50,6 +50,9 @@ Every change rests on a primary text read on 20 November 2026.
 | u09-14 | 9 | Correction | Under AI Act Article 14: the deployer must implement human oversight. | Article 14 requires the system to be designed so that people can oversee it; that is a requirement on the product, met by the provider. Article 26(2) is the deployer's duty: assign oversight to people with the competence, training and authority to do it. | AI Act, consolidated text of 27 July 2026 (EUR-Lex 02024R1689-20260727), Art. 14(1); Art. 26(2) | <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02024R1689-20260727> | 2026-11-20 |
 | u09-15 | 9 | Correction | "The high-risk AI system shall use data that is relevant, sufficiently representative, and to the best extent possible, free of errors." | "Training, validation and testing data sets shall be relevant, sufficiently representative, and to the best extent possible, free of errors and complete in view of the intended purpose." (Art. 10(3)) | AI Act, consolidated text of 27 July 2026 (EUR-Lex 02024R1689-20260727), Art. 10(3) | <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02024R1689-20260727> | 2026-11-20 |
 | u09-17 | 9 | Added | Nothing on timing. | Article 50 (tell people they are talking to an AI; label deepfakes and AI-generated content) has applied since 2 August 2026. Generative systems placed on the market before that date have until 2 December 2026 to mark their output. | AI Act, consolidated text of 27 July 2026 (EUR-Lex 02024R1689-20260727), Art. 50; Art. 111(4); Art. 113, second paragraph | <https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02024R1689-20260727> | 2026-11-20 |
+| u13-01 | 13 | Correction | The page said "All 20 questions answered" but held 7 cards. Two of them (M2, M9) had no model answer, the scorecard listed two trap questions (M4, M7) that were not on the page, and the test could never be completed. | 15 questions: four calibration questions, then M1 to M11. M3 to M8, M10 and M11 were written new; M2 and M9 received their model answers. The five career questions of the original version were removed before the site went public and stay out. The answers reflect the law as of 20 November 2026 (for example, the bias-testing rule is cited as AI Act Article 4a). | none (wording) | n/a | 2026-11-20 |
+| u13-02 | 13 | Correction | If data was shared with third parties, notify them (Art. 17(2)). | The duty to tell each recipient the data was disclosed to is Article 19. Article 17(2) covers a narrower case: data the controller made public. | GDPR, Regulation (EU) 2016/679, Art. 19; Art. 17(2) | <https://eur-lex.europa.eu/eli/reg/2016/679/oj> | 2026-11-20 |
+| u13-03 | 13 | Wording | Physical location, legal jurisdiction, operational control. | Legal (whose laws apply), infrastructure (who owns and runs the servers), political (can a foreign government demand access): the names chapter 8 teaches. The same wording is now in the inventory item "Data Sovereignty (3D)". | none (wording) | n/a | 2026-11-20 |
 <!-- TABLE:END -->
 
 ## Checked and left as it was
@@ -86,24 +89,11 @@ Searched: all 14 chapters, `index.html`, `nav-inject.js`, `systems/*.js` (loot, 
 | Chapter 5 | Same Article 10(5), "(aa)" and "Feature Mart" points as chapter 9; no date for Article 10 | Corrected and dated (u05-01 to u05-04) |
 | Chapter 4, closing line | Mentions "GDPR, EU AI Act" as the next topic, no legal claim | None |
 | Chapter 13, calibration question 4 | Risk tiers, no dates, no article numbers that changed | None |
+| Chapter 13, question M1 | Recipients of erased data cited as GDPR Art. 17(2) | Now Art. 19 (u13-02) |
+| Chapter 13 as a whole | Announced 20 questions, held 7; could not be completed | Rebuilt to 15 with model answers (u13-01) |
 | `systems/loot-definitions.js` | "AI Act Tier Precision: Prohibited (7%), High-risk (3%)", "DORA ... Art. 28", "Cross-border ... Schrems II": all still right | None |
-| `systems/loot-definitions.js` line 506 and chapter 13 question 2 | Three sovereignty dimensions named "physical location, legal jurisdiction, operational control"; chapter 8 names them "legal, infrastructure, political" | Not changed. See open questions |
+| `systems/loot-definitions.js` line 506 and chapter 13 question 2 | Three sovereignty dimensions named "physical location, legal jurisdiction, operational control"; chapter 8 names them "legal, infrastructure, political" | Aligned on chapter 8's names (u13-03) |
 | `index.html`, `nav-inject.js`, `systems/achievements.js` | No dated or numbered legal claim | None |
-
-## Noticed and not changed
-
-These are outside "out of date or wrong in law", or are judgement calls. They are listed so nothing is hidden.
-
-1. **Chapter 13 is truncated.** The closing line says "All 20 questions answered". The page holds 7 cards: four calibration questions, then M1, M2 and M9. M2 and M9 have no model answer. The trap scorecard lists M4 and M7, which do not exist on the page. A comment in the source says a section was removed. Not rebuilt.
-2. **Sovereignty dimensions differ** between chapter 8 and chapter 13 / the loot text (see the ripple table). Neither is a legal term of art; the site should pick one.
-3. **Chapter 9 names two Scalefree people** (the co-CEO, and one team member by name) in the "company context" layer. Left as is.
-4. **Chapter 9, "Delete vs. keep".** The page says the AI Act requires keeping "audit trails of your training data". The Act requires technical documentation and logs (Arts. 11, 12, 18, 19), not keeping the training data itself, and Article 4a(1)(e) requires deleting special-category data used for bias testing. This is the subject of the paper; the chapter's framing was left alone.
-5. **Chapter 5, layer 3.** It says `record_source` + `load_date` give "full data lineage including original collection purpose". The paper's own mapping note says original purpose is not carried by the standard columns. Left alone.
-6. **Unsourced figures** in chapter 9: "~90% of Annex III high-risk AI involves personal data" and "maybe 60% of the AI Act documentation foundation". Not legal statements; left alone.
-7. **Product names** in chapters 7 and 8: Microsoft's programme is the "EU Data Boundary for the Microsoft Cloud" (not "Azure EU Data Boundary"), completed February 2025; Google calls its offer "Sovereign Cloud", a portfolio, not "Google Sovereign Cloud"; the AWS European Sovereign Cloud has been generally available since 15 January 2026. Vendor naming, not law; left alone.
-8. **Chapter 7, "Critical ICT providers ... including data consultancies serving banks".** A consultancy is an ICT third-party provider under DORA; it is "critical" only if the ESAs designate it. The card blurs the two. (Accenture, Capgemini and Tata Consultancy Services are in fact on the first list.) Left alone.
-9. **Chapter 9 still carries the label "Chapter 8.5"** in its title block and exercise banner.
-10. **Republic of Korea.** Its adequacy decision is not limited to the private sector. The site does not say otherwise; noted because older summaries do.
 
 ## Not verified, or worth watching
 
@@ -112,30 +102,6 @@ These are outside "out of date or wrong in law", or are judgement calls. They ar
 - The Council's mandate on the Digital Omnibus was read from the press release, not from the mandate text.
 - US surveillance law (FISA Section 702) may have lapsed in June 2026; this rests on a Member of Congress's statement and was not confirmed on congress.gov. Nothing about it was put on the site.
 - Whether the Commission will act on the EDPB's letter of 31 July 2026 about the EU-US framework.
-
-## Open questions for Lorenzo
-
-1. Chapter 9 names two Scalefree people. Keep the names, or replace them with roles?
-2. Chapter 13: leave it truncated, fix the count and the scorecard only, or rebuild the missing questions?
-3. Sovereignty dimensions: which set is the site's own, chapter 8's (legal, infrastructure, political) or chapter 13's (physical location, legal jurisdiction, operational control)?
-4. Deploy or not.
-
-## How the live site is deployed
-
-Checked on 20 November 2026.
-
-- The Netlify project is `datavault-foundations` (site id `b1f7439d-9aa9-4338-a096-13aa8df9325b`), publishing the repository root (`publish = "."`).
-- It is **not** wired to GitHub. Deploys are pushed by hand with the Netlify command-line tool from the main checkout. The current production deploy is dated 5 November 2026, source "cli", with no commit attached.
-- The live response headers carry three embed origins that the committed `netlify.toml` does not have (`the-workshop-garage-lorenzo.netlify.app`, `lc-fed-29f60028.netlify.app`, `127.0.0.1:8766`). They come from an uncommitted edit to `netlify.toml` in the main checkout. A deploy made from this branch as committed would drop them, and the pages that embed this site would stop loading it. Deploy from the main checkout after merging, or commit that edit first.
-- Local `main` is one commit ahead of GitHub (`c255cc7`, the "programmable matter" label rename). That commit is not on the live site either; deploying will publish it together with these updates.
-- Publishing the root also publishes `docs/`, `data/` and `tools/`. `docs/` and `inject-gamification.py` were already public this way.
-
-## Copies that will need the same changes
-
-- `~/Developer/DataVault Foundations App`: generated from this site by its `port-app.py`. Re-run the port after the merge and check that it carries `assets/updates.css`, the `<del>`/`<ins>` markers and `updates.html`.
-- `~/Developer/workshop-garage/workshop/experiences/websites/data-vault-foundations`: a copy of the site inside the workshop garage.
-- The live site itself, once the deploy is approved.
-- `~/Developer/ai-act-datavault-paper`: not a copy, but the Medium article points here; its dates should match this page (2 December 2027, 2 August 2028, 2 December 2026, 2 August 2026).
 
 ## Adding the next update
 

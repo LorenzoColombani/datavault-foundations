@@ -503,7 +503,7 @@ SV.ALL_ITEMS = {
     name: 'Data Sovereignty (3D)',
     cat: 'compliance',
     session: 12,
-    desc: 'Three dimensions: physical location, legal jurisdiction, operational control. Servers in Germany \u2260 sovereignty if provider is US-headquartered.'
+    desc: 'Three dimensions: legal (whose laws apply), infrastructure (who owns the servers), political (can a foreign government demand access). Servers in Germany \u2260 sovereignty if provider is US-headquartered.'
   },
   'dual-compliance': {
     name: 'Dual Compliance',

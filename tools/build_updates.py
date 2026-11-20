@@ -163,7 +163,7 @@ def source_links(u):
         out.append(f'<li><a href="{e(s["url"])}" target="_blank" rel="noopener">{e(s["label"])}</a>'
                    + (f' <span class="up-pin">{e(pin)}</span>' if pin else '') + '</li>')
     if not out:
-        out.append('<li>No legal source: this is a wording change on the site itself.</li>')
+        out.append('<li>No legal source: this is a change to the site itself.</li>')
     return '\n            '.join(out)
 
 

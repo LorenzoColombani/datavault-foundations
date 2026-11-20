@@ -94,6 +94,8 @@
     '  text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 4px; }',
     '.dvf-nav-bottom .dvf-nb-title { font-size: 12px; }',
     '.dvf-nav-bottom .dvf-nb-index { text-align: center; flex: 1; }',
+    '.dvf-nav-bottom a.dvf-nb-upd { display: block; margin-top: 10px; font-size: 10px; color: #c084fc; }',
+    '.dvf-nav-bottom a.dvf-nb-upd:hover { color: #e9d5ff; }',
     '',
     '.dvf-credit { text-align: center; padding: 24px 0 12px;',
     '  font-family: "Exo 2", sans-serif; font-size: 11px;',
@@ -105,9 +107,8 @@
     '@media (max-width: 600px) {',
     '  .dvf-nav-top { padding: 0 12px; }',
     '  .dvf-nav-top a { font-size: 10px; }',
-    '  .dvf-nav-top .dvf-nav-center { display: none; }',
-    '  .dvf-nav-top .dvf-nav-arrows { gap: 8px; }',
-    '  .dvf-nav-top .dvf-nav-arrows a.dvf-nav-upd { font-size: 9px; padding: 6px 8px; }',
+    // Phones keep the top bar exactly as it was; the Updates link sits in the bottom bar instead.
+    '  .dvf-nav-top .dvf-nav-arrows a.dvf-nav-upd { display: none; }',
     '  .dvf-nav-bottom { flex-direction: column; text-align: center; }',
     '  .dvf-nav-bottom .dvf-nb-prev,',
     '  .dvf-nav-bottom .dvf-nb-next { max-width: 100%; }',
@@ -210,6 +211,8 @@
 
   var indexDiv = makeEl('div', 'dvf-nb-index');
   indexDiv.appendChild(makeLink('../index.html', 'Back to Index'));
+  var updBottom = makeLink('../updates.html', 'Updates · law as of ' + LAW_AS_OF, 'dvf-nb-upd');
+  indexDiv.appendChild(updBottom);
   bottomNav.appendChild(indexDiv);
 
   var nextDiv = makeEl('div', 'dvf-nb-next');

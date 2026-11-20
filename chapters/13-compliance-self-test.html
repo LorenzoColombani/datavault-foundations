@@ -1305,6 +1305,7 @@ body::before {
   margin-bottom: 0.5rem;
 }
 </style>
+<link rel="stylesheet" href="../assets/updates.css">
 </head>
 <body data-chapter="13" style="padding-top: 52px;">
 <canvas id="particle-field"></canvas>
@@ -1369,6 +1370,11 @@ body::before {
     <span class="meta-chip">Trap Questions</span>
     <span class="meta-chip">Key Concepts</span>
   </div>
+  <div class="dvf-review" id="law-review">
+    <span class="dvf-review-dot"></span>
+    <div><span class="dvf-review-date">Law as of 20 November 2026</span>First published in March 2026. Checked against the law again on 20 November 2026: <strong><span data-upd-count>3</span> passages were updated</strong>. Each one is marked <span class="dvf-upd-tag">Updated</span> and keeps the earlier text. <a href="../updates.html#ch13">See every change, with sources</a></div>
+  </div>
+
 </div>
 
 
@@ -1477,11 +1483,19 @@ body::before {
       <div class="model-answer">
         <div class="model-answer-label">MODEL ANSWER</div>
         <ol>
-          <li><strong>Physical location</strong> &mdash; where the servers physically sit.</li>
-          <li><strong>Legal jurisdiction</strong> &mdash; whose laws apply to the data.</li>
-          <li><strong>Operational control</strong> &mdash; who can actually access or command the data (the CLOUD Act problem: US law can compel US-headquartered companies to hand over data stored anywhere in the world).</li>
+          <li><strong>Legal</strong> &mdash; whose laws apply to the data.</li>
+          <li><strong>Infrastructure</strong> &mdash; who owns and operates the servers.</li>
+          <li><strong>Political</strong> &mdash; can a foreign government demand access (the CLOUD Act problem: US law can compel US-headquartered companies to hand over data stored anywhere in the world).</li>
         </ol>
-        <p><strong>Key insight:</strong> putting servers in Germany doesn&rsquo;t solve operational control if the cloud provider is US-headquartered.</p>
+        <p><strong>Key insight:</strong> putting servers in Germany doesn&rsquo;t settle the political question if the cloud provider is US-headquartered.</p>
+        <div class="dvf-upd" id="u13-03" data-upd="u13-03">
+  <div class="dvf-upd-head"><span class="dvf-upd-tag">Updated 20 Nov 2026</span><span class="dvf-upd-kind">Wording</span></div>
+  <div class="dvf-upd-now"><p>The three names above are now the ones chapter 8 teaches: legal, infrastructure, political.</p></div>
+  <details class="dvf-upd-was"><summary>What this page said before</summary>
+    <div class="dvf-upd-old"><p>Physical location (where the servers physically sit), legal jurisdiction (whose laws apply), operational control (who can actually access or command the data). Same idea, different labels from the lesson.</p></div>
+    <p class="dvf-upd-src">Source: chapter 8, Data Sovereignty &middot; <a href="../updates.html#u13-03">all updates</a></p>
+  </details>
+</div>
       </div>
       <div class="confidence-check">
         <span class="confidence-label">HOW CONFIDENT?</span>
@@ -1570,6 +1584,15 @@ body::before {
     <p class="hook-text">the examiner pushes for <em>reasoning</em>, not recitation. He wants to see how you <em>think through</em> a problem, not what you memorized.</p>
   </div>
 
+  <div class="dvf-upd" id="u13-01" data-upd="u13-01">
+  <div class="dvf-upd-head"><span class="dvf-upd-tag">Updated 20 Nov 2026</span><span class="dvf-upd-kind">Site fix</span></div>
+  <div class="dvf-upd-now"><p><strong>This self-test is now complete: 15 questions.</strong> Four calibration questions, then M1 to M11. Questions M3 to M8, M10 and M11 were missing and have been written; M2 and M9 had no model answer and now have one. The answers reflect the law as of 20 November 2026.</p></div>
+  <details class="dvf-upd-was"><summary>What this page said before</summary>
+    <div class="dvf-upd-old"><p>The page announced &ldquo;All 20 questions&rdquo; but held 7 cards. M2 and M9 had no model answer, the scorecard listed two trap questions (M4, M7) that were not on the page, and the test could never be finished. Five of the original twenty were career questions, removed before the site went public; they are not coming back.</p></div>
+    <p class="dvf-upd-src">Source: the site itself &middot; <a href="../updates.html#u13-01">all updates</a></p>
+  </details>
+</div>
+
   <!-- M1: GDPR Erasure Workflow -->
   <div class="question-card" id="m1-card">
     <div class="examiner-badge">
@@ -1591,7 +1614,7 @@ body::before {
           <li><strong>Map the data across layers:</strong> Staging &rarr; Raw Vault (Hub + PII Satellite) &rarr; Business Vault (derived calculations) &rarr; Information Marts (row-level reports) &rarr; Backups.</li>
           <li><strong>Execute:</strong> DELETE from PII Satellite rows for this hash key + INSERT tombstone record (audit trail without retaining PII). Hub can stay if business key is non-PII; requires Artificial Hub pattern if business key is PII.</li>
           <li><strong>Document everything:</strong> What was deleted, from where, when, who authorized it, under which request ID.</li>
-          <li><strong>Third-party notification:</strong> If data was shared with third parties, notify them (Art. 17(2)).</li>
+          <li><strong>Third-party notification:</strong> If data was shared with third parties, notify them (<span class="dvf-upd-i" id="u13-02" data-upd="u13-02"><del>Art. 17(2)</del> <ins>Art. 19; Art. 17(2) covers the case where the data was made public</ins><a class="dvf-upd-chip" href="../updates.html#u13-02" title="Updated 20 Nov 2026: see what changed and the source">Updated</a></span>).</li>
         </ol>
         <p><strong>Follow-up insight:</strong> The hardest part in practice is data lineage &mdash; knowing where ALL copies live. Without a data catalog, you can&rsquo;t find the backups, the marts, the derived tables.</p>
       </div>
@@ -1617,7 +1640,224 @@ body::before {
     <div class="question-actions">
       <button class="submit-btn" id="m2-btn" onclick="submitAnswer('m2')">SUBMIT ANSWER</button>
     </div>
+    <div class="answer-reveal" id="m2-reveal" style="display:none;">
+      <div class="trap-reveal">
+        <div class="trap-badge">TRAP QUESTION</div>
+        <div class="trap-wrong">
+          <div class="trap-wrong-label">THE TEMPTING ANSWER</div>
+          <p>&ldquo;No. A hash cannot be reversed, so a hash key is anonymous.&rdquo;</p>
+        </div>
+        <div class="trap-correct">
+          <div class="trap-correct-label">THE BETTER ANSWER</div>
+          <p>It depends on what was hashed. If the business key is itself personal (an email address, a name), the hash key is <strong>pseudonymised</strong> data, and pseudonymised data is still personal data: anyone who has the email and knows the algorithm can recompute the hash and find the person (GDPR Art. 4(5) and recital 26).</p>
+          <p>So keeping the hash after deleting the email does not make the person forgotten. If the business key is not personal (a product code, or the random key of an Artificial Hub), its hash is not personal data either. Chapter 5 covers both cases.</p>
+        </div>
+      </div>
+      <div class="confidence-check">
+        <span class="confidence-label">HOW CONFIDENT?</span>
+        <button class="conf-btn" onclick="setConfidence('m2','gut')">Gut</button>
+        <button class="conf-btn" onclick="setConfidence('m2','confident')">Confident</button>
+        <button class="conf-btn" onclick="setConfidence('m2','locked')">Locked In</button>
+      </div>
+    </div>
   </div> <!-- close m2 question-card -->
+
+  <div class="question-card" id="m3-card">
+    <div class="examiner-badge">
+      <span class="examiner-icon tech-icon">M</span>
+      <span class="examiner-name">a senior consultant</span>
+      <span class="q-tier q-core">CORE</span>
+    </div>
+    <div class="q-counter">M3 &mdash; RECONSTRUCTING A MOMENT</div>
+    <div class="q-text">&ldquo;A bank&rsquo;s supervisor asks: at 09:45 on the day of the outage, what did your position data look like? How does a Data Vault answer?&rdquo;</div>
+    <textarea class="question-input" id="m3-input" rows="8" placeholder="Which columns, which design choice, which limits..."></textarea>
+    <div class="question-actions">
+      <button class="submit-btn" id="m3-btn" onclick="submitAnswer('m3')">SUBMIT ANSWER</button>
+    </div>
+    <div class="answer-reveal" id="m3-reveal" style="display:none;">
+      <div class="model-answer">
+        <div class="model-answer-label">MODEL ANSWER</div>
+        <ol>
+          <li><strong>Time:</strong> every Satellite row carries a <code>load_date</code> and nothing is updated in place. The state at 09:45 is, for each key, the latest row loaded at or before 09:45.</li>
+          <li><strong>Origin:</strong> <code>record_source</code> on every row says which system delivered it, so an odd value can be traced back to where it came from.</li>
+          <li><strong>Evidence:</strong> loading is insert-only, so a later load cannot have overwritten what the warehouse knew at 09:45.</li>
+          <li><strong>Speed:</strong> across many Satellites, a point-in-time (PIT) table in the Business Vault makes that query fast.</li>
+        </ol>
+        <p><strong>Say the limit out loud:</strong> <code>load_date</code> is when the warehouse received the data, not when the event happened in the source system. Under DORA the question usually comes with an incident report (Articles 17 to 19); the vault supplies the evidence, it does not write the report.</p>
+      </div>
+      <div class="confidence-check">
+        <span class="confidence-label">HOW CONFIDENT?</span>
+        <button class="conf-btn" onclick="setConfidence('m3','gut')">Gut</button>
+        <button class="conf-btn" onclick="setConfidence('m3','confident')">Confident</button>
+        <button class="conf-btn" onclick="setConfidence('m3','locked')">Locked In</button>
+      </div>
+    </div>
+  </div> <!-- close m3 question-card -->
+
+  <div class="question-card" id="m4-card">
+    <div class="examiner-badge">
+      <span class="examiner-icon tech-icon">M</span>
+      <span class="examiner-name">a senior consultant</span>
+      <span class="q-tier q-core">CORE</span>
+    </div>
+    <div class="q-counter">M4</div>
+    <div class="q-text">&ldquo;Where do business rules get applied?&rdquo;</div>
+    <textarea class="question-input" id="m4-input" rows="6" placeholder="One word is not enough here..."></textarea>
+    <div class="question-actions">
+      <button class="submit-btn" id="m4-btn" onclick="submitAnswer('m4')">SUBMIT ANSWER</button>
+    </div>
+    <div class="answer-reveal" id="m4-reveal" style="display:none;">
+      <div class="trap-reveal">
+        <div class="trap-badge">TRAP QUESTION</div>
+        <div class="trap-wrong">
+          <div class="trap-wrong-label">THE TEMPTING ANSWER</div>
+          <p>&ldquo;On the way in. Clean and fix the data while loading it, so the vault only holds good data.&rdquo;</p>
+        </div>
+        <div class="trap-correct">
+          <div class="trap-correct-label">THE BETTER ANSWER</div>
+          <p>Not on the way in. The Raw Vault stores what the source delivered, changed only in structure (hash keys, data types). That is what makes it auditable.</p>
+          <p>Business rules (calculations, matching logic, what counts as an &ldquo;active customer&rdquo;) run afterwards, in the <strong>Business Vault</strong> and the Information Marts. There they can be changed and re-run without reloading anything, and if a rule turns out to be wrong the raw history is still there to compute from.</p>
+        </div>
+      </div>
+      <div class="confidence-check">
+        <span class="confidence-label">HOW CONFIDENT?</span>
+        <button class="conf-btn" onclick="setConfidence('m4','gut')">Gut</button>
+        <button class="conf-btn" onclick="setConfidence('m4','confident')">Confident</button>
+        <button class="conf-btn" onclick="setConfidence('m4','locked')">Locked In</button>
+      </div>
+    </div>
+  </div> <!-- close m4 question-card -->
+
+  <div class="question-card" id="m5-card">
+    <div class="examiner-badge">
+      <span class="examiner-icon tech-icon">M</span>
+      <span class="examiner-name">a senior consultant</span>
+      <span class="q-tier q-core">CORE</span>
+    </div>
+    <div class="q-counter">M5 &mdash; BIAS TESTING AND SENSITIVE DATA</div>
+    <div class="q-text">&ldquo;A bias audit of a credit-scoring model needs ethnicity data. GDPR Article 9 forbids processing it. How do the two laws fit together, and where does that data live in the vault?&rdquo;</div>
+    <textarea class="question-input" id="m5-input" rows="9" placeholder="Which article opens the door, on what conditions, and what the architecture must be able to do..."></textarea>
+    <div class="question-actions">
+      <button class="submit-btn" id="m5-btn" onclick="submitAnswer('m5')">SUBMIT ANSWER</button>
+    </div>
+    <div class="answer-reveal" id="m5-reveal" style="display:none;">
+      <div class="model-answer">
+        <div class="model-answer-label">MODEL ANSWER</div>
+        <ol>
+          <li><strong>Both laws apply at once.</strong> The AI Act does not switch the GDPR off.</li>
+          <li><strong>The door:</strong> AI Act Article 4a (it was Article 10(5) until July 2026) allows special category data for detecting and correcting bias, only where strictly necessary and only when anonymised or synthetic data will not do.</li>
+          <li><strong>The conditions:</strong> strict access controls with a record of who looked, pseudonymisation, no passing the data to other parties, deletion once the bias is corrected or the retention period ends, and the reasons written into the GDPR records of processing.</li>
+          <li><strong>In the vault:</strong> sensitive attributes sit in their own Satellite with their own access rights and retention. Profiling queries run on the Business Vault. What is kept afterwards is the audit result (aggregate figures), not the sensitive rows.</li>
+          <li><strong>Who decides:</strong> the DPO and legal team decide whether the conditions are met. The consultant makes sure the architecture can honour the answer, deletion included.</li>
+        </ol>
+      </div>
+      <div class="confidence-check">
+        <span class="confidence-label">HOW CONFIDENT?</span>
+        <button class="conf-btn" onclick="setConfidence('m5','gut')">Gut</button>
+        <button class="conf-btn" onclick="setConfidence('m5','confident')">Confident</button>
+        <button class="conf-btn" onclick="setConfidence('m5','locked')">Locked In</button>
+      </div>
+    </div>
+  </div> <!-- close m5 question-card -->
+
+  <div class="question-card" id="m6-card">
+    <div class="examiner-badge">
+      <span class="examiner-icon tech-icon">M</span>
+      <span class="examiner-name">a senior consultant</span>
+      <span class="q-tier q-core">CORE</span>
+    </div>
+    <div class="q-counter">M6 &mdash; &ldquo;OUR DATA IS IN FRANKFURT&rdquo;</div>
+    <div class="q-text">&ldquo;A client says: our data sits in a Frankfurt data centre, so we are sovereign. What do you answer?&rdquo;</div>
+    <textarea class="question-input" id="m6-input" rows="8" placeholder="Location is one question. What are the others?"></textarea>
+    <div class="question-actions">
+      <button class="submit-btn" id="m6-btn" onclick="submitAnswer('m6')">SUBMIT ANSWER</button>
+    </div>
+    <div class="answer-reveal" id="m6-reveal" style="display:none;">
+      <div class="model-answer">
+        <div class="model-answer-label">MODEL ANSWER</div>
+        <ol>
+          <li><strong>Location is one question of three</strong> (chapter 8): <em>legal</em>, whose laws apply to the data; <em>infrastructure</em>, who owns and runs the servers; <em>political</em>, can a foreign government demand access.</li>
+          <li><strong>A US provider&rsquo;s Frankfurt region</strong> answers the first in part and not the other two: the US CLOUD Act reaches data in a US provider&rsquo;s possession, custody or control wherever it is stored.</li>
+          <li><strong>Transfers still need a legal tool:</strong> an adequacy decision (for the US, the Data Privacy Framework, valid today and under challenge), or standard contractual clauses with a transfer impact assessment.</li>
+          <li><strong>Advice:</strong> treat the choice of provider as a legal decision, and keep the model portable so the data can move if a framework falls. Data Vault is a method, not a platform, which helps.</li>
+        </ol>
+      </div>
+      <div class="confidence-check">
+        <span class="confidence-label">HOW CONFIDENT?</span>
+        <button class="conf-btn" onclick="setConfidence('m6','gut')">Gut</button>
+        <button class="conf-btn" onclick="setConfidence('m6','confident')">Confident</button>
+        <button class="conf-btn" onclick="setConfidence('m6','locked')">Locked In</button>
+      </div>
+    </div>
+  </div> <!-- close m6 question-card -->
+
+  <div class="question-card" id="m7-card">
+    <div class="examiner-badge">
+      <span class="examiner-icon tech-icon">M</span>
+      <span class="examiner-name">a senior consultant</span>
+      <span class="q-tier q-core">CORE</span>
+    </div>
+    <div class="q-counter">M7</div>
+    <div class="q-text">&ldquo;Can you delete a Hub row for GDPR?&rdquo;</div>
+    <textarea class="question-input" id="m7-input" rows="6" placeholder="Yes? No? Or a better question first..."></textarea>
+    <div class="question-actions">
+      <button class="submit-btn" id="m7-btn" onclick="submitAnswer('m7')">SUBMIT ANSWER</button>
+    </div>
+    <div class="answer-reveal" id="m7-reveal" style="display:none;">
+      <div class="trap-reveal">
+        <div class="trap-badge">TRAP QUESTION</div>
+        <div class="trap-wrong">
+          <div class="trap-wrong-label">THE TEMPTING ANSWER</div>
+          <p>&ldquo;No. Hubs are insert-only, you never delete from a Data Vault.&rdquo; Or the opposite: &ldquo;Yes, just delete the row.&rdquo;</p>
+        </div>
+        <div class="trap-correct">
+          <div class="trap-correct-label">THE BETTER ANSWER</div>
+          <p>Ask first what the Hub row holds: only the business key. If that key is not personal, you do not need to touch the Hub. Delete the person&rsquo;s rows in the PII Satellite, leave the Hub and its Links, and write a tombstone record so the erasure itself is documented.</p>
+          <p>If the key <em>is</em> personal (an email, a name), the Hub row and the hash key derived from it are personal data too, and removing them breaks every Link that points there. That is why the fix is made at design time: an <strong>Artificial Hub</strong>, with a random key in the Hub and the real identifier in a PII Satellite.</p>
+          <p>&ldquo;Insert-only&rdquo; is a loading rule, not a legal exemption. Erasure is the one deliberate, documented exception to it.</p>
+        </div>
+      </div>
+      <div class="confidence-check">
+        <span class="confidence-label">HOW CONFIDENT?</span>
+        <button class="conf-btn" onclick="setConfidence('m7','gut')">Gut</button>
+        <button class="conf-btn" onclick="setConfidence('m7','confident')">Confident</button>
+        <button class="conf-btn" onclick="setConfidence('m7','locked')">Locked In</button>
+      </div>
+    </div>
+  </div> <!-- close m7 question-card -->
+
+  <div class="question-card" id="m8-card">
+    <div class="examiner-badge">
+      <span class="examiner-icon tech-icon">M</span>
+      <span class="examiner-name">a senior consultant</span>
+      <span class="q-tier q-core">CORE</span>
+    </div>
+    <div class="q-counter">M8 &mdash; THE AUDITOR&rsquo;S FINGER</div>
+    <div class="q-text">&ldquo;An auditor points at one number in a regulatory report and asks: where does this come from? Walk through your answer.&rdquo;</div>
+    <textarea class="question-input" id="m8-input" rows="8" placeholder="From the report back to the source system, layer by layer..."></textarea>
+    <div class="question-actions">
+      <button class="submit-btn" id="m8-btn" onclick="submitAnswer('m8')">SUBMIT ANSWER</button>
+    </div>
+    <div class="answer-reveal" id="m8-reveal" style="display:none;">
+      <div class="model-answer">
+        <div class="model-answer-label">MODEL ANSWER</div>
+        <ol>
+          <li><strong>From the report to the rule:</strong> which Business Vault objects feed the figure, and which rule computed it. Rules are code, kept under version control.</li>
+          <li><strong>From the rule to the raw rows:</strong> the Satellite rows it used, each with its <code>load_date</code> and <code>record_source</code>.</li>
+          <li><strong>From the raw rows to the source:</strong> <code>record_source</code> names the system; staging shows what arrived.</li>
+          <li><strong>Then, not only now:</strong> append-only Satellites show what the value was on the reporting date, not just what it is today.</li>
+          <li><strong>Who could see it:</strong> personal data sits in PII Satellites with restricted access.</li>
+        </ol>
+        <p>Audit frameworks (ISO 27001, SOC 2, ISAE 3402) ask for evidence that controls ran over time. The vault&rsquo;s own metadata is that evidence.</p>
+      </div>
+      <div class="confidence-check">
+        <span class="confidence-label">HOW CONFIDENT?</span>
+        <button class="conf-btn" onclick="setConfidence('m8','gut')">Gut</button>
+        <button class="conf-btn" onclick="setConfidence('m8','confident')">Confident</button>
+        <button class="conf-btn" onclick="setConfidence('m8','locked')">Locked In</button>
+      </div>
+    </div>
+  </div> <!-- close m8 question-card -->
 </div> <!-- close section 3 (technical) -->
     <!-- ═══════════════════════════════════════════════════════════════════════
      SECTION 4 — CAREER AND CULTURE (removed)
@@ -1649,7 +1889,95 @@ body::before {
     <div class="question-actions">
       <button class="submit-btn edge-btn" id="m9-btn" onclick="submitAnswer('m9')">SUBMIT ANSWER</button>
     </div>
+    <div class="answer-reveal" id="m9-reveal" style="display:none;">
+      <div class="trap-reveal">
+        <div class="trap-badge">TRAP QUESTION</div>
+        <div class="trap-wrong">
+          <div class="trap-wrong-label">THE TEMPTING ANSWER</div>
+          <p>&ldquo;Yes, it is a kind of data warehouse database, like Snowflake.&rdquo;</p>
+        </div>
+        <div class="trap-correct">
+          <div class="trap-correct-label">THE BETTER ANSWER</div>
+          <p>No. Data Vault is a way of modelling and loading a data warehouse: Hubs, Links and Satellites, standard loading patterns, and layers. It runs <em>on</em> a database (Snowflake, BigQuery, SQL Server and others) and is built with tools such as dbt.</p>
+          <p>Because it is a method and not a product, the same model can move from one platform to another. That portability is part of its value when sovereignty or cloud switching is on the table.</p>
+        </div>
+      </div>
+      <div class="confidence-check">
+        <span class="confidence-label">HOW CONFIDENT?</span>
+        <button class="conf-btn" onclick="setConfidence('m9','gut')">Gut</button>
+        <button class="conf-btn" onclick="setConfidence('m9','confident')">Confident</button>
+        <button class="conf-btn" onclick="setConfidence('m9','locked')">Locked In</button>
+      </div>
+    </div>
   </div> <!-- close m9 question-card -->
+
+  <div class="question-card" id="m10-card">
+    <div class="examiner-badge">
+      <span class="examiner-icon tech-icon">M</span>
+      <span class="examiner-name">a senior consultant</span>
+      <span class="q-tier q-core">CORE</span>
+    </div>
+    <div class="q-counter">M10 &mdash; DOCUMENT OR DELETE</div>
+    <div class="q-text">&ldquo;The AI Act asks you to document the data a high-risk model was trained on. A customer then asks to be erased under GDPR. Which law wins?&rdquo;</div>
+    <textarea class="question-input" id="m10-input" rows="8" placeholder="Is it really a contest?"></textarea>
+    <div class="question-actions">
+      <button class="submit-btn edge-btn" id="m10-btn" onclick="submitAnswer('m10')">SUBMIT ANSWER</button>
+    </div>
+    <div class="answer-reveal" id="m10-reveal" style="display:none;">
+      <div class="model-answer">
+        <div class="model-answer-label">MODEL ANSWER</div>
+        <ol>
+          <li><strong>Neither wins.</strong> Both must be met, and they ask for different things.</li>
+          <li><strong>What the AI Act wants kept</strong> is documentation and logs: where the data came from, how it was prepared, what was checked (Articles 10 to 12). It does not ask you to keep each person&rsquo;s record for ever.</li>
+          <li><strong>What the GDPR wants gone</strong> is the person&rsquo;s identifying data: delete the PII Satellite rows and write a tombstone record.</li>
+          <li><strong>What may stay</strong> is whatever identifies nobody: the description of the data set, aggregate statistics, the fact and date of the erasure.</li>
+          <li><strong>The model itself:</strong> whether it must be retrained is a legal and technical judgement that the courts have not settled. Record the decision and the reasons.</li>
+        </ol>
+        <p>One case is already decided by the text: special category data used for bias testing must be deleted once the bias is corrected (AI Act Article 4a(1)(e)).</p>
+      </div>
+      <div class="confidence-check">
+        <span class="confidence-label">HOW CONFIDENT?</span>
+        <button class="conf-btn" onclick="setConfidence('m10','gut')">Gut</button>
+        <button class="conf-btn" onclick="setConfidence('m10','confident')">Confident</button>
+        <button class="conf-btn" onclick="setConfidence('m10','locked')">Locked In</button>
+      </div>
+    </div>
+  </div> <!-- close m10 question-card -->
+
+  <div class="question-card" id="m11-card">
+    <div class="examiner-badge">
+      <span class="examiner-icon tech-icon">M</span>
+      <span class="examiner-name">a senior consultant</span>
+      <span class="q-tier q-core">CORE</span>
+    </div>
+    <div class="q-counter">M11 &mdash; ARE YOU DONE?</div>
+    <div class="q-text">&ldquo;You deleted the customer&rsquo;s rows from the PII Satellite. Are you done?&rdquo;</div>
+    <textarea class="question-input" id="m11-input" rows="8" placeholder="Where else does the data live?"></textarea>
+    <div class="question-actions">
+      <button class="submit-btn edge-btn" id="m11-btn" onclick="submitAnswer('m11')">SUBMIT ANSWER</button>
+    </div>
+    <div class="answer-reveal" id="m11-reveal" style="display:none;">
+      <div class="model-answer">
+        <div class="model-answer-label">MODEL ANSWER</div>
+        <p>No. The Satellite is where the data is easiest to find, not the only place it lives.</p>
+        <ol>
+          <li><strong>Information Marts</strong> built from that Satellite: rebuild or refresh them.</li>
+          <li><strong>Business Vault tables</strong> that carry values derived from the person&rsquo;s data.</li>
+          <li><strong>Staging and landed files:</strong> source extracts that were kept.</li>
+          <li><strong>The hash key:</strong> if it was derived from a personal business key, it is still personal data (see M2).</li>
+          <li><strong>Backups:</strong> they cannot be edited row by row. Document their retention period and make sure a restore re-applies the erasure.</li>
+          <li><strong>Recipients:</strong> tell everyone the data was disclosed to (GDPR Art. 19).</li>
+          <li><strong>The record:</strong> keep what was done, when and on whose authority, without keeping the data.</li>
+        </ol>
+      </div>
+      <div class="confidence-check">
+        <span class="confidence-label">HOW CONFIDENT?</span>
+        <button class="conf-btn" onclick="setConfidence('m11','gut')">Gut</button>
+        <button class="conf-btn" onclick="setConfidence('m11','confident')">Confident</button>
+        <button class="conf-btn" onclick="setConfidence('m11','locked')">Locked In</button>
+      </div>
+    </div>
+  </div> <!-- close m11 question-card -->
 </div> <!-- close section 5 (edge cases) -->
     <!-- ═══════════════════════════════════════════════════════════════════════
      SECTION 6 — DEBRIEF
@@ -1714,7 +2042,7 @@ body::before {
 
   <!-- Completion Banner -->
   <div class="completion-banner" id="completion-banner" style="display:none;">
-    Self-test complete. All 20 questions answered.
+    Self-test complete. All 15 questions answered.
   </div>
 
 </div>
@@ -2278,7 +2606,6 @@ var TUTORIAL_12_OBJECTIVES = [
   { id: 'briefing',       label: 'The Briefing',         sectionId: 's1' },
   { id: 'calibration',    label: 'Calibration Round',    sectionId: 's2' },
   { id: 'technical-technical', label: 'the examiner: Technical',      sectionId: 's3' },
-  { id: 'career-culture',  label: 'Career and Culture',       sectionId: 's4' },
   { id: 'edge-cases',      label: 'the examiner: Edge Cases',     sectionId: 's5' },
   { id: 'debrief',        label: 'Debrief',              sectionId: 's6' }
 ];
@@ -2314,7 +2641,6 @@ var confidenceLog = {};
 var ALL_QUESTION_IDS = [
   'cal1', 'cal2', 'cal3', 'cal4',
   'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8',
-  'a1', 'a2', 'a3', 'a4', 'a5',
   'm9', 'm10', 'm11'
 ];
 
@@ -2405,11 +2731,6 @@ function checkQuestProgress() {
   if (submitted.m1 && submitted.m2 && submitted.m3 && submitted.m4 &&
       submitted.m5 && submitted.m6 && submitted.m7 && submitted.m8) {
     SV.questLog.complete('technical-technical');
-  }
-
-  /* Career and Culture: A1-A5 all submitted */
-  if (submitted.a1 && submitted.a2 && submitted.a3 && submitted.a4 && submitted.a5) {
-    SV.questLog.complete('career-culture');
   }
 
   /* the examiner Edge: M9-M11 all submitted */
