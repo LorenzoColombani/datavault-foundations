@@ -125,7 +125,7 @@
       "law_date": "27 July 2026",
       "title": "The bias-testing exception moved from Article 10(5) to Article 4a, and now reaches deployers",
       "was": "Article 10(5) creates a limited exception to GDPR's prohibition on processing special category data. Providers of high-risk AI may process this data for bias detection and correction.",
-      "now": "Article 4a creates the exception. Until July 2026 it was Article 10(5) and covered only providers of high-risk AI. The amendment moved it to Article 4a and opened it, on the same six conditions, to deployers of high-risk AI and to providers and deployers of other AI systems and models. Deletion is due once the bias is corrected or the retention period ends, whichever comes first.",
+      "now": "Article 4a creates the exception. Until July 2026 it was Article 10(5) and covered only providers of high-risk AI. The amendment moved it to Article 4a and opened it, on the same six conditions, to deployers of high-risk AI and to providers and deployers of other AI systems and models. Deletion is due once the bias is corrected or the retention period ends, whichever comes first. Paragraph 2 applies only where the testing is strictly necessary to tackle bias likely to affect health, safety or fundamental rights, or to cause unlawful discrimination.",
       "where": "AI Act section, layer 4",
       "sources": [
         [
@@ -414,7 +414,7 @@
       "title": "Social scoring is banned for everyone, not only for governments",
       "was": "Social scoring by a government (rating citizens' behavior to restrict services) is banned outright. Quiz feedback said the Act bans social scoring \"by public authorities\".",
       "now": "The ban in Article 5(1)(c) covers any AI system that scores people on their social behaviour or personal traits and then treats them worse in an unrelated setting or out of proportion. It applies to public bodies and private companies alike. The feedback texts of Exercise 1 were corrected to match.",
-      "where": "Risk tiers, layer 2; Exercise 1 feedback",
+      "where": "Risk tiers, layer 2; Exercise 1 (note under the title, and the feedback texts)",
       "sources": [
         [
           "AIA",
@@ -563,7 +563,7 @@
       "law_date": "27 July 2026",
       "title": "Article 10(5) was deleted; the rule is now Article 4a and reaches deployers",
       "was": "Article 10(5) opens a narrow door: you can process special category data for bias detection. Article 10(5) is the legal basis.",
-      "now": "Article 4a(1) carries the same six conditions that Article 10(5) had, for providers of high-risk systems. Article 4a(2) opens the same door, on the same conditions, to deployers of high-risk systems and to providers and deployers of other AI systems and models, and creates no duty to run such tests. Recital 9 of the amending regulation ties the exception to GDPR Art. 9(2)(g); whether it can stand alone as a legal basis is still debated among scholars.",
+      "now": "Article 4a(1) carries the same six conditions that Article 10(5) had, for providers of high-risk systems. Article 4a(2) opens the same door, on the same conditions, to deployers of high-risk systems and to providers and deployers of other AI systems and models, and creates no duty to run such tests. Recital 9 of the amending regulation ties the exception to GDPR Art. 9(2)(g); whether it can stand alone as a legal basis is still debated among scholars. Paragraph 2 applies only where the testing is strictly necessary to tackle bias likely to affect health, safety or fundamental rights, or to cause unlawful discrimination.",
       "where": "Article 10, layer 4; dual compliance, card 1",
       "sources": [
         [
@@ -618,7 +618,7 @@
       "title": "Human oversight: Article 14 for the system, Article 26(2) for the deployer",
       "was": "Under AI Act Article 14: the deployer must implement human oversight.",
       "now": "Article 14 requires the system to be designed so that people can oversee it; that is a requirement on the product, met by the provider. Article 26(2) is the deployer's duty: assign oversight to people with the competence, training and authority to do it.",
-      "where": "Dual compliance, card 2; Exercise 3 worked example and reference answer",
+      "where": "Dual compliance, card 2; Exercise 3 worked example and reference answer (note under the answer)",
       "sources": [
         [
           "AIA",
@@ -662,7 +662,7 @@
       "kind": "fix",
       "title": "The self-test now holds the questions it announces: 15, all with a model answer",
       "was": "The page said \"All 20 questions answered\" but held 7 cards. Two of them (M2, M9) had no model answer, the scorecard listed two trap questions (M4, M7) that were not on the page, and the test could never be completed. The question cards also showed without their styling: a cut-off line in the page's stylesheet made browsers ignore everything after it.",
-      "now": "15 questions: four calibration questions, then M1 to M11. M3 to M8, M10 and M11 were written new; M2 and M9 received their model answers. The five career questions of the original version were removed before the site went public and stay out. The stylesheet is repaired, so the cards, buttons and trap reveals look as designed. The answers reflect the law as of 20 November 2026 (for example, the bias-testing rule is cited as AI Act Article 4a).",
+      "now": "15 questions: four calibration questions, then M1 to M11. M3 to M8, M10 and M11 were written new; M2 and M9 received their model answers. The other five questions of the original set were not about compliance and are not part of this site. The stylesheet is repaired, so the cards, buttons and trap reveals look as designed. The answers reflect the law as of 20 November 2026 (for example, the bias-testing rule is cited as AI Act Article 4a).",
       "where": "Sections \"Technical compliance\" and \"Integration and edge cases\"; closing line; progress logic; the page's stylesheet",
       "sources": []
     },
@@ -687,7 +687,7 @@
       "kind": "word",
       "title": "One set of names for the three sovereignty questions",
       "was": "Physical location, legal jurisdiction, operational control.",
-      "now": "Legal (whose laws apply), infrastructure (who owns and runs the servers), political (can a foreign government demand access): the names chapter 8 teaches. The same wording is now in the inventory item \"Data Sovereignty (3D)\". The three-way split is this site's own teaching frame: it is not a legal standard and not part of the Data Vault method, and other sources divide the idea differently.",
+      "now": "Legal (whose laws apply), infrastructure (who owns and runs the servers), political (can a foreign government demand access): the names chapter 8 teaches. The same wording is now in the two inventory items \"Data Sovereignty\" and \"Data Sovereignty (3D)\". The three-way split is this site's own teaching frame: it is not a legal standard and not part of the Data Vault method, and other sources divide the idea differently.",
       "where": "Calibration question 2, model answer; inventory text",
       "sources": []
     }

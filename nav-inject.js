@@ -130,6 +130,7 @@
   var updLink = makeLink('../updates.html', 'Updates', 'dvf-nav-upd',
     'What changed on this site, and when');
   if (isLawChapter) {
+    updLink.appendChild(document.createTextNode(' '));
     updLink.appendChild(makeEl('span', 'dvf-nav-upd-date', 'law as of ' + LAW_AS_OF));
   }
   arrows.appendChild(updLink);

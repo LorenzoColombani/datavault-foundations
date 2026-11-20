@@ -242,7 +242,7 @@ SV.ALL_ITEMS = {
     name: 'Data Sovereignty',
     cat: 'compliance',
     session: 8,
-    desc: 'Three dimensions: physical location, legal jurisdiction, operational control.'
+    desc: 'Three dimensions: legal (whose laws apply), infrastructure (who owns the servers), political (can a foreign government demand access).'
   },
   'cross-border-transfers': {
     name: 'Cross-Border Transfers',

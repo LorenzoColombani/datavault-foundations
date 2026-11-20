@@ -1421,8 +1421,8 @@ body::before {
     <div class="pm-panel-header">HOW THIS WORKS</div>
     <div class="pm-panel-body">
       
-      <p><strong style="color: var(">Technical lens</strong> &mdash; focuses on reasoning, not recitation. Can you explain <em>how</em> you&rsquo;d implement it and <em>why</em> Data Vault handles it well?</p>
-      <p><strong style="color: var(">Communication lens</strong> &mdash; evaluates clarity. Is the answer conversational and consultant-grade, not legalistic?</p>
+      <p><strong style="color: var(--tech-blue);">Technical lens</strong> &mdash; focuses on reasoning, not recitation. Can you explain <em>how</em> you&rsquo;d implement it and <em>why</em> Data Vault handles it well?</p>
+      <p><strong style="color: var(--brief-amber);">Communication lens</strong> &mdash; evaluates clarity. Is the answer conversational and consultant-grade, not legalistic?</p>
       <p style="margin-top: 1rem; color: var(--text-dim);">For each question: write your answer in the textarea, then submit to see the model answer. There are <strong style="color: var(--trap-red);">4 hidden trap questions</strong> &mdash; they look identical to regular questions until you submit.</p>
     </div>
   </div>
@@ -1511,7 +1511,7 @@ body::before {
   <div class="dvf-upd-head"><span class="dvf-upd-tag">Updated 20 Nov 2026</span><span class="dvf-upd-kind">Wording</span></div>
   <div class="dvf-upd-now"><p>The three names above are now the ones chapter 8 teaches: legal, infrastructure, political. This three-way split is this site&rsquo;s own way of teaching the idea. It is not a legal standard and not part of the Data Vault method, and other sources cut it differently.</p></div>
   <details class="dvf-upd-was"><summary>What this page said before</summary>
-    <div class="dvf-upd-old"><p>Physical location (where the servers physically sit), legal jurisdiction (whose laws apply), operational control (who can actually access or command the data). Same idea, different labels from the lesson.</p></div>
+    <div class="dvf-upd-old"><p><strong>Physical location</strong> &mdash; where the servers physically sit.</p><p><strong>Legal jurisdiction</strong> &mdash; whose laws apply to the data.</p><p><strong>Operational control</strong> &mdash; who can actually access or command the data (the CLOUD Act problem: US law can compel US-headquartered companies to hand over data stored anywhere in the world).</p><p><strong>Key insight:</strong> putting servers in Germany doesn&rsquo;t solve operational control if the cloud provider is US-headquartered.</p></div>
     <p class="dvf-upd-src">Source: chapter 8, Data Sovereignty &middot; <a href="../updates.html#u13-03">all updates</a></p>
   </details>
 </div>
@@ -1604,10 +1604,10 @@ body::before {
   </div>
 
   <div class="dvf-upd" id="u13-01" data-upd="u13-01">
-  <div class="dvf-upd-head"><span class="dvf-upd-tag">Updated 20 Nov 2026</span><span class="dvf-upd-kind">Site fix</span></div>
+  <div class="dvf-upd-head"><span class="dvf-upd-tag">Updated 20 Nov 2026</span><span class="dvf-upd-kind">Correction</span></div>
   <div class="dvf-upd-now"><p><strong>This self-test is now complete: 15 questions.</strong> Four calibration questions, then M1 to M11. Questions M3 to M8, M10 and M11 were missing and have been written; M2 and M9 had no model answer and now have one. The cards also have their styling back. The answers reflect the law as of 20 November 2026.</p></div>
   <details class="dvf-upd-was"><summary>What this page said before</summary>
-    <div class="dvf-upd-old"><p>The page announced &ldquo;All 20 questions&rdquo; but held 7 cards. M2 and M9 had no model answer, the scorecard listed two trap questions (M4, M7) that were not on the page, and the test could never be finished. A cut-off line in the stylesheet also left the question cards unstyled. Five of the original twenty were career questions, removed before the site went public; they are not coming back.</p></div>
+    <div class="dvf-upd-old"><p>The page announced &ldquo;All 20 questions&rdquo; but held 7 cards. M2 and M9 had no model answer, the scorecard listed two trap questions (M4, M7) that were not on the page, and the test could never be finished. A cut-off line in the stylesheet also left the question cards unstyled. Five of the original twenty were not about compliance; they are not part of this site.</p></div>
     <p class="dvf-upd-src">Source: the site itself &middot; <a href="../updates.html#u13-01">all updates</a></p>
   </details>
 </div>
@@ -1633,7 +1633,7 @@ body::before {
           <li><strong>Map the data across layers:</strong> Staging &rarr; Raw Vault (Hub + PII Satellite) &rarr; Business Vault (derived calculations) &rarr; Information Marts (row-level reports) &rarr; Backups.</li>
           <li><strong>Execute:</strong> DELETE from PII Satellite rows for this hash key + INSERT tombstone record (audit trail without retaining PII). Hub can stay if business key is non-PII; requires Artificial Hub pattern if business key is PII.</li>
           <li><strong>Document everything:</strong> What was deleted, from where, when, who authorized it, under which request ID.</li>
-          <li><strong>Third-party notification:</strong> If data was shared with third parties, notify them (<span class="dvf-upd-i" id="u13-02" data-upd="u13-02"><del>Art. 17(2)</del> <ins>Art. 19; Art. 17(2) covers the case where the data was made public</ins><a class="dvf-upd-chip" href="../updates.html#u13-02" title="Updated 20 Nov 2026: see what changed and the source">Updated</a></span>).</li>
+          <li><strong>Third-party notification:</strong> If data was shared with third parties, notify them (<span class="dvf-upd-i" id="u13-02" data-upd="u13-02"><del><span class="dvf-sr">Before: </span>Art. 17(2)</del> <ins><span class="dvf-sr">Now: </span>Art. 19; Art. 17(2) covers the case where the data was made public</ins><a class="dvf-upd-chip" href="../updates.html#u13-02" title="Updated 20 Nov 2026: see what changed and the source">Updated</a></span>).</li>
         </ol>
         <p><strong>Follow-up insight:</strong> The hardest part in practice is data lineage &mdash; knowing where ALL copies live. Without a data catalog, you can&rsquo;t find the backups, the marts, the derived tables.</p>
       </div>
@@ -2643,12 +2643,7 @@ var TUTORIAL_12_LOOT = {
   'm8':   'audit-mastery',
   'm9':   'consultant-framing',
   'm10':  'dual-compliance',
-  'm11':  'tombstone-record',
-  'a1':   'career-narrative',
-  'a2':   'consultant-framing',
-  'a3':   'career-narrative',
-  'a4':   'cfo-compliance-pitch',
-  'a5':   'data-mesh-governance'
+  'm11':  'tombstone-record'
 };
 
 /* --- Trap question IDs (hidden until submitted) --- */

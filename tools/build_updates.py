@@ -143,6 +143,12 @@ m = re.search(r"var LAW_AS_OF = '([^']+)';", nav)
 if not m or m.group(1) != data['law_as_of_short']:
     problems.append(f"nav-inject.js: LAW_AS_OF should be '{data['law_as_of_short']}'")
 
+# the navigation shows the law date on exactly the regulation chapters
+lm = re.search(r'var LAW_CHAPTERS = \{([^}]*)\};', nav)
+law_chapters = {int(x) for x in re.findall(r'(\d+)\s*:', lm.group(1))} if lm else set()
+if law_chapters != set(CHAPTERS):
+    problems.append(f'nav-inject.js: LAW_CHAPTERS is {sorted(law_chapters)}, expected {sorted(CHAPTERS)}')
+
 # index.html: total and date
 idx = read('index.html')
 total = len(updates)
@@ -151,6 +157,10 @@ if '<span data-upd-total>' not in idx:
     problems.append('index.html: no update total found')
 if data['law_as_of_label'] not in idx:
     problems.append(f'index.html: does not show {data["law_as_of_label"]}')
+for no in sorted(by_chapter):
+    card_m = re.search(r'<a class="chapter-card[^"]*" href="chapters/%s">(.*?)</a>' % re.escape(CHAPTERS[no][0]), idx, flags=re.S)
+    if not card_m or 'tag-updated' not in card_m.group(1):
+        problems.append(f'index.html: the card of chapter {no} has updates but no "Updated" tag')
 if write('index.html', new_idx):
     print(f'index.html: total set to {total}')
 
@@ -175,7 +185,7 @@ def card(u):
     return f'''
       <article class="dvf-upd up-card" id="{u['id']}">
         <div class="dvf-upd-head"><span class="dvf-upd-tag">Updated {short_date(u['date'])}</span><span class="dvf-upd-kind" title="{e(KIND_HELP[u['kind']])}">{kind}</span></div>
-        <h3>{e(u['title'])}</h3>
+        <h4>{e(u['title'])}</h4>
         <div class="up-pair">
           <div class="up-was"><span class="up-label">Before</span><p>{e(u['was'])}</p></div>
           <div class="up-now"><span class="up-label">Now</span><p>{e(u['now'])}</p></div>
@@ -193,6 +203,7 @@ def card(u):
 
 dates = sorted({u['date'] for u in updates}, reverse=True)
 body = []
+seen_chapters = set()   # the #chN anchor goes on a chapter's newest group, whatever its date
 for d in dates:
     day = [u for u in updates if u['date'] == d]
     body.append(f'\n  <section class="up-day" id="d{d}">\n    <h2><span class="up-day-date">{long_date(d)}</span>'
@@ -200,7 +211,8 @@ for d in dates:
     for no in sorted({u['chapter'] for u in day}):
         fname, title = CHAPTERS[no]
         chunk = [u for u in day if u['chapter'] == no]
-        first = ' id="ch%d"' % no if d == dates[0] else ''
+        first = '' if no in seen_chapters else ' id="ch%d"' % no
+        seen_chapters.add(no)
         body.append(f'\n    <div class="up-chapter"{first}>\n      <h3 class="up-chapter-title">'
                     f'<a href="chapters/{fname}">Chapter {no} &middot; {e(title)}</a>'
                     f'<span>{len(chunk)} updates</span></h3>')
@@ -273,7 +285,7 @@ h1 {{ font-family: 'Orbitron', sans-serif; font-size: 38px; font-weight: 700; li
 .up-chapter-title a:hover {{ color: #c084fc; }}
 .up-chapter-title span {{ font-family: 'Orbitron', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: #64748b; }}
 .up-card {{ padding: 18px 22px 16px 24px; scroll-margin-top: 70px; }}
-.up-card h3 {{ font-family: 'Exo 2', sans-serif; font-size: 18px; font-weight: 600; line-height: 1.4; color: #f8fafc; margin: 2px 0 12px; }}
+.up-card h4 {{ font-family: 'Exo 2', sans-serif; font-size: 18px; font-weight: 600; line-height: 1.4; color: #f8fafc; margin: 2px 0 12px; }}
 .up-pair {{ display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }}
 .up-was, .up-now {{ padding: 12px 14px; border-radius: 10px; }}
 .up-was {{ background: rgba(2, 6, 14, 0.5); border-left: 2px solid rgba(148, 163, 184, 0.3); }}
@@ -309,7 +321,7 @@ h1 {{ font-family: 'Orbitron', sans-serif; font-size: 38px; font-weight: 700; li
   .up-lede {{ font-size: 15.5px; }}
   .up-pair {{ grid-template-columns: 1fr; }}
   .up-card {{ padding: 14px 14px 12px 18px; }}
-  .up-card h3 {{ font-size: 16.5px; }}
+  .up-card h4 {{ font-size: 16.5px; }}
   .up-day-date {{ font-size: 20px; }}
   .up-how {{ padding: 16px 16px; }}
   .up-how li .dvf-upd-kind {{ display: block; min-width: 0; }}
