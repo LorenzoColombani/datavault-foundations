@@ -26,6 +26,9 @@
   // The date the regulation chapters were last checked against the law.
   // Keep in step with data/updates.json (tools/build_updates.py checks it).
   var LAW_AS_OF = '20 Nov 2026';
+  // Only these chapters teach law and were checked against it. The date is shown
+  // on them alone; every other chapter gets a plain "Updates" link.
+  var LAW_CHAPTERS = { 5: true, 7: true, 8: true, 9: true, 13: true };
 
   var current = parseInt(document.body.getAttribute('data-chapter'), 10);
   if (!current || current < 1 || current > chapters.length) return;
@@ -123,9 +126,12 @@
     'Chapter ' + current + ' of ' + chapters.length));
 
   var arrows = makeEl('div', 'dvf-nav-arrows');
+  var isLawChapter = LAW_CHAPTERS[current] === true;
   var updLink = makeLink('../updates.html', 'Updates', 'dvf-nav-upd',
-    'What changed on this site, and when. Law as of ' + LAW_AS_OF);
-  updLink.appendChild(makeEl('span', 'dvf-nav-upd-date', 'law as of ' + LAW_AS_OF));
+    'What changed on this site, and when');
+  if (isLawChapter) {
+    updLink.appendChild(makeEl('span', 'dvf-nav-upd-date', 'law as of ' + LAW_AS_OF));
+  }
   arrows.appendChild(updLink);
   if (prev) {
     arrows.appendChild(makeLink(prev.file, '\u2190', null, prev.title));
@@ -168,25 +174,53 @@
     var n = el.parentElement;
     while (n && n !== document.body) {
       if (n.classList) {
-        if (n.classList.contains('layer')) n.classList.add('open');
+        if (n.classList.contains('layer')) {
+          n.classList.add('open');
+          var group = n.parentElement;
+          if (group && typeof window.updateLayerDots === 'function') window.updateLayerDots(group);
+        }
+        // A marker inside a self-test answer: the reader asked to see the change,
+        // so show that model answer. Nothing is marked as submitted.
+        if (n.classList.contains('answer-reveal')) n.style.display = 'block';
         if (n.classList.contains('explore-panel')) {
           n.classList.add('open');
           var opener = n.previousElementSibling;
           if (opener && opener.classList.contains('explore-opener')) opener.classList.add('open');
         }
-        if (n.hasAttribute('data-dvf-tab')) {
-          var tab = document.querySelector('[data-dvf-tab-for="' + n.getAttribute('data-dvf-tab') + '"]');
-          if (tab && typeof tab.click === 'function') tab.click();
-        }
       }
       n = n.parentElement;
     }
+    // Put the top of the marker just under the fixed bars and keep it there while the
+    // page settles (fold-outs opening, fonts, scroll effects starting all move it).
+    // 'instant' on purpose: the chapters set scroll-behavior: smooth, and a smooth
+    // scroll started while the page is still moving stalls or lands short.
+    var GAP = 18;
+    var hands = false;          // true once the reader scrolls, taps or types
+    function wanted() {
+      var bar = document.querySelector('.holo-nav') || document.querySelector('.dvf-nav-top');
+      return (bar ? bar.getBoundingClientRect().bottom : 48) + GAP;
+    }
+    function place() {
+      var off = el.getBoundingClientRect().top - wanted();
+      if (Math.abs(off) > 6) {
+        window.scrollTo({ top: Math.max(0, window.scrollY + off), behavior: 'instant' });
+      }
+    }
+    function letGo() { hands = true; }
+    ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) {
+      window.addEventListener(ev, letGo, { passive: true, once: true });
+    });
+    var tries = 0;
     setTimeout(function () {
-      // 'instant' on purpose: the chapters set scroll-behavior: smooth, and a
-      // smooth scroll started while a fold-out is still opening can stall.
-      el.scrollIntoView({ block: 'center', behavior: 'instant' });
+      if (hands) return;
+      place();
       el.classList.add('dvf-arrived');
-    }, 700);
+      var timer = setInterval(function () {
+        tries += 1;
+        if (hands || tries > 12) { clearInterval(timer); return; }
+        place();
+      }, 300);
+    }, 500);
   }
   window.addEventListener('load', revealUpdate);
   window.addEventListener('hashchange', revealUpdate);
@@ -211,7 +245,8 @@
 
   var indexDiv = makeEl('div', 'dvf-nb-index');
   indexDiv.appendChild(makeLink('../index.html', 'Back to Index'));
-  var updBottom = makeLink('../updates.html', 'Updates · law as of ' + LAW_AS_OF, 'dvf-nb-upd');
+  var updBottom = makeLink('../updates.html',
+    isLawChapter ? 'Updates \u00B7 law as of ' + LAW_AS_OF : 'Updates', 'dvf-nb-upd');
   indexDiv.appendChild(updBottom);
   bottomNav.appendChild(indexDiv);
 

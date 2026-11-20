@@ -34,7 +34,7 @@
   border: 1px solid var(--upd-edge);
   border-radius: 12px;
   overflow: hidden;
-  scroll-margin-top: 150px;
+  scroll-margin-top: 190px;
   text-align: left;
 }
 .dvf-upd::before {
@@ -141,7 +141,7 @@
 }
 
 /* ── Inline marker ────────────────────────────────────────────── */
-.dvf-upd-i { scroll-margin-top: 150px; }
+.dvf-upd-i { scroll-margin-top: 190px; }
 .dvf-upd-i del {
   color: var(--upd-old);
   text-decoration: line-through;

@@ -40,6 +40,9 @@ live = ancestors(live_csp)
 
 print('live  :', ' '.join(sorted(live)) or '(no frame-ancestors header)')
 print('local :', ' '.join(sorted(local)) or '(no frame-ancestors in netlify.toml)')
+if not live:
+    print('NOTE: the address checked sends no frame-ancestors list at all. Any page may frame it, '
+          'so nothing is blocked, but netlify.toml was not applied to that deploy.')
 dropped = sorted(live - local)
 added = sorted(local - live)
 if added:

@@ -661,9 +661,9 @@
       "chapter": 13,
       "kind": "fix",
       "title": "The self-test now holds the questions it announces: 15, all with a model answer",
-      "was": "The page said \"All 20 questions answered\" but held 7 cards. Two of them (M2, M9) had no model answer, the scorecard listed two trap questions (M4, M7) that were not on the page, and the test could never be completed.",
-      "now": "15 questions: four calibration questions, then M1 to M11. M3 to M8, M10 and M11 were written new; M2 and M9 received their model answers. The five career questions of the original version were removed before the site went public and stay out. The answers reflect the law as of 20 November 2026 (for example, the bias-testing rule is cited as AI Act Article 4a).",
-      "where": "Sections \"Technical compliance\" and \"Integration and edge cases\"; closing line; progress logic",
+      "was": "The page said \"All 20 questions answered\" but held 7 cards. Two of them (M2, M9) had no model answer, the scorecard listed two trap questions (M4, M7) that were not on the page, and the test could never be completed. The question cards also showed without their styling: a cut-off line in the page's stylesheet made browsers ignore everything after it.",
+      "now": "15 questions: four calibration questions, then M1 to M11. M3 to M8, M10 and M11 were written new; M2 and M9 received their model answers. The five career questions of the original version were removed before the site went public and stay out. The stylesheet is repaired, so the cards, buttons and trap reveals look as designed. The answers reflect the law as of 20 November 2026 (for example, the bias-testing rule is cited as AI Act Article 4a).",
+      "where": "Sections \"Technical compliance\" and \"Integration and edge cases\"; closing line; progress logic; the page's stylesheet",
       "sources": []
     },
     {

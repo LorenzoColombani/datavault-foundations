@@ -731,39 +731,61 @@ code { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; background: 
   --edge-teal-glow: rgba(20, 184, 166, 0.25);
   --edge-teal-dim: rgba(20, 184, 166, 0.08);
 
-  --topic-glow: var(
+  --brief-amber: #f59e0b;
+  --brief-amber-rgb: 245, 158, 11;
+  --brief-amber-glow: rgba(245, 158, 11, 0.25);
+  --brief-amber-dim: rgba(245, 158, 11, 0.08);
+
+  --tech-blue: #0ea5e9;
+  --tech-blue-rgb: 14, 165, 233;
+  --tech-blue-glow: rgba(14, 165, 233, 0.25);
+  --tech-blue-dim: rgba(14, 165, 233, 0.08);
+
+  --topic-glow: var(--brief-amber-rgb);
 }
 
 body::before {
   background:
-    radial-gradient(ellipse at 20% 20%, var(
+    radial-gradient(ellipse at 20% 20%, var(--brief-amber-dim) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 40%, var(--cal-purple-dim) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 70%, var(--tech-blue-dim) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 85%, var(--debrief-green-dim) 0%, transparent 60%);
 }
 
 .lcars-flow-fill {
   background: linear-gradient(90deg,
-    var( color: var( border: 1px solid rgba(245, 158, 11, 0.2); }
+    var(--brief-amber) 0%,
+    var(--cal-purple) 25%,
+    var(--tech-blue) 50%,
+    var(--edge-teal) 75%,
+    var(--debrief-green) 100%
+  );
+}
+
+/* === SECTION TAG VARIANTS === */
+.section-tag.briefing-t { background: var(--brief-amber-dim); color: var(--brief-amber); border: 1px solid rgba(245, 158, 11, 0.2); }
 .section-tag.cal-t { background: var(--cal-purple-dim); color: var(--cal-purple); border: 1px solid rgba(168, 85, 247, 0.2); }
-.section-tag.technical-t { background: var( color: var( border: 1px solid rgba(14, 165, 233, 0.2); }
-.section-tag.career-t { background: var( color: var( border: 1px solid rgba(245, 158, 11, 0.2); }
+.section-tag.technical-t { background: var(--tech-blue-dim); color: var(--tech-blue); border: 1px solid rgba(14, 165, 233, 0.2); }
+.section-tag.career-t { background: var(--brief-amber-dim); color: var(--brief-amber); border: 1px solid rgba(245, 158, 11, 0.2); }
 .section-tag.edge-t { background: var(--edge-teal-dim); color: var(--edge-teal); border: 1px solid rgba(20, 184, 166, 0.2); }
 .section-tag.debrief-t { background: var(--debrief-green-dim); color: var(--debrief-green); border: 1px solid rgba(34, 197, 94, 0.2); }
 
 /* === HOOK VARIANTS === */
-.hook-briefing::before { background: var( box-shadow: 0 0 8px var( }
-.hook-briefing::after { background: linear-gradient(90deg, var( }
-.hook-briefing .hook-text em { color: var( text-shadow: 0 0 12px var( }
+.hook-briefing::before { background: var(--brief-amber); box-shadow: 0 0 8px var(--brief-amber-glow); }
+.hook-briefing::after { background: linear-gradient(90deg, var(--brief-amber-glow), transparent); }
+.hook-briefing .hook-text em { color: var(--brief-amber); text-shadow: 0 0 12px var(--brief-amber-glow); }
 
 .hook-cal::before { background: var(--cal-purple); box-shadow: 0 0 8px var(--cal-purple-glow); }
 .hook-cal::after { background: linear-gradient(90deg, var(--cal-purple-glow), transparent); }
 .hook-cal .hook-text em { color: var(--cal-purple); text-shadow: 0 0 12px var(--cal-purple-glow); }
 
-.hook-technical::before { background: var( box-shadow: 0 0 8px var( }
-.hook-technical::after { background: linear-gradient(90deg, var( }
-.hook-technical .hook-text em { color: var( text-shadow: 0 0 12px var( }
+.hook-technical::before { background: var(--tech-blue); box-shadow: 0 0 8px var(--tech-blue-glow); }
+.hook-technical::after { background: linear-gradient(90deg, var(--tech-blue-glow), transparent); }
+.hook-technical .hook-text em { color: var(--tech-blue); text-shadow: 0 0 12px var(--tech-blue-glow); }
 
-.hook-career::before { background: var( box-shadow: 0 0 8px var( }
-.hook-career::after { background: linear-gradient(90deg, var( }
-.hook-career .hook-text em { color: var( text-shadow: 0 0 12px var( }
+.hook-career::before { background: var(--brief-amber); box-shadow: 0 0 8px var(--brief-amber-glow); }
+.hook-career::after { background: linear-gradient(90deg, var(--brief-amber-glow), transparent); }
+.hook-career .hook-text em { color: var(--brief-amber); text-shadow: 0 0 12px var(--brief-amber-glow); }
 
 .hook-edge::before { background: var(--edge-teal); box-shadow: 0 0 8px var(--edge-teal-glow); }
 .hook-edge::after { background: linear-gradient(90deg, var(--edge-teal-glow), transparent); }
@@ -774,18 +796,18 @@ body::before {
 .hook-debrief .hook-text em { color: var(--debrief-green); text-shadow: 0 0 12px var(--debrief-green-glow); }
 
 /* === DATA PANEL VARIANTS === */
-.data-panel-dot.tech-dot { background: var( box-shadow: 0 0 6px var( }
-.data-panel-title.technical-title { color: var( }
-.data-panel-dot.career-dot { background: var( box-shadow: 0 0 6px var( }
-.data-panel-title.career-title { color: var( }
+.data-panel-dot.tech-dot { background: var(--tech-blue); box-shadow: 0 0 6px var(--tech-blue-glow); }
+.data-panel-title.technical-title { color: var(--tech-blue); }
+.data-panel-dot.career-dot { background: var(--brief-amber); box-shadow: 0 0 6px var(--brief-amber-glow); }
+.data-panel-title.career-title { color: var(--brief-amber); }
 .data-panel-dot.cal-dot { background: var(--cal-purple); box-shadow: 0 0 6px var(--cal-purple-glow); }
 .data-panel-title.cal-title { color: var(--cal-purple); }
 .data-panel-dot.debrief-dot { background: var(--debrief-green); box-shadow: 0 0 6px var(--debrief-green-glow); }
 .data-panel-title.debrief-title { color: var(--debrief-green); }
 
 /* === DEPTH SHAPES === */
-.depth-shape.shape-1 { background: radial-gradient(circle, var( }
-.depth-shape.shape-2 { background: radial-gradient(circle, var( }
+.depth-shape.shape-1 { background: radial-gradient(circle, var(--brief-amber), transparent 70%); }
+.depth-shape.shape-2 { background: radial-gradient(circle, var(--tech-blue), transparent 70%); }
 .depth-shape.shape-3 { background: radial-gradient(circle, var(--debrief-green), transparent 70%); }
 
 /* === MATCH ROW STACKING (for calibration exercise) === */
@@ -887,7 +909,7 @@ body::before {
 }
 .examiner-icon.tech-icon {
   background: rgba(14, 165, 233, 0.15);
-  color: var(
+  color: var(--tech-blue);
   border: 1px solid rgba(14, 165, 233, 0.3);
   box-shadow: 0 0 8px rgba(14, 165, 233, 0.15);
 }
@@ -906,8 +928,8 @@ body::before {
   border-radius: 4px;
   margin-left: auto;
 }
-.q-tier.q-core { background: rgba(14, 165, 233, 0.1); color: var( border: 1px solid rgba(14, 165, 233, 0.2); }
-.q-tier.q-important { background: rgba(245, 158, 11, 0.1); color: var( border: 1px solid rgba(245, 158, 11, 0.2); }
+.q-tier.q-core { background: rgba(14, 165, 233, 0.1); color: var(--tech-blue); border: 1px solid rgba(14, 165, 233, 0.2); }
+.q-tier.q-important { background: rgba(245, 158, 11, 0.1); color: var(--brief-amber); border: 1px solid rgba(245, 158, 11, 0.2); }
 .q-tier.q-bonus { background: rgba(100, 210, 255, 0.1); color: #64d2ff; border: 1px solid rgba(100, 210, 255, 0.2); }
 
 /* Question text */
@@ -963,7 +985,7 @@ body::before {
   padding: 10px 24px;
   border: 1px solid rgba(14, 165, 233, 0.3);
   background: rgba(14, 165, 233, 0.08);
-  color: var(
+  color: var(--tech-blue);
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -979,7 +1001,7 @@ body::before {
 .submit-btn.career-btn {
   border-color: rgba(245, 158, 11, 0.3);
   background: rgba(245, 158, 11, 0.08);
-  color: var(
+  color: var(--brief-amber);
 }
 .submit-btn.career-btn:hover {
   background: rgba(245, 158, 11, 0.15);
@@ -1031,10 +1053,10 @@ body::before {
   font-size: 0.6rem;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(
+  color: var(--tech-blue);
   margin-bottom: 0.75rem;
 }
-.career-answer .model-answer-label { color: var( }
+.career-answer .model-answer-label { color: var(--brief-amber); }
 .edge-answer .model-answer-label { color: var(--edge-teal); }
 
 .model-answer p {
@@ -1190,11 +1212,11 @@ body::before {
 .conf-btn.conf-selected {
   border-color: rgba(14, 165, 233, 0.4);
   background: rgba(14, 165, 233, 0.1);
-  color: var(
+  color: var(--tech-blue);
   box-shadow: 0 0 8px rgba(14, 165, 233, 0.15);
 }
-.conf-btn.conf-selected.conf-gut { border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.1); color: var( box-shadow: 0 0 8px rgba(245, 158, 11, 0.15); }
-.conf-btn.conf-selected.conf-confident { border-color: rgba(14, 165, 233, 0.4); background: rgba(14, 165, 233, 0.1); color: var( box-shadow: 0 0 8px rgba(14, 165, 233, 0.15); }
+.conf-btn.conf-selected.conf-gut { border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.1); color: var(--brief-amber); box-shadow: 0 0 8px rgba(245, 158, 11, 0.15); }
+.conf-btn.conf-selected.conf-confident { border-color: rgba(14, 165, 233, 0.4); background: rgba(14, 165, 233, 0.1); color: var(--tech-blue); box-shadow: 0 0 8px rgba(14, 165, 233, 0.15); }
 .conf-btn.conf-selected.conf-locked { border-color: rgba(48, 209, 88, 0.4); background: rgba(48, 209, 88, 0.1); color: #30d158; box-shadow: 0 0 8px rgba(48, 209, 88, 0.15); }
 
 /* ════════════════════════════════════════════════════════════════════
@@ -1332,11 +1354,9 @@ body::before {
       <div class="nav-connector"></div>
       <div class="nav-node" onclick="scrollToSection('s3')">3</div>
       <div class="nav-connector"></div>
-      <div class="nav-node" onclick="scrollToSection('s4')">4</div>
+      <div class="nav-node" onclick="scrollToSection('s5')">4</div>
       <div class="nav-connector"></div>
-      <div class="nav-node" onclick="scrollToSection('s5')">5</div>
-      <div class="nav-connector"></div>
-      <div class="nav-node" onclick="scrollToSection('s6')">6</div>
+      <div class="nav-node" onclick="scrollToSection('s6')">5</div>
     </div>
     <div class="nav-label" id="nav-current-label">The Briefing</div>
     <div class="lcars-bar">
@@ -1345,9 +1365,8 @@ body::before {
         <div class="lcars-seg active" style="--seg-color: #f59e0b" onclick="scrollToSection('s1')">1</div>
         <div class="lcars-seg" style="--seg-color: #a855f7" onclick="scrollToSection('s2')">2</div>
         <div class="lcars-seg" style="--seg-color: #0ea5e9" onclick="scrollToSection('s3')">3</div>
-        <div class="lcars-seg" style="--seg-color: #f59e0b" onclick="scrollToSection('s4')">4</div>
-        <div class="lcars-seg" style="--seg-color: #14b8a6" onclick="scrollToSection('s5')">5</div>
-        <div class="lcars-seg" style="--seg-color: #22c55e" onclick="scrollToSection('s6')">6</div>
+        <div class="lcars-seg" style="--seg-color: #14b8a6" onclick="scrollToSection('s5')">4</div>
+        <div class="lcars-seg" style="--seg-color: #22c55e" onclick="scrollToSection('s6')">5</div>
       </div>
     </div>
     <div class="lcars-flow">
@@ -1586,9 +1605,9 @@ body::before {
 
   <div class="dvf-upd" id="u13-01" data-upd="u13-01">
   <div class="dvf-upd-head"><span class="dvf-upd-tag">Updated 20 Nov 2026</span><span class="dvf-upd-kind">Site fix</span></div>
-  <div class="dvf-upd-now"><p><strong>This self-test is now complete: 15 questions.</strong> Four calibration questions, then M1 to M11. Questions M3 to M8, M10 and M11 were missing and have been written; M2 and M9 had no model answer and now have one. The answers reflect the law as of 20 November 2026.</p></div>
+  <div class="dvf-upd-now"><p><strong>This self-test is now complete: 15 questions.</strong> Four calibration questions, then M1 to M11. Questions M3 to M8, M10 and M11 were missing and have been written; M2 and M9 had no model answer and now have one. The cards also have their styling back. The answers reflect the law as of 20 November 2026.</p></div>
   <details class="dvf-upd-was"><summary>What this page said before</summary>
-    <div class="dvf-upd-old"><p>The page announced &ldquo;All 20 questions&rdquo; but held 7 cards. M2 and M9 had no model answer, the scorecard listed two trap questions (M4, M7) that were not on the page, and the test could never be finished. Five of the original twenty were career questions, removed before the site went public; they are not coming back.</p></div>
+    <div class="dvf-upd-old"><p>The page announced &ldquo;All 20 questions&rdquo; but held 7 cards. M2 and M9 had no model answer, the scorecard listed two trap questions (M4, M7) that were not on the page, and the test could never be finished. A cut-off line in the stylesheet also left the question cards unstyled. Five of the original twenty were career questions, removed before the site went public; they are not coming back.</p></div>
     <p class="dvf-upd-src">Source: the site itself &middot; <a href="../updates.html#u13-01">all updates</a></p>
   </details>
 </div>
@@ -1967,7 +1986,7 @@ body::before {
           <li><strong>The hash key:</strong> if it was derived from a personal business key, it is still personal data (see M2).</li>
           <li><strong>Backups:</strong> they cannot be edited row by row. Document their retention period and make sure a restore re-applies the erasure.</li>
           <li><strong>Recipients:</strong> tell everyone the data was disclosed to (GDPR Art. 19).</li>
-          <li><strong>The record:</strong> keep what was done, when and on whose authority, without keeping the data.</li>
+          <li><strong>The record:</strong> a tombstone record keeps what was done, when and on whose authority, without keeping the data.</li>
         </ol>
       </div>
       <div class="confidence-check">
@@ -2617,14 +2636,14 @@ var TUTORIAL_12_LOOT = {
   'm1':   'gdpr-erasure-workflow',
   'm2':   'pii-satellite-pattern',
   'm3':   'dora-temporal-query',
-  'm4':   'artificial-hub-pattern',
+  'm4':   'dv-architecture-walkthrough',
   'm5':   'dual-compliance',
   'm6':   'data-sovereignty-3d',
-  'm7':   'tombstone-record',
+  'm7':   'artificial-hub-pattern',
   'm8':   'audit-mastery',
   'm9':   'consultant-framing',
   'm10':  'dual-compliance',
-  'm11':  'gdpr-erasure-workflow',
+  'm11':  'tombstone-record',
   'a1':   'career-narrative',
   'a2':   'consultant-framing',
   'a3':   'career-narrative',
@@ -2789,6 +2808,7 @@ function checkAllComplete() {
     /* Award completion loot */
     if (typeof SV !== 'undefined' && SV.inventory) {
       SV.inventory.addItem('trap-spotter-reflex');
+      SV.inventory.addItem('self-test-complete');
       }
 
     /* Complete debrief objective */
