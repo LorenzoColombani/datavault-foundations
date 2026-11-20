@@ -1,0 +1,215 @@
+/* ================================================================
+   Dated updates — shared by the regulation chapters, index.html and
+   updates.html.
+
+   The idea is the one the site teaches: history is appended, never
+   overwritten. A corrected passage shows the new text, the date it
+   was changed, and the earlier text kept underneath. The colour is
+   the Satellite purple, because a Satellite is where Data Vault
+   keeps history.
+
+   Three pieces:
+     .dvf-upd      block marker  (a passage was replaced)
+     .dvf-upd-i    inline marker (a date, number or term was replaced)
+     .dvf-review   banner at the top of a chapter
+   The list of every update lives in data/updates.json; run
+   tools/build_updates.py after changing it.
+   ================================================================ */
+
+:root {
+  --upd: #c084fc;
+  --upd-strong: #a855f7;
+  --upd-dim: rgba(168, 85, 247, 0.08);
+  --upd-edge: rgba(168, 85, 247, 0.28);
+  --upd-glow: rgba(168, 85, 247, 0.22);
+  --upd-old: #8b98ad;
+}
+
+/* ── Block marker ─────────────────────────────────────────────── */
+.dvf-upd {
+  position: relative;
+  margin: 16px 0;
+  padding: 14px 18px 12px 20px;
+  background: var(--upd-dim);
+  border: 1px solid var(--upd-edge);
+  border-radius: 12px;
+  overflow: hidden;
+  scroll-margin-top: 150px;
+  text-align: left;
+}
+.dvf-upd::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--upd-strong);
+  box-shadow: 0 0 10px var(--upd-glow);
+}
+.dvf-upd-head {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px;
+  margin-bottom: 8px;
+}
+.dvf-upd-tag,
+.dvf-upd-chip {
+  display: inline-block;
+  font-family: 'Orbitron', monospace;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  line-height: 1.5;
+  color: #14061f;
+  background: var(--upd);
+  padding: 3px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  text-decoration: none;
+  font-style: normal;
+}
+.dvf-upd-kind {
+  font-family: 'Orbitron', monospace;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--upd);
+}
+.dvf-upd-now,
+.dvf-upd-now p,
+.dvf-upd-now li {
+  font-family: 'Exo 2', -apple-system, sans-serif;
+  font-size: 15px; line-height: 1.75;
+  color: #e2e8f0;
+  font-style: normal;
+  white-space: normal;
+}
+.dvf-upd-now p { margin: 0 0 8px; }
+.dvf-upd-now p:last-child { margin-bottom: 0; }
+.dvf-upd-now ul { margin: 6px 0 8px 20px; }
+.dvf-upd-now strong { color: #f8fafc; }
+.dvf-upd-now a,
+.dvf-upd-src a { color: var(--upd); text-decoration: underline; text-underline-offset: 3px; }
+
+.dvf-upd-was { margin-top: 10px; }
+.dvf-upd-was > summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 32px;
+  font-family: 'Exo 2', -apple-system, sans-serif;
+  font-size: 13px; font-weight: 500;
+  color: var(--upd);
+  user-select: none;
+}
+.dvf-upd-was > summary::-webkit-details-marker { display: none; }
+.dvf-upd-was > summary::before {
+  content: '+';
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 1px solid var(--upd-edge);
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1;
+}
+.dvf-upd-was[open] > summary::before { content: '\2212'; }
+.dvf-upd-was > summary:hover { color: #e9d5ff; }
+.dvf-upd-was > summary:focus-visible,
+.dvf-upd-chip:focus-visible { outline: 2px solid var(--upd); outline-offset: 3px; border-radius: 4px; }
+.dvf-upd-old {
+  margin: 6px 0 8px;
+  padding: 10px 14px;
+  border-left: 2px solid rgba(148, 163, 184, 0.3);
+  background: rgba(2, 6, 14, 0.45);
+  border-radius: 0 8px 8px 0;
+}
+.dvf-upd-old,
+.dvf-upd-old p,
+.dvf-upd-old li {
+  font-family: 'Exo 2', -apple-system, sans-serif;
+  font-size: 14px; line-height: 1.7;
+  color: var(--upd-old);
+  font-style: normal;
+  white-space: normal;
+}
+.dvf-upd-old p { margin: 0 0 6px; }
+.dvf-upd-old p:last-child { margin-bottom: 0; }
+.dvf-upd-old-label {
+  display: block;
+  font-family: 'Orbitron', monospace;
+  font-size: 8px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #64748b; margin-bottom: 4px;
+}
+.dvf-upd-src {
+  font-family: 'Exo 2', -apple-system, sans-serif;
+  font-size: 13px !important; line-height: 1.6 !important;
+  color: #94a3b8 !important;
+  margin: 6px 0 0 !important;
+  font-style: normal;
+  overflow-wrap: anywhere;
+}
+
+/* ── Inline marker ────────────────────────────────────────────── */
+.dvf-upd-i { scroll-margin-top: 150px; }
+.dvf-upd-i del {
+  color: var(--upd-old);
+  text-decoration: line-through;
+  text-decoration-color: rgba(192, 132, 252, 0.7);
+  font-weight: 400;
+}
+.dvf-upd-i ins {
+  text-decoration: none;
+  color: #f1e7ff;
+  background: rgba(168, 85, 247, 0.14);
+  border-bottom: 1px solid var(--upd-edge);
+  padding: 0 3px; border-radius: 3px;
+}
+.dvf-upd-i .dvf-upd-chip { margin-left: 6px; font-size: 8px; padding: 2px 7px; vertical-align: 1px; }
+a.dvf-upd-chip:hover { background: #e9d5ff; }
+
+/* Collapsible containers that now hold a marker need more room than
+   the 600px / 800px the chapters allow by default. */
+.layer.open .layer-content.dvf-roomy { max-height: 5000px; }
+.explore-panel.open.dvf-roomy { max-height: 5000px; }
+
+/* ── Chapter banner ───────────────────────────────────────────── */
+.dvf-review {
+  display: flex; align-items: flex-start; gap: 12px;
+  margin: 26px 0 0;
+  padding: 14px 18px;
+  max-width: 660px;
+  background: var(--upd-dim);
+  border: 1px solid var(--upd-edge);
+  border-radius: 12px;
+  font-family: 'Exo 2', -apple-system, sans-serif;
+  font-size: 14px; line-height: 1.65;
+  color: #cbd5e1;
+  text-align: left;
+}
+.dvf-review-dot {
+  flex-shrink: 0;
+  width: 9px; height: 9px; margin-top: 7px; border-radius: 50%;
+  background: var(--upd);
+  box-shadow: 0 0 10px var(--upd-glow);
+}
+.dvf-review strong { color: #f8fafc; font-weight: 600; }
+.dvf-review a { color: var(--upd); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+.dvf-review a:hover { color: #e9d5ff; }
+.dvf-review-date {
+  display: block;
+  font-family: 'Orbitron', monospace;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--upd);
+  margin-bottom: 4px;
+}
+
+/* A marker reached from the Updates page gets a short highlight. */
+@keyframes dvf-upd-arrive {
+  0%   { box-shadow: 0 0 0 0 rgba(192, 132, 252, 0.55); }
+  100% { box-shadow: 0 0 0 14px rgba(192, 132, 252, 0); }
+}
+.dvf-upd.dvf-arrived { animation: dvf-upd-arrive 1.2s ease-out 2; }
+.dvf-upd-i.dvf-arrived ins { animation: dvf-upd-arrive 1.2s ease-out 2; }
+
+@media (max-width: 600px) {
+  .dvf-upd { padding: 12px 14px 10px 16px; margin: 14px 0; }
+  .dvf-upd-now, .dvf-upd-now p, .dvf-upd-now li { font-size: 14.5px; }
+  .dvf-review { padding: 12px 14px; font-size: 13.5px; }
+  .dvf-review a { white-space: normal; }
+  .dvf-upd-was > summary { min-height: 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dvf-upd.dvf-arrived, .dvf-upd-i.dvf-arrived ins { animation: none; }
+}

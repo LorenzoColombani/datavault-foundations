@@ -1838,6 +1838,7 @@ code {
 }
 
 </style>
+<link rel="stylesheet" href="../assets/updates.css">
 </head>
 <body data-chapter="5" style="padding-top: 52px;">
 <!-- Particle field canvas -->
@@ -1924,6 +1925,11 @@ code {
     <span class="meta-chip">EU AI Act</span>
     <span class="meta-chip">Data Mesh</span>
   </div>
+  <div class="dvf-review" id="law-review">
+    <span class="dvf-review-dot"></span>
+    <div><span class="dvf-review-date">Law as of 20 November 2026</span>First published in March 2026. Checked against the law again on 20 November 2026: <strong><span data-upd-count>4</span> passages were updated</strong>. Each one is marked <span class="dvf-upd-tag">Updated</span> and keeps the earlier text. <a href="../updates.html#ch5">See every change, with sources</a></div>
+  </div>
+
 </div>
 
 
@@ -2668,9 +2674,17 @@ code {
         <span class="layer-label">With mechanism</span>
         <span class="layer-toggle">&darr;</span>
       </div>
-      <div class="layer-content">
+      <div class="layer-content dvf-roomy">
         <div class="layer-content-inner">
           <p>The AI Act classifies AI into four risk tiers: prohibited (banned), high-risk (heavily regulated), limited risk (transparency required), minimal risk (no obligations). Article 10 applies to high-risk systems and requires documented data provenance, transformation documentation, quality verification, and bias examination.</p>
+          <div class="dvf-upd" id="u05-04" data-upd="u05-04">
+  <div class="dvf-upd-head"><span class="dvf-upd-tag">Updated 20 Nov 2026</span><span class="dvf-upd-kind">Added</span></div>
+  <div class="dvf-upd-now"><p><strong>When it starts.</strong> The high-risk rules, Article 10 included, apply from <strong>2 December 2027</strong> for the stand-alone uses listed in Annex III (credit scoring, hiring and the like) and from <strong>2 August 2028</strong> for AI built into regulated products. The July 2026 amendment set those dates. Chapter 9 has the full timeline.</p></div>
+  <details class="dvf-upd-was"><summary>What this page said before</summary>
+    <div class="dvf-upd-old"><p>Nothing on timing. When the chapter was written the date in the Act was 2 August 2026; it has since been moved.</p></div>
+    <p class="dvf-upd-src">Source: <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02024R1689-20260727" target="_blank" rel="noopener">AI Act as amended, Art. 113</a> &middot; <a href="https://eur-lex.europa.eu/eli/reg/2026/1744/oj" target="_blank" rel="noopener">Regulation (EU) 2026/1744</a> &middot; <a href="../updates.html#u05-04">all updates</a></p>
+  </details>
+</div>
         </div>
       </div>
     </div>
@@ -2694,9 +2708,16 @@ code {
         <span class="layer-label">Expert nuance</span>
         <span class="layer-toggle">&darr;</span>
       </div>
-      <div class="layer-content">
+      <div class="layer-content dvf-roomy">
         <div class="layer-content-inner">
-          <p>Article 10(5) creates a limited exception to GDPR&rsquo;s prohibition on processing special category data (race, health, religion). Providers of high-risk AI may process this data specifically for bias detection and correction &mdash; but only when anonymized/synthetic data won&rsquo;t work, with strict safeguards, no third-party transfers, and mandatory deletion after bias correction. This is a direct bridge between GDPR and the AI Act.</p>
+          <div class="dvf-upd" id="u05-01" data-upd="u05-01">
+  <div class="dvf-upd-head"><span class="dvf-upd-tag">Updated 20 Nov 2026</span><span class="dvf-upd-kind">The law changed on 27 Jul 2026</span></div>
+  <div class="dvf-upd-now"><p><strong>Article 4a</strong> creates a limited exception to GDPR&rsquo;s prohibition on processing special category data (race, health, religion). The data may be processed specifically for bias detection and correction &mdash; but only where strictly necessary, when anonymized/synthetic data won&rsquo;t work, with strict safeguards, no third-party transfers, and mandatory deletion once the bias is corrected or the retention period ends, whichever comes first.</p><p>Until July 2026 this rule was Article 10(5) and covered only providers of high-risk AI. The amendment moved it to Article 4a and opened it, on the same conditions, to deployers of high-risk AI and to providers and deployers of other AI systems and models. This is a direct bridge between GDPR and the AI Act.</p></div>
+  <details class="dvf-upd-was"><summary>What this page said before</summary>
+    <div class="dvf-upd-old"><p>Article 10(5) creates a limited exception to GDPR&rsquo;s prohibition on processing special category data (race, health, religion). Providers of high-risk AI may process this data specifically for bias detection and correction &mdash; but only when anonymized/synthetic data won&rsquo;t work, with strict safeguards, no third-party transfers, and mandatory deletion after bias correction. This is a direct bridge between GDPR and the AI Act.</p></div>
+    <p class="dvf-upd-src">Source: <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02024R1689-20260727" target="_blank" rel="noopener">AI Act as amended, Art. 4a</a> &middot; <a href="https://eur-lex.europa.eu/eli/reg/2026/1744/oj" target="_blank" rel="noopener">Regulation (EU) 2026/1744, Art. 1(6) and 1(9)(b)</a> &middot; <a href="../updates.html#u05-01">all updates</a></p>
+  </details>
+</div>
         </div>
       </div>
     </div>
@@ -2711,9 +2732,9 @@ code {
     </div>
     <table class="data-table">
       <tr><th>AI Act Requirement</th><th>Data Vault Feature</th></tr>
-      <tr><td class="bk">Data provenance (Art. 10(2)(aa))</td><td class="val">record_source and load_date on every row</td></tr>
+      <tr><td class="bk">Data provenance (<span class="dvf-upd-i" id="u05-02" data-upd="u05-02"><del>Art. 10(2)(aa)</del> <ins>Art. 10(2)(b)</ins><a class="dvf-upd-chip" href="../updates.html#u05-02" title="Updated 20 Nov 2026: see what changed and the source">Updated</a></span>)</td><td class="val">record_source and load_date on every row</td></tr>
       <tr><td class="bk">Transformation documentation (Art. 10(2)(c))</td><td class="val">Staging &rarr; Raw Vault &rarr; Business Vault: each layer is distinct and auditable</td></tr>
-      <tr><td class="bk">Quality verification (Art. 10(3))</td><td class="val">Business Vault validation rules + Feature Mart quality gates</td></tr>
+      <tr><td class="bk">Quality verification (Art. 10(3))</td><td class="val">Business Vault validation rules + <span class="dvf-upd-i" id="u05-03" data-upd="u05-03"><del>Feature Mart</del> <ins>AI-Mart</ins><a class="dvf-upd-chip" href="../updates.html#u05-03" title="Updated 20 Nov 2026: see what changed and the source">Updated</a></span> quality gates</td></tr>
       <tr><td class="bk">Bias examination (Art. 10(2)(f))</td><td class="val">Profiling queries on Business Vault &mdash; demographic breakdowns</td></tr>
       <tr><td class="bk">Immutability for audit (Arts. 11-12)</td><td class="val">Append-only Satellite design &mdash; nothing overwritten</td></tr>
     </table>
@@ -2969,7 +2990,7 @@ code {
 
   <div class="concept-callout">
     <div class="concept-label">On AI Act + DV</div>
-    <blockquote>&ldquo;The EU AI Act requires documented data provenance, transformation audit trails, and bias examination for high-risk AI systems. Data Vault provides most of this by design &mdash; record source, load date, and the separation between Raw Vault and Business Vault create a traceable transformation chain. The Feature Mart becomes the compliance enforcement point.&rdquo;</blockquote>
+    <blockquote>&ldquo;The EU AI Act requires documented data provenance, transformation audit trails, and bias examination for high-risk AI systems. Data Vault provides most of this by design &mdash; record source, load date, and the separation between Raw Vault and Business Vault create a traceable transformation chain. The <span class="dvf-upd-i" data-upd="u05-03"><del>Feature Mart</del> <ins>AI-Mart</ins></span> becomes the compliance enforcement point.&rdquo;</blockquote>
   </div>
 
   

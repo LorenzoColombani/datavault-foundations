@@ -1055,6 +1055,7 @@ body::before {
 }
 
 </style>
+<link rel="stylesheet" href="../assets/updates.css">
 </head>
 <body data-chapter="8" style="padding-top: 52px;">
 <canvas id="particle-field"></canvas>
@@ -1121,6 +1122,11 @@ body::before {
     <span class="meta-chip">Audit Frameworks</span>
     <span class="meta-chip">Data Lineage</span>
   </div>
+  <div class="dvf-review" id="law-review">
+    <span class="dvf-review-dot"></span>
+    <div><span class="dvf-review-date">Law as of 20 November 2026</span>First published in March 2026. Checked against the law again on 20 November 2026: <strong><span data-upd-count>5</span> passages were updated</strong>. Each one is marked <span class="dvf-upd-tag">Updated</span> and keeps the earlier text. <a href="../updates.html#ch8">See every change, with sources</a></div>
+  </div>
+
 </div>
 
 <div class="act-divider">
@@ -1253,10 +1259,10 @@ body::before {
     </div>
     <div class="layer layer-3">
       <div class="layer-header" onclick="toggleLayer(this)"><span class="layer-badge">L3</span><span class="layer-label">Technical &mdash; European responses</span><span class="layer-toggle">&darr;</span></div>
-      <div class="layer-content"><div class="layer-content-inner">
+      <div class="layer-content dvf-roomy"><div class="layer-content-inner">
         <p><strong>Gaia-X</strong> &mdash; A European initiative for federated, sovereign data infrastructure. Not a cloud provider itself &mdash; it defines standards and trust frameworks so European organizations can share data under European rules.</p>
         <p><strong>Sovereign cloud offerings</strong> &mdash; AWS European Sovereign Cloud, Azure EU Data Boundary, Google Sovereign Cloud. These address <em>infrastructure</em> sovereignty but the <em>legal</em> sovereignty question under the CLOUD Act remains contested.</p>
-        <p><strong>EUCS debate</strong> &mdash; The EU Cybersecurity Certification Scheme for Cloud Services is debating whether the highest certification level should require EU ownership and control.</p>
+        <p><strong>EUCS debate</strong> &mdash; <span class="dvf-upd-i" id="u08-05" data-upd="u08-05"><del>The EU Cybersecurity Certification Scheme for Cloud Services is debating whether the highest certification level should require EU ownership and control.</del> <ins>The EU Cybersecurity Certification Scheme for Cloud Services has still not been adopted. In June 2026 the Commission wrote that certification can cover technical security but is not the right tool for sovereignty questions, and proposed to handle those in a separate law, the Cloud and AI Development Act. That law is itself only a proposal.</ins><a class="dvf-upd-chip" href="../updates.html#u08-05" title="Updated 20 Nov 2026: see what changed and the source">Updated</a></span></p>
       </div></div>
     </div>
     <div class="layer layer-4">
@@ -1333,15 +1339,15 @@ body::before {
         <div class="timeline-node current" style="transition-delay: 0.4s;">
           <div class="timeline-year">2023</div>
           <div class="timeline-title">EU-US Data Privacy Framework (DPF)</div>
-          <div class="timeline-desc">Third attempt. Based on US Executive Order 14086. Currently valid for certified US organizations.</div>
+          <div class="timeline-desc">Third attempt. Based on US Executive Order 14086. Currently valid for certified US organizations. <span class="dvf-upd-i" id="u08-03" data-upd="u08-03"><ins>Still valid on 20 November 2026. A first court challenge failed: on 3 September 2025 the EU General Court dismissed the action brought by Philippe Latombe (case T-553/23). His appeal to the Court of Justice (C-703/25 P) is pending.</ins><a class="dvf-upd-chip" href="../updates.html#u08-03" title="Updated 20 Nov 2026: see what changed and the source">Updated</a></span></div>
           <div class="timeline-status fragile">Active but Fragile</div>
         </div>
 
         <div class="timeline-node pending" style="transition-delay: 0.5s;">
           <div class="timeline-year">Anticipated</div>
           <div class="timeline-title">Schrems III?</div>
-          <div class="timeline-desc">NOYB (Schrems' organization) has indicated it will challenge the DPF. An executive order can be revoked by any future president &mdash; it is not legislation.</div>
-          <div class="timeline-status anticipated">Challenge Expected</div>
+          <div class="timeline-desc"><span class="dvf-upd-i" data-upd="u08-03"><del>NOYB (Schrems' organization) has indicated it will challenge the DPF.</del> <ins>NOYB (Schrems' organization) has not filed a case so far. On 29 June 2026 it announced that it would, after the US Supreme Court ruled that the President may dismiss the commissioners of the FTC, the main US enforcer of the framework. On 31 July 2026 the European Data Protection Board asked the Commission to assess whether that ruling affects the framework.</ins></span> An executive order can be revoked by any future president &mdash; it is not legislation.</div>
+          <div class="timeline-status anticipated"><span class="dvf-upd-i" data-upd="u08-03"><del>Challenge Expected</del> <ins>Appeal pending &middot; new challenge announced</ins></span></div>
         </div>
 
       </div>
@@ -1357,7 +1363,7 @@ body::before {
 
   <div class="concept-callout">
     <div class="concept-callout-label">KEY CONCEPT</div>
-    <p>"The Schrems cases have shown that EU-US data transfer agreements are structurally fragile &mdash; Safe Harbor lasted 15 years, Privacy Shield lasted 4, and the current Data Privacy Framework faces an anticipated challenge. For data architecture, this means building for portability, not assuming any single transfer mechanism will last."</p>
+    <p>"The Schrems cases have shown that EU-US data transfer agreements are structurally fragile &mdash; Safe Harbor lasted 15 years, Privacy Shield lasted 4, and the current Data Privacy Framework <span class="dvf-upd-i" data-upd="u08-03"><del>faces an anticipated challenge</del> <ins>survived a first court challenge in 2025, with an appeal pending and another challenge announced</ins></span>. For data architecture, this means building for portability, not assuming any single transfer mechanism will last."</p>
   </div>
 </div>
 
@@ -1405,7 +1411,14 @@ body::before {
         <div class="pm-panel-body">
           <p><strong>Analogy:</strong> A visa-free travel agreement. The EU says "that country's laws are good enough." No extra steps needed.</p>
           <p><strong>How it works:</strong> The EU Commission evaluates a country's entire data protection legal framework: independent supervision, judicial redress, safeguards against mass surveillance.</p>
-          <p><strong>Currently adequate:</strong> Andorra, Argentina, Canada (commercial), Faroe Islands, Guernsey, Israel, Isle of Man, Japan, Jersey, New Zealand, Republic of Korea, Switzerland, UK, Uruguay, and the US under the DPF (for certified organizations only).</p>
+          <div class="dvf-upd" id="u08-01" data-upd="u08-01">
+  <div class="dvf-upd-head"><span class="dvf-upd-tag">Updated 20 Nov 2026</span><span class="dvf-upd-kind">Events since publication</span></div>
+  <div class="dvf-upd-now"><p><strong>Currently adequate</strong> (list of 20 November 2026): Andorra, Argentina, <strong>Brazil</strong>, Canada (commercial organisations), Faroe Islands, Guernsey, Israel, Isle of Man, Japan, Jersey, New Zealand, Republic of Korea, Switzerland, the UK, Uruguay, the US under the DPF (for certified organizations only), and one international body, the <strong>European Patent Organisation</strong>.</p><p>New since this chapter was written: Brazil, since 26 January 2026. The European Patent Organisation has been on the list since 15 July 2025. The UK decisions were renewed in December 2025 and now run until 27 December 2031.</p></div>
+  <details class="dvf-upd-was"><summary>What this page said before</summary>
+    <div class="dvf-upd-old"><p><strong>Currently adequate:</strong> Andorra, Argentina, Canada (commercial), Faroe Islands, Guernsey, Israel, Isle of Man, Japan, Jersey, New Zealand, Republic of Korea, Switzerland, UK, Uruguay, and the US under the DPF (for certified organizations only).</p></div>
+    <p class="dvf-upd-src">Source: <a href="https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en" target="_blank" rel="noopener">European Commission, list of adequacy decisions</a> &middot; <a href="https://eur-lex.europa.eu/eli/dec_impl/2026/179/oj" target="_blank" rel="noopener">Implementing Decision (EU) 2026/179 (Brazil)</a> &middot; <a href="https://eur-lex.europa.eu/eli/dec_impl/2025/1382/oj" target="_blank" rel="noopener">Implementing Decision (EU) 2025/1382 (European Patent Organisation)</a> &middot; <a href="https://eur-lex.europa.eu/eli/dec_impl/2025/2574/oj" target="_blank" rel="noopener">Implementing Decision (EU) 2025/2574 (UK renewal)</a> &middot; <a href="../updates.html#u08-01">all updates</a></p>
+  </details>
+</div>
           <p><strong>Effort:</strong> None &mdash; automatic once the country is on the list.</p>
           <p><strong>Risk:</strong> Low (but can be revoked &mdash; see Schrems saga).</p>
         </div>
@@ -1643,7 +1656,7 @@ body::before {
           <tbody>
             <tr class="stagger-item"><td><strong style="color: var(--sovereignty-text);">GDPR</strong></td><td>Art. 30, 15, 17</td><td>Know where personal data lives, where it came from, be able to find or delete it</td></tr>
             <tr class="stagger-item"><td><strong style="color: var(--transfer-text);">EU AI Act</strong></td><td>Art. 10</td><td>Document data provenance, transformation steps, quality measures</td></tr>
-            <tr class="stagger-item"><td><strong style="color: var(--schrems-text);">DORA</strong></td><td>Art. 6</td><td>Map information assets, identify dependencies, document data flows</td></tr>
+            <tr class="stagger-item"><td><strong style="color: var(--schrems-text);">DORA</strong></td><td><span class="dvf-upd-i" id="u08-06" data-upd="u08-06"><del>Art. 6</del> <ins>Art. 8</ins><a class="dvf-upd-chip" href="../updates.html#u08-06" title="Updated 20 Nov 2026: see what changed and the source">Updated</a></span></td><td>Map information assets, identify dependencies, document data flows</td></tr>
             <tr class="stagger-item"><td><strong style="color: var(--lineage-color);">BCBS 239</strong></td><td>Principle 3</td><td>Risk data traceable to source with documented transformation steps</td></tr>
           </tbody>
         </table>
@@ -1688,7 +1701,7 @@ body::before {
     <h3>Exercise 1 &mdash; Cross-Border Scenario Classification</h3>
     <p>Match each data transfer scenario to the <strong>correct legal mechanism</strong>.</p>
     <div class="match-row" data-correct="Adequacy Decision"><div class="match-label">A German company sends customer data to its subsidiary in Japan</div><select class="match-select"><option value="">&mdash; select &mdash;</option><option value="Adequacy Decision">Adequacy Decision</option><option value="SCCs + TIA">SCCs + TIA</option><option value="BCRs">BCRs</option><option value="Derogation">Derogation</option></select><span class="match-feedback"></span></div>
-    <div class="match-row" data-correct="SCCs + TIA"><div class="match-label">A French startup sends analytics data to a cloud provider in Brazil</div><select class="match-select"><option value="">&mdash; select &mdash;</option><option value="Adequacy Decision">Adequacy Decision</option><option value="SCCs + TIA">SCCs + TIA</option><option value="BCRs">BCRs</option><option value="Derogation">Derogation</option></select><span class="match-feedback"></span></div>
+    <div class="match-row" data-correct="SCCs + TIA"><div class="match-label">A French startup sends analytics data to a cloud provider in <span class="dvf-upd-i" id="u08-02" data-upd="u08-02"><del>Brazil</del> <ins>India</ins><a class="dvf-upd-chip" href="../updates.html#u08-02" title="Updated 20 Nov 2026: see what changed and the source">Updated</a></span></div><select class="match-select"><option value="">&mdash; select &mdash;</option><option value="Adequacy Decision">Adequacy Decision</option><option value="SCCs + TIA">SCCs + TIA</option><option value="BCRs">BCRs</option><option value="Derogation">Derogation</option></select><span class="match-feedback"></span></div>
     <div class="match-row" data-correct="BCRs"><div class="match-label">A multinational bank transfers employee HR data between its 40 global offices under a single approved policy</div><select class="match-select"><option value="">&mdash; select &mdash;</option><option value="Adequacy Decision">Adequacy Decision</option><option value="SCCs + TIA">SCCs + TIA</option><option value="BCRs">BCRs</option><option value="Derogation">Derogation</option></select><span class="match-feedback"></span></div>
     <div class="match-row" data-correct="Derogation"><div class="match-label">A patient in Vienna needs emergency surgery in Turkey; medical records must transfer immediately</div><select class="match-select"><option value="">&mdash; select &mdash;</option><option value="Adequacy Decision">Adequacy Decision</option><option value="SCCs + TIA">SCCs + TIA</option><option value="BCRs">BCRs</option><option value="Derogation">Derogation</option></select><span class="match-feedback"></span></div>
     <div class="match-row" data-correct="Adequacy Decision"><div class="match-label">An Italian e-commerce company stores customer data with a DPF-certified US provider</div><select class="match-select"><option value="">&mdash; select &mdash;</option><option value="Adequacy Decision">Adequacy Decision</option><option value="SCCs + TIA">SCCs + TIA</option><option value="BCRs">BCRs</option><option value="Derogation">Derogation</option></select><span class="match-feedback"></span></div>

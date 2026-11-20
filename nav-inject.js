@@ -23,6 +23,10 @@
     { file: '14-python-vault-runner.html', title: 'Python Vault Runner' }
   ];
 
+  // The date the regulation chapters were last checked against the law.
+  // Keep in step with data/updates.json (tools/build_updates.py checks it).
+  var LAW_AS_OF = '20 Nov 2026';
+
   var current = parseInt(document.body.getAttribute('data-chapter'), 10);
   if (!current || current < 1 || current > chapters.length) return;
 
@@ -70,6 +74,12 @@
     '.dvf-nav-top .dvf-nav-arrows a:hover { border-color: rgba(0, 180, 255, 0.5);',
     '  background: rgba(0, 180, 255, 0.08); }',
     '.dvf-nav-top .dvf-nav-arrows a.disabled { opacity: 0.25; pointer-events: none; }',
+    '.dvf-nav-top .dvf-nav-arrows a.dvf-nav-upd { font-size: 10px; letter-spacing: 0.08em;',
+    '  text-transform: uppercase; color: #c084fc; border-color: rgba(168, 85, 247, 0.35);',
+    '  padding: 6px 10px; white-space: nowrap; }',
+    '.dvf-nav-top .dvf-nav-arrows a.dvf-nav-upd:hover { color: #e9d5ff;',
+    '  border-color: rgba(168, 85, 247, 0.7); background: rgba(168, 85, 247, 0.1); }',
+    '.dvf-nav-upd .dvf-nav-upd-date { color: rgba(255,255,255,0.45); margin-left: 6px; }',
     '',
     '.dvf-nav-bottom { margin-top: 60px; padding: 32px 24px;',
     '  border-top: 1px solid rgba(0, 180, 255, 0.1);',
@@ -89,9 +99,15 @@
     '  font-family: "Exo 2", sans-serif; font-size: 11px;',
     '  color: rgba(255,255,255,0.25); letter-spacing: 0.04em; }',
     '',
+    '@media (max-width: 900px) {',
+    '  .dvf-nav-upd .dvf-nav-upd-date { display: none; }',
+    '}',
     '@media (max-width: 600px) {',
     '  .dvf-nav-top { padding: 0 12px; }',
     '  .dvf-nav-top a { font-size: 10px; }',
+    '  .dvf-nav-top .dvf-nav-center { display: none; }',
+    '  .dvf-nav-top .dvf-nav-arrows { gap: 8px; }',
+    '  .dvf-nav-top .dvf-nav-arrows a.dvf-nav-upd { font-size: 9px; padding: 6px 8px; }',
     '  .dvf-nav-bottom { flex-direction: column; text-align: center; }',
     '  .dvf-nav-bottom .dvf-nb-prev,',
     '  .dvf-nav-bottom .dvf-nb-next { max-width: 100%; }',
@@ -106,6 +122,10 @@
     'Chapter ' + current + ' of ' + chapters.length));
 
   var arrows = makeEl('div', 'dvf-nav-arrows');
+  var updLink = makeLink('../updates.html', 'Updates', 'dvf-nav-upd',
+    'What changed on this site, and when. Law as of ' + LAW_AS_OF);
+  updLink.appendChild(makeEl('span', 'dvf-nav-upd-date', 'law as of ' + LAW_AS_OF));
+  arrows.appendChild(updLink);
   if (prev) {
     arrows.appendChild(makeLink(prev.file, '\u2190', null, prev.title));
   } else {
@@ -136,6 +156,39 @@
       holoNav.parentNode.insertBefore(spacer, holoNav.nextSibling);
     }
   }
+
+  // A link from the Updates page lands on a marker that may sit inside a
+  // closed fold-out. Open whatever hides it, then scroll to it.
+  function revealUpdate() {
+    var id = (window.location.hash || '').slice(1);
+    if (!/^u\d\d-\d\d$/.test(id)) return;
+    var el = document.getElementById(id);
+    if (!el) return;
+    var n = el.parentElement;
+    while (n && n !== document.body) {
+      if (n.classList) {
+        if (n.classList.contains('layer')) n.classList.add('open');
+        if (n.classList.contains('explore-panel')) {
+          n.classList.add('open');
+          var opener = n.previousElementSibling;
+          if (opener && opener.classList.contains('explore-opener')) opener.classList.add('open');
+        }
+        if (n.hasAttribute('data-dvf-tab')) {
+          var tab = document.querySelector('[data-dvf-tab-for="' + n.getAttribute('data-dvf-tab') + '"]');
+          if (tab && typeof tab.click === 'function') tab.click();
+        }
+      }
+      n = n.parentElement;
+    }
+    setTimeout(function () {
+      // 'instant' on purpose: the chapters set scroll-behavior: smooth, and a
+      // smooth scroll started while a fold-out is still opening can stall.
+      el.scrollIntoView({ block: 'center', behavior: 'instant' });
+      el.classList.add('dvf-arrived');
+    }, 700);
+  }
+  window.addEventListener('load', revealUpdate);
+  window.addEventListener('hashchange', revealUpdate);
 
   // Bottom navigation
   var container = document.querySelector('.page-content')
