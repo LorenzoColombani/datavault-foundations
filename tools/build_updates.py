@@ -145,7 +145,7 @@ if not m or m.group(1) != data['law_as_of_short']:
 
 # the navigation shows the law date on exactly the regulation chapters
 lm = re.search(r'var LAW_CHAPTERS = \{([^}]*)\};', nav)
-law_chapters = {int(x) for x in re.findall(r'(\d+)\s*:', lm.group(1))} if lm else set()
+law_chapters = {int(x) for x in re.findall(r'(\d+)\s*:\s*true\b', lm.group(1))} if lm else set()
 if law_chapters != set(CHAPTERS):
     problems.append(f'nav-inject.js: LAW_CHAPTERS is {sorted(law_chapters)}, expected {sorted(CHAPTERS)}')
 
@@ -157,10 +157,16 @@ if '<span data-upd-total>' not in idx:
     problems.append('index.html: no update total found')
 if data['law_as_of_label'] not in idx:
     problems.append(f'index.html: does not show {data["law_as_of_label"]}')
-for no in sorted(by_chapter):
-    card_m = re.search(r'<a class="chapter-card[^"]*" href="chapters/%s">(.*?)</a>' % re.escape(CHAPTERS[no][0]), idx, flags=re.S)
-    if not card_m or 'tag-updated' not in card_m.group(1):
-        problems.append(f'index.html: the card of chapter {no} has updates but no "Updated" tag')
+# every card of a chapter with updates carries a tag dated with that chapter's newest update; no other card has one
+for card_no, card_html in re.findall(r'<a class="chapter-card[^"]*" href="chapters/(\d\d)-[^"]+">(.*?)</a>', idx, flags=re.S):
+    no = int(card_no)
+    tags = re.findall(r'<span class="card-tag tag-updated">([^<]*)</span>', card_html)
+    if no in by_chapter:
+        want = 'Updated ' + short_date(max(u['date'] for u in by_chapter[no]))
+        if tags != [want]:
+            problems.append(f'index.html: the card of chapter {no} should carry one tag "{want}", found {tags}')
+    elif tags:
+        problems.append(f'index.html: the card of chapter {no} has an "Updated" tag but no updates')
 if write('index.html', new_idx):
     print(f'index.html: total set to {total}')
 
