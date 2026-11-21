@@ -183,6 +183,21 @@
       ]
     },
     {
+      "id": "u05-05",
+      "chapter": 5,
+      "kind": "fix",
+      "title": "What the AI Act's 3% fine tier is tied to",
+      "was": "AI Act (high-risk non-compliance): EUR 15,000,000 or 3%",
+      "now": "AI Act (duties of providers, deployers and other operators, and of notified bodies; transparency duties): EUR 15,000,000 or 3%. The amounts were right; the label was too narrow. Chapter 9 has the detail.",
+      "where": "Fines comparison table",
+      "sources": [
+        [
+          "AIA",
+          "Art. 99(4)"
+        ]
+      ]
+    },
+    {
       "id": "u07-01",
       "chapter": 7,
       "kind": "fix",
@@ -284,10 +299,10 @@
     {
       "id": "u07-06",
       "chapter": 7,
-      "kind": "news",
-      "title": "The first critical ICT providers have been named",
+      "kind": "fix",
+      "title": "The first critical ICT providers had already been named",
       "was": "AWS, Microsoft Azure, and Google Cloud are likely among the first designees.",
-      "now": "The European Supervisory Authorities published the first list on 18 November 2025: 19 companies, among them Amazon Web Services EMEA, Microsoft Ireland Operations and Google Cloud EMEA.",
+      "now": "The European Supervisory Authorities published the first list on 18 November 2025: 19 companies, among them Amazon Web Services EMEA, Microsoft Ireland Operations and Google Cloud EMEA. The list was already out when this chapter was written; the chapter still spoke of likely candidates.",
       "where": "DORA section, layer 4",
       "sources": [
         [
@@ -299,10 +314,10 @@
     {
       "id": "u08-01",
       "chapter": 8,
-      "kind": "news",
-      "title": "The adequacy list now includes Brazil and the European Patent Organisation",
+      "kind": "fix",
+      "title": "The adequacy list was missing Brazil and the European Patent Organisation",
       "was": "Currently adequate: Andorra, Argentina, Canada (commercial), Faroe Islands, Guernsey, Israel, Isle of Man, Japan, Jersey, New Zealand, Republic of Korea, Switzerland, UK, Uruguay, and the US under the DPF.",
-      "now": "The same list plus Brazil (adequacy decision of 26 January 2026) and one international body, the European Patent Organisation (15 July 2025). The UK decisions were renewed on 19 December 2025 and now run until 27 December 2031.",
+      "now": "The same list plus Brazil (adequacy decision of 26 January 2026) and one international body, the European Patent Organisation (15 July 2025). The UK decisions were renewed on 19 December 2025 and run until 27 December 2031. All three predate this chapter, which had missed them.",
       "where": "Transfer mechanisms, Adequacy tab",
       "sources": [
         [
@@ -345,11 +360,11 @@
     {
       "id": "u08-03",
       "chapter": 8,
-      "kind": "news",
+      "kind": "fix",
       "title": "EU-US Data Privacy Framework: still valid; first challenge dismissed, appeal pending",
-      "was": "Currently valid for certified US organizations. \"Schrems III?\": NOYB has indicated it will challenge the DPF. Status: Challenge Expected.",
-      "now": "The framework is still valid on 20 November 2026. On 3 September 2025 the EU General Court dismissed the first challenge (T-553/23, Latombe v Commission). The appeal to the Court of Justice (C-703/25 P, lodged 31 October 2025) is pending: no Advocate General opinion and no judgment yet. NOYB has not filed a case so far; on 29 June 2026 it announced that it would, after the US Supreme Court ruled in Trump v. Slaughter that the President may dismiss FTC commissioners. On 31 July 2026 the European Data Protection Board asked the Commission to assess whether that ruling affects the framework.",
-      "where": "Schrems timeline, last two entries; key concept quote",
+      "was": "Currently valid for certified US organizations. \"Schrems III?\": NOYB has indicated it will challenge the DPF. Status: Challenge Expected. \"The pattern is clear: every EU-US data transfer framework has been struck down within a few years.\"",
+      "now": "The framework is still valid on 20 November 2026. On 3 September 2025 the EU General Court dismissed the first challenge (T-553/23, Latombe v Commission). The appeal to the Court of Justice (C-703/25 P, lodged 31 October 2025) is pending: no Advocate General opinion and no judgment yet. NOYB has not filed a case so far; on 29 June 2026 it announced that it would, after the US Supreme Court ruled in Trump v. Slaughter that the President may dismiss FTC commissioners. On 31 July 2026 the European Data Protection Board asked the Commission to assess whether that ruling affects the framework. The 2025 court dates predate this chapter, which had missed them; what happened in June and July 2026 is new. The sentence that every framework \"has been struck down\" now says that both earlier ones were, and that the third is being challenged.",
+      "where": "Schrems timeline, last two entries; key concept quote; the paragraph under the timeline",
       "sources": [
         [
           "DPF",
@@ -468,12 +483,31 @@
       "kind": "fix",
       "title": "The product-safety list is Annex I, not Annex II",
       "was": "Annex II (product safety): AI embedded in already-regulated products.",
-      "now": "Annex I lists the EU product-safety laws (medical devices, machinery, toys, vehicles). Annex II is a list of criminal offences used for one of the Article 5 bans. \"Annex II\" for product safety was draft numbering.",
+      "now": "Annex I lists the EU product-safety laws, in two sections (see the update on Annex I's two sections). Annex II is a list of criminal offences used for one of the Article 5 bans. \"Annex II\" for product safety was draft numbering.",
       "where": "Risk tiers, layer 3; timeline table; radiology example",
       "sources": [
         [
           "AIA",
           "Art. 6(1); Annex I; Annex II"
+        ]
+      ]
+    },
+    {
+      "id": "u09-18",
+      "chapter": 9,
+      "kind": "fix",
+      "title": "Annex I has two sections, and machinery moved to the second",
+      "was": "AI embedded in already-regulated products: medical devices, vehicles, machinery, toys. Financial services clients must comply before \"manufacturing clients with product-embedded AI\". \"Enforcement: August 2027\" for the whole list.",
+      "now": "Products under Annex I, Section A (medical devices, toys, lifts, radio equipment and others) are covered by the Act directly. For products under Section B (vehicles, aircraft, marine and rail equipment) only a few articles of the Act apply; its requirements reach them through their own sector law. Vehicles were in Section B from the start. Machinery was moved from Section A to Section B on 27 July 2026: the Commission must write the requirements into the Machinery Regulation, and those rules must apply by 2 August 2028. For vehicles and aircraft the Act sets no such date. The example now names medical-device makers instead of manufacturing clients. When this chapter was written machinery was still in Section A, so the page was right about machinery then; about vehicles it was imprecise from the start.",
+      "where": "Risk tiers, layer 3; enforcement timeline table",
+      "sources": [
+        [
+          "AIA",
+          "Art. 2(2); Art. 6(1); Annex I, Sections A and B; Art. 113, third paragraph, point (c)(ii)"
+        ],
+        [
+          "OMN",
+          "Art. 1(2)(a); Art. 1(41); recital 42; Art. 3(1), amending the Machinery Regulation"
         ]
       ]
     },
@@ -522,7 +556,7 @@
       "kind": "fix",
       "title": "What the 3% fine tier is tied to",
       "was": "High-risk non-compliance (Arts. 9-15): EUR 15,000,000 or 3%",
-      "now": "The 15 million / 3% tier in Article 99(4) is tied to the duties of each kind of operator: providers (Article 16), authorised representatives, importers, distributors, deployers (Article 26), notified bodies, and the transparency duties of Article 50. Articles 9 to 15 come in through Article 16, which makes providers responsible for meeting them. The amounts were checked and are right.",
+      "now": "The 15 million / 3% tier in Article 99(4) is tied to the duties of each kind of operator: providers (Article 16), authorised representatives, importers, distributors, deployers (Article 26), notified bodies, and the transparency duties of Article 50; since 27 July 2026 also the duties in Article 25(2) and (4). Articles 9 to 15 come in through Article 16, which makes providers responsible for meeting them. The amounts were checked and are right.",
       "where": "Penalties fold-out",
       "sources": [
         [
@@ -583,7 +617,7 @@
       "law_date": "27 July 2026",
       "title": "AI literacy (Article 4) was reworded",
       "was": "Applies to all AI systems. Already in effect since Feb 2025. No standalone fine, but non-compliance is an aggravating factor. For BI consultants, understanding the AI Act is a legal obligation.",
-      "now": "Providers and deployers must take measures to support the development of AI literacy of their staff and of others who operate AI on their behalf. The text now says this does not require guaranteeing any specific level of AI literacy for any individual. Article 99 sets no fine of its own for Article 4. The sentence about an \"aggravating factor\" was removed: the Act does not say that. The sentence that called AI Act knowledge a legal obligation for consultants was softened: the duty in Article 4 falls on providers and deployers.",
+      "now": "Providers and deployers must take measures to support the development of AI literacy of their staff and of others who operate AI on their behalf. The text now says this does not require guaranteeing any specific level of AI literacy for any individual. Article 99 sets no fine of its own for Article 4. The sentence about an \"aggravating factor\" was removed: the Act does not say that. The sentence that called AI Act knowledge a legal obligation for consultants was softened: the duty in Article 4 falls on providers and deployers. Neither sentence was in the Act before the change either; the marker in the chapter says so.",
       "where": "AI literacy panel",
       "sources": [
         [

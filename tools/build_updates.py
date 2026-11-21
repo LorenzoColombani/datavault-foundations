@@ -5,18 +5,29 @@ One list, data/updates.json, holds every change made to the regulation
 chapters: what the page said, what it says now, when, and the source.
 This script
 
-  1. checks that list against the chapters (every update has a marker in its
-     chapter, every marker in a chapter is on the list);
-  2. writes the number of updates into each chapter banner and into index.html;
-  3. checks the "law as of" date in nav-inject.js;
-  4. writes updates.html;
-  5. rewrites the table inside docs/regulation-updates-2026-11.md.
+  1. checks the list itself;
+  2. checks it against the chapters: every update has a marker in its chapter
+     and every marker is on the list; each marker shows the date and the kind
+     the list gives it; each "Updated" link leads to its own entry; no id is
+     used twice; the banner shows the date and the count;
+  3. checks the "law as of" date in nav-inject.js and the cards on index.html;
+  4. builds updates.html;
+  5. rebuilds the tables inside docs/regulation-updates-2026-11.md.
+
+It keeps three things up to date by itself: the count in each chapter banner,
+the total on index.html, and the spoken name of each "Updated" link.
+
+What it cannot check: whether a sentence about the law is right, and whether a
+"said before" text is what the page really said. Those are checked by reading
+the source and the earlier version, and recorded in the docs note.
 
 Run from the repo root:   python3 tools/build_updates.py
 Check only, write nothing: python3 tools/build_updates.py --check
-Exit code 1 means something is out of step; the message says what.
+Exit code 1 means something is out of step; the message says what, and no file
+is written. tools/test_build_updates.py tests this script.
 """
 import html
+from html.parser import HTMLParser
 import json
 import os
 import re
@@ -50,6 +61,7 @@ MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
           'August', 'September', 'October', 'November', 'December']
 
 problems = []
+pending = {}   # files to write once everything has been checked
 
 
 def read(rel):
@@ -58,17 +70,15 @@ def read(rel):
 
 
 def write(rel, text):
+    """Queue a file for writing. With --check, a file that would change is reported instead."""
     path = os.path.join(ROOT, rel)
     old = read(rel) if os.path.exists(path) else None
     if old == text:
-        return False
+        return
     if CHECK_ONLY:
         problems.append(f'{rel} is out of date: run tools/build_updates.py')
-        return False
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, 'w', encoding='utf-8') as f:
-        f.write(text)
-    return True
+    else:
+        pending[rel] = text
 
 
 def long_date(iso):
@@ -85,59 +95,269 @@ def e(s):
     return html.escape(s, quote=True)
 
 
-data = json.loads(read('data/updates.json'))
+# ── reading a page ───────────────────────────────────────────────────────────
+VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'}
+
+
+class Node:
+    """One element of a page: tag, attributes, children (elements and strings)."""
+
+    def __init__(self, tag, attrs, parent):
+        self.tag, self.attrs, self.parent, self.children = tag, attrs, parent, []
+
+    def classes(self):
+        return (self.attrs.get('class') or '').split()
+
+    def text(self, skip=None):
+        """The words inside, on one line. skip: leave out elements that carry this class."""
+        parts = [c if isinstance(c, str) else ('' if skip and skip in c.classes() else c.text(skip)) for c in self.children]
+        return ' '.join(''.join(parts).split())
+
+    def walk(self):
+        for c in self.children:
+            if isinstance(c, Node):
+                yield c
+                yield from c.walk()
+
+    def find(self, tag=None, cls=None):
+        return [n for n in self.walk() if (tag is None or n.tag == tag) and (cls is None or cls in n.classes())]
+
+    def inside(self, test):
+        n = self.parent
+        while n is not None:
+            if test(n):
+                return n
+            n = n.parent
+        return None
+
+    def hidden(self, own_only=False):
+        """True when the element is kept off the page by markup: its own, or (unless own_only) that of
+        anything around it. Chapters fold answers away with an inline style until the reader opens them,
+        so for a marker only its own markup counts."""
+        n = self
+        while n is not None:
+            style = (n.attrs.get('style') or '').replace(' ', '').lower()
+            if n.tag == 'template' or 'hidden' in n.attrs or 'display:none' in style:
+                return True
+            n = None if own_only else n.parent
+        return False
+
+
+class Dom(HTMLParser):
+    """Python's own HTML reader, so quotes, capitals, attribute order and comments are handled as a browser would."""
+
+    def __init__(self, text):
+        super().__init__(convert_charrefs=True)
+        self.root = self.cur = Node('#root', {}, None)
+        self.feed(text)
+        self.close()
+
+    def handle_starttag(self, tag, attrs):
+        node = Node(tag, {k: (v if v is not None else '') for k, v in attrs}, self.cur)
+        self.cur.children.append(node)
+        if tag not in VOID:
+            self.cur = node
+
+    def handle_startendtag(self, tag, attrs):
+        self.cur.children.append(Node(tag, {k: (v if v is not None else '') for k, v in attrs}, self.cur))
+
+    def handle_endtag(self, tag):
+        n = self.cur
+        while n is not None and n.tag != tag:
+            n = n.parent
+        if n is not None and n.parent is not None:
+            self.cur = n.parent
+
+    def handle_data(self, data):
+        self.cur.children.append(data)
+
+
+def finish():
+    """Report and stop. Files are written only when nothing is out of step."""
+    if problems:
+        print('\nOUT OF STEP' + ('' if CHECK_ONLY else ' (nothing was written)') + ':')
+        for p in problems:
+            print('  -', p)
+        sys.exit(1)
+    for rel, text in pending.items():
+        path = os.path.join(ROOT, rel)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, 'w', encoding='utf-8') as f:
+            f.write(text)
+        print(f'{rel}: written')
+    print(f'OK: {len(updates)} updates across chapters {sorted(by_chapter)}; law as of {data["law_as_of_label"]}')
+    sys.exit(0)
+
+
+updates, by_chapter = [], {}
+try:
+    data = json.loads(read('data/updates.json'))
+except ValueError as err:
+    problems.append(f'data/updates.json is not valid JSON: {err}')
+    data = {'law_as_of_label': '?'}
+    finish()
+for key in ('law_as_of', 'law_as_of_label', 'law_as_of_short', 'first_published', 'sources', 'updates'):
+    if key not in data:
+        problems.append(f'data/updates.json: "{key}" is missing')
+if problems:
+    data.setdefault('law_as_of_label', '?')
+    finish()
 SRC = data['sources']
 updates = data['updates']
 for u in updates:
     u.setdefault('date', data['law_as_of'])
 
-# ── 1. the list against the chapters ─────────────────────────────────────────
-ids = [u['id'] for u in updates]
-if len(ids) != len(set(ids)):
-    problems.append('duplicate ids in data/updates.json')
-by_chapter = {}
+# ── 1. the list itself ───────────────────────────────────────────────────────
 for u in updates:
+    uid = u.get('id', '(no id)')
+    missing = [k for k in ('id', 'chapter', 'kind', 'title', 'was', 'now', 'where', 'sources') if k not in u]
+    if missing:
+        problems.append(f'{uid}: the entry lacks {", ".join(missing)}')
+        continue
+    shape = []
+    if not isinstance(u['chapter'], int):
+        shape.append('"chapter" must be a number')
+    if any(not isinstance(u[k], str) or not u[k].strip() for k in ('id', 'kind', 'title', 'was', 'now', 'where')):
+        shape.append('"id", "kind", "title", "was", "now" and "where" must be text')
+    if not isinstance(u['sources'], list) or any(not isinstance(s, list) or len(s) != 2 for s in u['sources']):
+        shape.append('"sources" must be a list of [key, place] pairs')
+    if not re.fullmatch(r'\d{4}-\d\d-\d\d', str(u['date'])):
+        shape.append('"date" must look like 2026-11-20')
+    if 'law_date' in u and not re.fullmatch(r'\d{1,2} (?:%s) \d{4}' % '|'.join(MONTHS), str(u['law_date'])):
+        shape.append('"law_date" must look like 27 July 2026')
+    if shape:
+        problems.append(f'{uid}: ' + '; '.join(shape))
+        continue
     by_chapter.setdefault(u['chapter'], []).append(u)
     if u['kind'] not in KIND:
-        problems.append(f"{u['id']}: unknown kind {u['kind']}")
+        problems.append(f"{uid}: unknown kind {u['kind']}")
     for key, _pin in u['sources']:
         if key not in SRC:
-            problems.append(f"{u['id']}: unknown source {key}")
-    if not re.fullmatch(r'u%02d-\d\d' % u['chapter'], u['id']):
-        problems.append(f"{u['id']}: id does not match chapter {u['chapter']}")
+            problems.append(f'{uid}: unknown source {key}')
+    if not re.fullmatch(r'u%02d-\d\d' % u['chapter'], uid):
+        problems.append(f"{uid}: id does not match chapter {u['chapter']}")
+    if u['chapter'] not in CHAPTERS:
+        problems.append(f"{uid}: chapter {u['chapter']} is not a regulation chapter known to this script")
+ids = [u.get('id') for u in updates]
+if len(ids) != len(set(ids)):
+    problems.append('duplicate ids in data/updates.json')
+for c in data.get('unchanged', []):
+    if any(k not in c for k in ('chapter', 'claim', 'source', 'pin')) or c.get('source') not in SRC:
+        problems.append(f'data/updates.json: an "unchanged" row lacks a field or names an unknown source: {str(c)[:80]}')
+if problems:
+    finish()   # the rest needs a sound list
+by_id = {u['id']: u for u in updates}
+total = len(updates)
 
-chapter_text = {}
+
+def kind_label(u, short):
+    """The kind as shown to the reader. With a law date: "The law changed on 27 Jul 2026", "Added to the law on ..."."""
+    if not u.get('law_date'):
+        return KIND[u['kind']]
+    d, m, y = u['law_date'].split()
+    lead = 'Added to the law' if u['kind'] == 'new' else KIND[u['kind']]
+    return f'{lead} on {d} {m[:3] if short else m} {y}'
+
+
+# ── 2. the list against the chapters ─────────────────────────────────────────
+UID = re.compile(r'u\d\d-\d\d')
+CHIP = re.compile(r'<a class="dvf-upd-chip" href="\.\./updates\.html#(u\d\d-\d\d)"(?: aria-label="[^"]*")? title="')
+
+
+def chip_with_label(m):
+    u = by_id.get(m.group(1))
+    label = f' aria-label="Updated: {e(u["title"])}"' if u else ''
+    return f'<a class="dvf-upd-chip" href="../updates.html#{m.group(1)}"{label} title="'
+
+
 for no, (fname, _title) in CHAPTERS.items():
     rel = f'chapters/{fname}'
-    t = read(rel)
-    chapter_text[no] = t
     listed = {u['id'] for u in by_chapter.get(no, [])}
-    anchors = set(re.findall(r'\bid="(u\d\d-\d\d)"', t))
-    marked = set(re.findall(r'data-upd="(u\d\d-\d\d)"', t))
+    n = len(listed)
+    # what this script keeps up to date in a chapter: the banner count, and a spoken name for each "Updated" link
+    t = re.sub(r'<span data-upd-count>\d+</span>', f'<span data-upd-count>{n}</span>', read(rel))
+    t = CHIP.sub(chip_with_label, t)
+    write(rel, t)
+    dom = Dom(t).root
+
+    seen = {}
+    for node in dom.walk():
+        if 'id' in node.attrs:
+            seen[node.attrs['id']] = seen.get(node.attrs['id'], 0) + 1
+    for i in sorted(i for i, c in seen.items() if c > 1):
+        problems.append(f'{rel}: the id "{i}" is used {seen[i]} times')
+
+    markers = [x for x in dom.walk() if 'data-upd' in x.attrs]
+    anchors = {x.attrs['data-upd'] for x in markers if x.attrs.get('id') == x.attrs['data-upd']}
+    marked = {x.attrs['data-upd'] for x in markers}
     for uid in sorted(listed - anchors):
         problems.append(f'{rel}: update {uid} is on the list but has no marker with that id')
-    for uid in sorted((anchors | marked) - listed):
+    for uid in sorted(marked - listed):
         problems.append(f'{rel}: marker {uid} is in the chapter but not on the list')
-    if listed and 'assets/updates.css' not in t:
-        problems.append(f'{rel}: has updates but does not load assets/updates.css')
-    if listed and 'id="law-review"' not in t:
-        problems.append(f'{rel}: has updates but no banner')
-    if listed and data['law_as_of_label'] not in t:
-        problems.append(f'{rel}: banner does not show {data["law_as_of_label"]}')
-    # 2. banner count
-    n = len(listed)
-    new_t = re.sub(r'<span data-upd-count>\d+</span>', f'<span data-upd-count>{n}</span>', t)
-    if listed and '<span data-upd-count>' not in t:
-        problems.append(f'{rel}: banner has no count')
-    if write(rel, new_t):
-        print(f'{rel}: banner count set to {n}')
+    for x in dom.walk():
+        if UID.fullmatch(x.attrs.get('id', '')) and 'data-upd' not in x.attrs:
+            problems.append(f'{rel}: an element has the id {x.attrs["id"]} but is not a marker (no data-upd)')
 
-for uid in ids:
-    ch = int(uid[1:3])
-    if ch not in CHAPTERS:
-        problems.append(f'{uid}: chapter {ch} is not a regulation chapter known to this script')
+    for x in markers:
+        uid = x.attrs['data-upd']
+        u = by_id.get(uid)
+        if u is None or uid not in listed:
+            continue   # reported above
+        block, inline = 'dvf-upd' in x.classes(), 'dvf-upd-i' in x.classes()
+        if not (block or inline):
+            problems.append(f'{rel}: marker {uid} is neither a dvf-upd block nor a dvf-upd-i span')
+            continue
+        if UID.fullmatch(x.attrs.get('id', '')) and x.attrs['id'] != uid:
+            problems.append(f'{rel}: a marker has id {x.attrs["id"]} but belongs to {uid}')
+        if x.hidden(own_only=True) or x.inside(lambda p: p.tag == 'template'):
+            problems.append(f'{rel}: marker {uid} is hidden')
+        if block:
+            want_tag, want_kind = 'Updated ' + short_date(u['date']), kind_label(u, short=True)
+            tag = [s.text() for s in x.find('span', 'dvf-upd-tag') if s.inside(lambda p: p is x or 'data-upd' in p.attrs) is x]
+            kind = [s.text() for s in x.find('span', 'dvf-upd-kind') if s.inside(lambda p: p is x or 'data-upd' in p.attrs) is x]
+            if tag != [want_tag]:
+                problems.append(f'{rel}: marker {uid} should be headed "{want_tag}", found {tag}')
+            if kind != [want_kind]:
+                problems.append(f'{rel}: marker {uid} should be labelled "{want_kind}", found {kind}')
+            if not any(b.text('dvf-sr') for b in x.find('div', 'dvf-upd-now')):
+                problems.append(f'{rel}: marker {uid} has no new text (dvf-upd-now)')
+        elif not any(c.text('dvf-sr') for c in x.find('ins') + x.find('del')):
+            problems.append(f'{rel}: marker {uid} shows neither new nor earlier text')
 
-# 3. the date in the navigation
+    for a in dom.find('a'):
+        href = a.attrs.get('href', '')
+        m = re.fullmatch(r'\.\./updates\.html#(u\d\d-\d\d)', href)
+        if m and m.group(1) not in by_id:
+            problems.append(f'{rel}: a link points at {href}, which is not on the list')
+        if 'dvf-upd-chip' in a.classes():
+            owner = a.inside(lambda p: 'data-upd' in p.attrs)
+            uid = owner.attrs['data-upd'] if owner else None
+            u = by_id.get(uid)
+            if u is None:
+                problems.append(f'{rel}: an "Updated" link sits outside every marker' if owner is None
+                                else f'{rel}: an "Updated" link sits in marker {uid}, which is not on the list')
+                continue
+            if href != f'../updates.html#{uid}':
+                problems.append(f'{rel}: the "Updated" link of {uid} points at {href}')
+            if not a.attrs.get('title', '').startswith('Updated ' + short_date(u['date'])):
+                problems.append(f'{rel}: the "Updated" link of {uid} should say "Updated {short_date(u["date"])}" in its title')
+            if a.attrs.get('aria-label') != f'Updated: {u["title"]}':
+                problems.append(f'{rel}: the "Updated" link of {uid} has no spoken name; write it as the other links are written')
+
+    if listed:
+        if not any(l.attrs.get('href', '').endswith('assets/updates.css') for l in dom.find('link')):
+            problems.append(f'{rel}: has updates but does not load assets/updates.css')
+        banner = [x for x in dom.walk() if x.attrs.get('id') == 'law-review']
+        if not banner or banner[0].hidden():
+            problems.append(f'{rel}: has updates but no visible banner')
+        else:
+            shown = re.findall(r'\d{1,2} (?:%s) \d{4}' % '|'.join(MONTHS), banner[0].text())
+            if not shown or any(d != data['law_as_of_label'] for d in shown):
+                problems.append(f'{rel}: banner does not show {data["law_as_of_label"]} throughout, found {shown}')
+            if [s.text() for s in banner[0].find('span') if 'data-upd-count' in s.attrs] != [str(n)]:
+                problems.append(f'{rel}: banner should show the count {n}')
+
+# ── 3. the navigation and the home page ──────────────────────────────────────
 nav = read('nav-inject.js')
 m = re.search(r"var LAW_AS_OF = '([^']+)';", nav)
 if not m or m.group(1) != data['law_as_of_short']:
@@ -149,50 +369,53 @@ law_chapters = {int(x) for x in re.findall(r'(\d+)\s*:\s*true\b', lm.group(1))} 
 if law_chapters != set(CHAPTERS):
     problems.append(f'nav-inject.js: LAW_CHAPTERS is {sorted(law_chapters)}, expected {sorted(CHAPTERS)}')
 
-# index.html: total and date
-idx = read('index.html')
-total = len(updates)
-new_idx = re.sub(r'<span data-upd-total>\d+</span>', f'<span data-upd-total>{total}</span>', idx)
-if '<span data-upd-total>' not in idx:
-    problems.append('index.html: no update total found')
-if data['law_as_of_label'] not in idx:
-    problems.append(f'index.html: does not show {data["law_as_of_label"]}')
-# every chapter with updates has a card that carries one tag, dated with that chapter's newest update;
-# no other card has such a tag, and none sits outside the cards
+idx = re.sub(r'<span data-upd-total>\d+</span>', f'<span data-upd-total>{total}</span>', read('index.html'))
+write('index.html', idx)
+home = Dom(idx).root
+strip = home.find(cls='law-strip')
+if len(strip) != 1 or strip[0].hidden():
+    problems.append('index.html: expected one visible "law as of" strip')
+else:
+    if data['law_as_of_label'] not in strip[0].text():
+        problems.append(f'index.html: does not show {data["law_as_of_label"]}')
+    if [s.text() for s in strip[0].find('span') if 'data-upd-total' in s.attrs] != [str(total)]:
+        problems.append(f'index.html: the strip should show the total {total}')
 
-
-def updated_tags(fragment):
-    """Text of every span whose class list holds tag-updated, whatever the order of the classes."""
-    return [text for cls, text in re.findall(r'<span\b[^>]*\bclass="([^"]*)"[^>]*>([^<]*)</span>', fragment)
-            if 'tag-updated' in cls.split()]
-
-
-cards = {}   # chapter number -> the inner HTML of each of its cards
-for attrs, inner in re.findall(r'<a\b([^>]*)>(.*?)</a>', idx, flags=re.S):
-    cls = re.search(r'\bclass="([^"]*)"', attrs)
-    href = re.search(r'\bhref="chapters/(\d\d)-[^"]+"', attrs)
-    if cls and href and 'chapter-card' in cls.group(1).split():
-        cards.setdefault(int(href.group(1)), []).append(inner)
+# every chapter with updates has exactly one visible card, linking to its file and carrying one tag dated with the
+# chapter's newest update; no other card carries such a tag, and none sits outside the cards
+cards = {}
+tags_in_cards = []
+for a in home.find('a', 'chapter-card'):
+    href = a.attrs.get('href', '')
+    m = re.fullmatch(r'(?:\./)?(chapters/(\d\d)-[^/#?]+\.html)(?:[#?].*)?', href)
+    if not m:
+        problems.append(f'index.html: a chapter card links to "{href}", not to a chapter file')
+        continue
+    no = int(m.group(2))
+    cards.setdefault(no, []).append(a)
+    if not os.path.exists(os.path.join(ROOT, m.group(1))):
+        problems.append(f'index.html: the card of chapter {no} links to {href}, which does not exist')
+    if a.hidden():
+        problems.append(f'index.html: the card of chapter {no} is hidden')
+    marked_spans = [s for s in a.walk() if 'tag-updated' in s.classes()]
+    tags_in_cards.extend(marked_spans)
+    good = [s.text() for s in marked_spans if s.tag == 'span' and 'card-tag' in s.classes() and not s.hidden()]
+    if no in by_chapter:
+        want = 'Updated ' + short_date(max(u['date'] for u in by_chapter[no]))
+        if good != [want] or len(marked_spans) != 1:
+            problems.append(f'index.html: the card of chapter {no} should carry one visible tag "{want}" '
+                            f'(a span with the classes card-tag and tag-updated), found {[s.text() for s in marked_spans]}')
+    elif marked_spans:
+        problems.append(f'index.html: the card of chapter {no} has an "Updated" tag but no updates')
 for no in sorted(by_chapter):
     if no not in cards:
         problems.append(f'index.html: chapter {no} has updates but no card for it was found on the home page')
-tags_in_cards = 0
-for no in sorted(cards):
-    if len(cards[no]) > 1:
+    elif len(cards[no]) > 1:
         problems.append(f'index.html: chapter {no} has {len(cards[no])} cards, expected one')
-    for inner in cards[no]:
-        tags = updated_tags(inner)
-        tags_in_cards += len(tags)
-        if no in by_chapter:
-            want = 'Updated ' + short_date(max(u['date'] for u in by_chapter[no]))
-            if tags != [want]:
-                problems.append(f'index.html: the card of chapter {no} should carry one tag "{want}", found {tags}')
-        elif tags:
-            problems.append(f'index.html: the card of chapter {no} has an "Updated" tag but no updates')
-if len(updated_tags(idx)) != tags_in_cards:
+    elif re.split(r'[#?]', cards[no][0].attrs.get('href', ''))[0].split('/')[-1] != CHAPTERS[no][0]:
+        problems.append(f'index.html: the card of chapter {no} should link to chapters/{CHAPTERS[no][0]}')
+if any(s not in tags_in_cards for s in home.walk() if 'tag-updated' in s.classes()):
     problems.append('index.html: an "Updated" tag sits outside every chapter card')
-if write('index.html', new_idx):
-    print(f'index.html: total set to {total}')
 
 
 # ── 4. updates.html ──────────────────────────────────────────────────────────
@@ -209,9 +432,7 @@ def source_links(u):
 
 def card(u):
     fname = CHAPTERS[u['chapter']][0]
-    kind = KIND[u['kind']]
-    if u.get('law_date'):
-        kind += f' on {e(u["law_date"])}'
+    kind = e(kind_label(u, short=False))
     return f'''
       <article class="dvf-upd up-card" id="{u['id']}">
         <div class="dvf-upd-head"><span class="dvf-upd-tag">Updated {short_date(u['date'])}</span><span class="dvf-upd-kind" title="{e(KIND_HELP[u['kind']])}">{kind}</span></div>
@@ -380,6 +601,7 @@ h1 {{ font-family: 'Orbitron', sans-serif; font-size: 38px; font-weight: 700; li
   <div class="up-how">
     <h2>How to read this page</h2>
     <p>Nothing on this site is rewritten silently. In the chapters, every changed passage carries an <span class="dvf-upd-tag">Updated</span> mark and keeps the earlier text next to it. It is the rule a Data Vault follows: new rows are added with their date, old rows stay.</p>
+    <p>On this page, &ldquo;Before&rdquo; sums up the earlier text in a few words. The earlier text itself, word for word, is kept in the chapter: follow &ldquo;See it in chapter&rdquo;.</p>
     <ul>
       {legend}
     </ul>
@@ -399,8 +621,7 @@ h1 {{ font-family: 'Orbitron', sans-serif; font-size: 38px; font-weight: 700; li
 </body>
 </html>
 '''
-if write('updates.html', PAGE):
-    print(f'updates.html written: {total} updates, {len(by_chapter)} chapters')
+write('updates.html', PAGE)
 
 # ── 5. the table in the verification note ────────────────────────────────────
 DOC = 'docs/regulation-updates-2026-11.md'
@@ -429,12 +650,6 @@ if os.path.exists(os.path.join(ROOT, DOC)):
 
     doc = fill(doc, 'TABLE', rows)
     doc = fill(doc, 'UNCHANGED', rows2)
-    if write(DOC, doc):
-        print(f'{DOC}: tables rewritten')
+    write(DOC, doc)
 
-if problems:
-    print('\nOUT OF STEP:')
-    for p in problems:
-        print('  -', p)
-    sys.exit(1)
-print(f'OK: {total} updates across chapters {sorted(by_chapter)}; law as of {data["law_as_of_label"]}')
+finish()
