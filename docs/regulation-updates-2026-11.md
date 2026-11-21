@@ -111,3 +111,5 @@ Searched: all 14 chapters, `index.html`, `nav-inject.js`, `systems/*.js` (loot, 
 4. Run `python3 tools/build_updates.py`. It refuses to pass if a marker and the list disagree.
 
 Before a deploy, run both checks: `python3 tools/build_updates.py --check` (list, markers, banners, navigation and home page agree) and `python3 tools/check_embed_header.py` (the deploy keeps every site that is allowed to frame this one).
+
+After a change to `tools/build_updates.py` itself, run `python3 tools/test_build_updates.py`: it breaks a copy of the home page in eleven ways and confirms the check notices each one.

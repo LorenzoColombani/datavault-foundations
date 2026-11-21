@@ -157,16 +157,40 @@ if '<span data-upd-total>' not in idx:
     problems.append('index.html: no update total found')
 if data['law_as_of_label'] not in idx:
     problems.append(f'index.html: does not show {data["law_as_of_label"]}')
-# every card of a chapter with updates carries a tag dated with that chapter's newest update; no other card has one
-for card_no, card_html in re.findall(r'<a class="chapter-card[^"]*" href="chapters/(\d\d)-[^"]+">(.*?)</a>', idx, flags=re.S):
-    no = int(card_no)
-    tags = re.findall(r'<span class="card-tag tag-updated">([^<]*)</span>', card_html)
-    if no in by_chapter:
-        want = 'Updated ' + short_date(max(u['date'] for u in by_chapter[no]))
-        if tags != [want]:
-            problems.append(f'index.html: the card of chapter {no} should carry one tag "{want}", found {tags}')
-    elif tags:
-        problems.append(f'index.html: the card of chapter {no} has an "Updated" tag but no updates')
+# every chapter with updates has a card that carries one tag, dated with that chapter's newest update;
+# no other card has such a tag, and none sits outside the cards
+
+
+def updated_tags(fragment):
+    """Text of every span whose class list holds tag-updated, whatever the order of the classes."""
+    return [text for cls, text in re.findall(r'<span\b[^>]*\bclass="([^"]*)"[^>]*>([^<]*)</span>', fragment)
+            if 'tag-updated' in cls.split()]
+
+
+cards = {}   # chapter number -> the inner HTML of each of its cards
+for attrs, inner in re.findall(r'<a\b([^>]*)>(.*?)</a>', idx, flags=re.S):
+    cls = re.search(r'\bclass="([^"]*)"', attrs)
+    href = re.search(r'\bhref="chapters/(\d\d)-[^"]+"', attrs)
+    if cls and href and 'chapter-card' in cls.group(1).split():
+        cards.setdefault(int(href.group(1)), []).append(inner)
+for no in sorted(by_chapter):
+    if no not in cards:
+        problems.append(f'index.html: chapter {no} has updates but no card for it was found on the home page')
+tags_in_cards = 0
+for no in sorted(cards):
+    if len(cards[no]) > 1:
+        problems.append(f'index.html: chapter {no} has {len(cards[no])} cards, expected one')
+    for inner in cards[no]:
+        tags = updated_tags(inner)
+        tags_in_cards += len(tags)
+        if no in by_chapter:
+            want = 'Updated ' + short_date(max(u['date'] for u in by_chapter[no]))
+            if tags != [want]:
+                problems.append(f'index.html: the card of chapter {no} should carry one tag "{want}", found {tags}')
+        elif tags:
+            problems.append(f'index.html: the card of chapter {no} has an "Updated" tag but no updates')
+if len(updated_tags(idx)) != tags_in_cards:
+    problems.append('index.html: an "Updated" tag sits outside every chapter card')
 if write('index.html', new_idx):
     print(f'index.html: total set to {total}')
 
